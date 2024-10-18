@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="space_between">
+            android:gravity="center_vertical">
 
             <!-- Başlık -->
             <TextView
@@ -76,7 +76,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/favorite_border"
-                android:contentDescription="Favorite Icon" />
+                android:contentDescription="Favorite Icon"
+                app:tint="@color/red" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

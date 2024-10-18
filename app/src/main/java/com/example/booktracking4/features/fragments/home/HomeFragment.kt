@@ -1,5 +1,6 @@
 package com.example.booktracking4.features.fragments.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,10 +33,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val homeList: ArrayList<HomeModel> = arrayListOf()
-            repeat(20){
-                val homeModel=HomeModel("Book Name","Book Author",R.drawable.ic_launcher_foreground)
-                homeList.add(homeModel)
-            }
+        repeat(20) {
+            val homeModel = HomeModel("Book Name", "Book Author", R.drawable.ic_launcher_foreground)
+            homeList.add(homeModel)
+        }
 
 
         binding.rvHomeList.layoutManager = LinearLayoutManager(view.context)
