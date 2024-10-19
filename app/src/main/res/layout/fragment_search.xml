@@ -22,20 +22,18 @@
             android:layout_height="wrap_content"
             android:iconifiedByDefault="false"
             android:queryBackground="@android:color/transparent"
-            android:queryHint="Book Name, Author Name, ISBN" />
-
+            android:queryHint="Book name, Author name, ISBN" />
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchPage"
         android:layout_width="0dp"
-        android:background="@color/black"
         android:layout_height="0dp"
+        android:layout_margin="8dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvSearchPage" />
+        app:layout_constraintTop_toBottomOf="@id/cvSearchPage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
