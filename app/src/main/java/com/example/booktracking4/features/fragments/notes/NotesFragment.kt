@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentNotesBinding
+import com.example.booktracking4.databinding.ItemNoteBinding
 import com.example.booktracking4.domain.model.ui_model.notes_model.NotesModel
 import com.example.booktracking4.features.fragments.notes.adapter.NotesAdapter
 
@@ -31,6 +34,7 @@ class NotesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val notes = listOf(
             NotesModel(1, "Note 1", "10-20", "This is content", "18.10.2024", true),
             NotesModel(1, "Note 1", "10-20", "This is content", "18.10.2024", false),

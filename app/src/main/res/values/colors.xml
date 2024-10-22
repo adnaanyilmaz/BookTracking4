@@ -5,4 +5,5 @@
     <color name="buttonColor">#11998E</color>
     <color name="iconColor">#BFC6DC</color>
     <color name="red">#FF0000</color>
+    <color name="gray">#808080</color>
 </resources>

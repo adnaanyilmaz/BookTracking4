@@ -14,13 +14,13 @@
         android:background="@color/buttonColor"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="My Notes"
-        app:titleTextColor="@android:color/white"
-        app:menu="@menu/menu_notes"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:menu="@menu/menu_notes"
+        app:navigationIcon="@drawable/note"
+        app:title="My Notes"
+        app:titleTextColor="@android:color/white" />
 
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
@@ -28,10 +28,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="8dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbarNotes"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbarNotes" />
 
     <!-- Floating Action Button for Adding a New Note -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -41,9 +41,9 @@
         android:layout_margin="32dp"
         android:contentDescription="Add Note"
         android:src="@drawable/add_notes"
+        android:tint="@android:color/white"
         app:backgroundTint="@color/buttonColor"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:tint="@android:color/white"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

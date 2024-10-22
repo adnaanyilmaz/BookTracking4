@@ -32,16 +32,16 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val homeList: ArrayList<HomeModel> = arrayListOf()
-        repeat(20) {
-            val homeModel = HomeModel("Book Name", "Book Author", R.drawable.ic_launcher_foreground)
-            homeList.add(homeModel)
-        }
-
-
-        binding.rvHomeList.layoutManager = LinearLayoutManager(view.context)
-        binding.rvHomeList.adapter = HomePageAdapter(homeList)
-
+//        val homeList: ArrayList<HomeModel> = arrayListOf()
+//        repeat(20) {
+//            val homeModel = HomeModel("Book Name", "Book Author", R.drawable.ic_launcher_foreground)
+//            homeList.add(homeModel)
+//        }
+//
+//
+//        binding.rvHomeList.layoutManager = LinearLayoutManager(view.context)
+//        binding.rvHomeList.adapter = HomePageAdapter(homeList)
+//
     }
 
 

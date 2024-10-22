@@ -21,7 +21,7 @@ class NoteViewHolder(binding: ItemNoteBinding) : RecyclerView.ViewHolder(binding
             if (note.isFavorite) R.drawable.favorite else R.drawable.favorite_border
         )
 
-        // Not tıklandığında ne yapılacağını belirt
+        // Not tıklandığında ne yapılacağını belirtir
 //        binding.root.setOnClickListener {
 //            onNoteClick(note)
 //        }
