@@ -1,6 +1,5 @@
-package com.example.booktracking4.features.fragments.home
+package com.example.booktracking4.presentation.fragments.home
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentHomeBinding
 import com.example.booktracking4.domain.model.ui_model.home_model.HomeModel
-import com.example.booktracking4.features.fragments.home.adapter.HomePageAdapter
+import com.example.booktracking4.presentation.fragments.home.adapter.HomePageAdapter
 
 
 class HomeFragment : Fragment() {

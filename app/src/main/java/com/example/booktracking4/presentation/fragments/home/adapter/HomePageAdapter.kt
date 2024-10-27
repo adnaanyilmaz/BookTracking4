@@ -1,10 +1,8 @@
-package com.example.booktracking4.features.fragments.home.adapter
+package com.example.booktracking4.presentation.fragments.home.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.booktracking4.R
 import com.example.booktracking4.databinding.ItemLayoutHomepageListBinding
 import com.example.booktracking4.domain.model.ui_model.home_model.HomeModel
 

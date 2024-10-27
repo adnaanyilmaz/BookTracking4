@@ -1,4 +1,4 @@
-package com.example.booktracking4.features.fragments.profile
+package com.example.booktracking4.presentation.fragments.profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

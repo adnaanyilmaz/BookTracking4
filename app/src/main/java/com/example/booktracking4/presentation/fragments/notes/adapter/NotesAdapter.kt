@@ -1,4 +1,4 @@
-package com.example.booktracking4.features.fragments.notes.adapter
+package com.example.booktracking4.presentation.fragments.notes.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
