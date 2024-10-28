@@ -64,7 +64,7 @@ dependencies {
     //Dagger - Hilt
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
-    annotationProcessor("com.google.dagger:dagger-compiler:<version>")
+    annotationProcessor("com.google.dagger:dagger-compiler:2.51.1")
 
 
 
