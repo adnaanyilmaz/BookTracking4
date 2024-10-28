@@ -1,4 +1,4 @@
-package com.example.booktracking4.features.fragments.notes
+package com.example.booktracking4.presentation.fragments.notes
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
