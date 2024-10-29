@@ -6,8 +6,8 @@ import com.example.booktracking4.domain.model.Book
 import com.example.booktracking4.domain.repository.BookRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import okio.IOException
 import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class GetBookUseCase @Inject constructor(

@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentMyBooksBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyBooksFragment : Fragment() {
     private var _binding: FragmentMyBooksBinding? = null
     private val binding get() = _binding!!

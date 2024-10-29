@@ -28,26 +28,9 @@ data class VolumeInfo(
 )
 fun VolumeInfo.toBook():Book{
     return Book(
-        allowAnonLogging = allowAnonLogging,
         authors = authors,
-        averageRating = averageRating,
         categories = categories,
-        contentVersion = contentVersion,
-        description = description,
         imageLinks = imageLinks,
-        industryIdentifiers = industryIdentifiers,
-        infoLink = infoLink,
-        language = language,
-        maturityRating =maturityRating ,
-        pageCount = pageCount,
-        panelizationSummary =panelizationSummary,
-        previewLink = previewLink,
-        printType = printType,
-        publishedDate = publishedDate,
-        publisher = publisher,
-        ratingsCount = ratingsCount,
-        readingModes = readingModes,
-        subtitle =subtitle,
         title = title,
     )
 }

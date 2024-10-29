@@ -12,8 +12,9 @@ import com.example.booktracking4.databinding.FragmentNotesBinding
 import com.example.booktracking4.databinding.ItemNoteBinding
 import com.example.booktracking4.domain.model.ui_model.notes_model.NotesModel
 import com.example.booktracking4.presentation.fragments.notes.adapter.NotesAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class NotesFragment : Fragment() {
     private var _binding: FragmentNotesBinding? = null
     private val binding get() = _binding!!
@@ -50,6 +51,4 @@ class NotesFragment : Fragment() {
         binding.recyclerViewNotes.layoutManager = LinearLayoutManager(view.context)
         binding.recyclerViewNotes.adapter = NotesAdapter(notes)
     }
-
-
 }

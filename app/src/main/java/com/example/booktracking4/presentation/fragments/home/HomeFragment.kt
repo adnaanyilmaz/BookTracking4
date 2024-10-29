@@ -10,8 +10,9 @@ import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentHomeBinding
 import com.example.booktracking4.domain.model.ui_model.home_model.HomeModel
 import com.example.booktracking4.presentation.fragments.home.adapter.HomePageAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!

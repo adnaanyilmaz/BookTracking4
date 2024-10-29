@@ -22,24 +22,15 @@ class SearchViewModel @Inject constructor(
         getBooks()
     }
 
-
     private fun getBooks() {
         viewModelScope.launch {
-            getBookUseCase().collect { result -> // `collect` içinde işlem yapıyoruz
-                when (result) {
-                    is Resource.Success -> {
-                        _state.value = BookState(book = result.data ?: emptyList())
-                    }
-                    is Resource.Error -> {
-                        _state.value =
-                            BookState(error = result.message ?: "An unexpected error occurred")
-                    }
-                    is Resource.Loading -> {
-                        _state.value = BookState(isLoading = true)
-                    }
+            getBookUseCase().collect { result ->
+                _state.value = when (result) {
+                    is Resource.Success -> BookState(book = result.data ?: emptyList())
+                    is Resource.Error -> BookState(error = result.message ?: "An unexpected error occurred")
+                    is Resource.Loading -> BookState(isLoading = true)
                 }
             }
         }
     }
-
 }
