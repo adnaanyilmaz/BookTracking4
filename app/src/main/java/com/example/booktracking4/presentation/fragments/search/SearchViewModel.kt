@@ -18,13 +18,17 @@ class SearchViewModel @Inject constructor(
     private val _state = MutableStateFlow(BookState())
     val state: StateFlow<BookState> = _state
 
-    init {
-        getBooks()
-    }
+    var searchWord: String? = null
+        set(value) {
+            field = value
+            if (!value.isNullOrEmpty()) {
+                getBooks(value)
+            }
+        }
 
-    private fun getBooks() {
+    private fun getBooks(searchWord: String) {
         viewModelScope.launch {
-            getBookUseCase().collect { result ->
+            getBookUseCase(searchWord).collect { result ->
                 _state.value = when (result) {
                     is Resource.Success -> BookState(book = result.data ?: emptyList())
                     is Resource.Error -> BookState(error = result.message ?: "An unexpected error occurred")

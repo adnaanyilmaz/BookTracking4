@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -38,6 +39,23 @@ class SearchFragment : Fragment() {
         searchAdapter = SearchAdapter(emptyList()) // Boş listeyle başlatıyoruz
         binding.rvSearchPage.adapter = searchAdapter
 
+
+        binding.svSearchPage.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!query.isNullOrEmpty()) {
+                    viewModel.searchWord = query // ViewModel'de sorguyu çalıştırıyoruz
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+
+
+
+
         // `state` akışını topluyoruz ve UI’yi güncelliyoruz
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
@@ -45,14 +63,14 @@ class SearchFragment : Fragment() {
                 if (state.error.isNotEmpty()) {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
                 }
-                state.book.let { books ->
-                    if (books.isNotEmpty()) {
-                        searchAdapter = SearchAdapter(books)
-                        binding.rvSearchPage.adapter = searchAdapter
-                    }
+                val books = state.book // Book türünde list
+                if (books.isNotEmpty()) {
+                    searchAdapter = SearchAdapter(books)
+                    binding.rvSearchPage.adapter = searchAdapter
                 }
             }
         }
+
     }
 
     override fun onDestroyView() {

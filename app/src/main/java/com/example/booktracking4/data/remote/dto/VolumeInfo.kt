@@ -1,7 +1,5 @@
 package com.example.booktracking4.data.remote.dto
 
-import com.example.booktracking4.domain.model.Book
-
 data class VolumeInfo(
     val allowAnonLogging: Boolean,
     val authors: List<String>,
@@ -10,7 +8,7 @@ data class VolumeInfo(
     val categories: List<String>,
     val contentVersion: String,
     val description: String,
-    val imageLinks: İmageLinks,
+    val imageLinks: ImageLinks,
     val industryIdentifiers: List<İndustryIdentifier>,
     val infoLink: String,
     val language: String,
@@ -26,11 +24,12 @@ data class VolumeInfo(
     val subtitle: String,
     val title: String
 )
-fun VolumeInfo.toBook():Book{
-    return Book(
-        authors = authors,
-        categories = categories,
-        imageLinks = imageLinks,
-        title = title,
-    )
-}
+
+//fun VolumeInfo.toBook(): Book {
+//    return Book(
+//        authors = authors,
+//        categories = categories,
+//        imageLinks = imageLinks,
+//        title = title,
+//    )
+//}
