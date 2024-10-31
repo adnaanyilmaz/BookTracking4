@@ -10,7 +10,7 @@ data class BookDto(
 }
 // BookDto.kt
 fun BookDto.toBooks(): List<Book> {
-    return items?.map { it.toBook() } ?: emptyList()
+    return items?.mapNotNull { it.toBook() } ?: emptyList()
 }
 
 

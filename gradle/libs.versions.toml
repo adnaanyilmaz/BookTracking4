@@ -17,6 +17,8 @@ gson = "2.10.1"
 ksp = "2.0.20-1.0.24"
 navigationFragmentKtx = "2.7.7"
 navigationUiKtx = "2.7.7"
+# coil
+coil = "2.5.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -41,6 +43,8 @@ converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref
 
 # Gson
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+# Coil
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

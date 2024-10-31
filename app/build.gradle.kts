@@ -70,5 +70,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.gson)
     implementation(libs.converter.gson)
+
+    // Coil (Picassodan daha iyi çalışıyor bence. Bunu daha pratik kullanmakiçin bir extension yazdım)
+    implementation(libs.coil)
 }
 
