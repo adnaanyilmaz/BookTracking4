@@ -8,5 +8,11 @@
     </style>
 
     <style name="Theme.BookTracking4" parent="Base.Theme.BookTracking4" />
+    <!-- styles.xml -->
+    <style name="RatingBar" parent="Widget.AppCompat.RatingBar">
+        <item name="colorControlActivated">@color/buttonColor</item> <!-- Dolu yıldız rengi -->
+        <item name="colorControlNormal">@color/gray</item> <!-- Boş yıldız rengi -->
+        <item name="colorControlHighlight">#009688</item> <!-- Yıldız vurgusu -->
+    </style>
 
 </resources>

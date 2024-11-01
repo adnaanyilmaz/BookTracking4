@@ -71,6 +71,13 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.converter.gson)
 
+    //Room
+
+    implementation ("androidx.room:room-runtime:2.6.1")
+    implementation ("androidx.room:room-ktx:2.6.1")
+    ksp ("androidx.room:room-compiler:2.6.1")
+
+
     // Coil (Picassodan daha iyi çalışıyor bence. Bunu daha pratik kullanmakiçin bir extension yazdım)
     implementation(libs.coil)
 }

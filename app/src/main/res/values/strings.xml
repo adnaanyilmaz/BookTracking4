@@ -2,4 +2,11 @@
     <string name="app_name">BookTracking4</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="book_list_options">
+        <item>Read</item>
+        <item>Currently Reading</item>
+        <item>Want to Read</item>
+    </string-array>
+
 </resources>
