@@ -1,6 +1,6 @@
 package com.example.booktracking4.data.remote
 
-import com.example.booktracking4.data.remote.dto.BookDto
+import com.example.booktracking4.data.remote.dto.search_dto.BookDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 

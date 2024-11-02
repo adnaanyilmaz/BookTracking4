@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.booktracking4.common.loadImageView
 import com.example.booktracking4.databinding.ItemSearchBookBinding
-import com.example.booktracking4.domain.model.Book
+import com.example.booktracking4.domain.model.retrofit.Book
 import com.example.booktracking4.presentation.fragments.search.adapter.SearchAdapter.SearchBooksViewHolder
 
 class SearchAdapter(private val itemList: List<Book>) :

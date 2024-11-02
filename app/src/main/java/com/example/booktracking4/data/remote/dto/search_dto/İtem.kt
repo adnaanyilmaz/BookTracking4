@@ -1,6 +1,6 @@
-package com.example.booktracking4.data.remote.dto
+package com.example.booktracking4.data.remote.dto.search_dto
 
-import com.example.booktracking4.domain.model.Book
+import com.example.booktracking4.domain.model.retrofit.Book
 
 
 data class Item(

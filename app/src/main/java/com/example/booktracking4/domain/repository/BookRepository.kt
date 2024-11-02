@@ -1,8 +1,6 @@
 package com.example.booktracking4.domain.repository
 
-import com.example.booktracking4.data.remote.dto.BookDto
-import com.example.booktracking4.data.remote.dto.Item
-import com.example.booktracking4.data.remote.dto.VolumeInfo
+import com.example.booktracking4.data.remote.dto.search_dto.BookDto
 
 interface BookRepository {
 
