@@ -1,6 +1,7 @@
 package com.example.booktracking4.presentation.fragments.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.booktracking4.databinding.FragmentSearchBinding
 import com.example.booktracking4.presentation.fragments.search.adapter.SearchAdapter
@@ -36,7 +38,7 @@ class SearchFragment : Fragment() {
 
         // RecyclerView ayarları
         binding.rvSearchPage.layoutManager = LinearLayoutManager(requireContext())
-        searchAdapter = SearchAdapter(emptyList()) // Boş listeyle başlatıyoruz
+        searchAdapter = SearchAdapter(emptyList(),{}) // Boş listeyle başlatıyoruz
         binding.rvSearchPage.adapter = searchAdapter
 
 
@@ -65,7 +67,11 @@ class SearchFragment : Fragment() {
                 }
                 val books = state.book // Book türünde list
                 if (books.isNotEmpty()) {
-                    searchAdapter = SearchAdapter(books)
+                    searchAdapter = SearchAdapter(books,{param->
+                       findNavController().navigate(
+                           SearchFragmentDirections.actionSearchFragmentToBookDetailFragment(param)
+                       )
+                    })
                     binding.rvSearchPage.adapter = searchAdapter
                 }
             }

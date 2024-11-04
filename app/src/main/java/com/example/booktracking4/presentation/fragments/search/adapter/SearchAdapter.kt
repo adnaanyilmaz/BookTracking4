@@ -8,37 +8,43 @@ import com.example.booktracking4.databinding.ItemSearchBookBinding
 import com.example.booktracking4.domain.model.retrofit.Book
 import com.example.booktracking4.presentation.fragments.search.adapter.SearchAdapter.SearchBooksViewHolder
 
-class SearchAdapter(private val itemList: List<Book>) :
-    RecyclerView.Adapter<SearchBooksViewHolder>() {
+class SearchAdapter(
+    private val itemList: List<Book>,
+    private val onItemClickListener: (String) -> Unit
+) : RecyclerView.Adapter<SearchBooksViewHolder>() {
+
     class SearchBooksViewHolder(private val binding: ItemSearchBookBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(book: Book) {
+        fun bind(book: Book, onItemClickListener: (String) -> Unit) {
             binding.apply {
                 tvBookTitle.text = book.title
                 tvBookAuthors.text = book.authors.getOrNull(0) ?: "Unknown Author"
                 tvBookCategory.text = book.categories.getOrNull(0) ?: "Unknown Category"
                 ivBookThumbnail.loadImageView(book.imageLinks.thumbnail)
             }
+            binding.cardViewSearch.setOnClickListener {
+                onItemClickListener.invoke(book.id)
+            }
+
 
         }
     }
+
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+        parent: ViewGroup, viewType: Int
     ): SearchBooksViewHolder {
-        val binding = ItemSearchBookBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemSearchBookBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchBooksViewHolder(binding)
     }
 
     override fun onBindViewHolder(
-        holder: SearchBooksViewHolder,
-        position: Int
+        holder: SearchBooksViewHolder, position: Int
     ) {
-      holder.bind(itemList[position])
+        holder.bind(itemList[position], onItemClickListener)
     }
 
     override fun getItemCount(): Int = itemList.size
-
 
 
 }

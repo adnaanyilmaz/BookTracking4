@@ -1,6 +1,7 @@
 package com.example.booktracking4
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,6 +28,15 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         NavigationUI.setupWithNavController(binding.bottomNav,navHostFragment.navController)
+
+        // geri buttonu navigasyon gidiyo :)
+        val navController = navHostFragment.navController
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.bookDetailFragment -> binding.bottomNav.visibility = View.GONE
+                else -> binding.bottomNav.visibility = View.VISIBLE
+            }
+        }
     }
 
 }

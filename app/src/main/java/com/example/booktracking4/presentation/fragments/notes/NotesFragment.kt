@@ -49,6 +49,11 @@ class NotesFragment : Fragment() {
         )
 
         binding.recyclerViewNotes.layoutManager = LinearLayoutManager(view.context)
-        binding.recyclerViewNotes.adapter = NotesAdapter(notes)
+        binding.recyclerViewNotes.adapter = NotesAdapter(notes,{})
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -5,6 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 // GET https://www.googleapis.com/books/v1/volumes?q=suç ve ceza&key=AIzaSyAGKn0Rrj9dBjNlWwkBIgrB_MiMooGe1wQ
+// Detail ==> https://www.googleapis.com/books/v1/volumes/VtYsGgAACAAJ?key=AIzaSyAGKn0Rrj9dBjNlWwkBIgrB_MiMooGe1wQ
 interface GoogleBooksApi {
     @GET("v1/volumes")
     suspend fun getBook(

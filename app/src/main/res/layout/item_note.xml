@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewNote"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -17,8 +18,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <!-- Başlık -->
             <TextView
@@ -27,9 +28,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Note Title"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black" />
+                android:textStyle="bold" />
 
             <!-- Tarih -->
             <TextView
@@ -37,8 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="12 Oct 2024"
-                android:textSize="12sp"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <!-- Sayfa/Sayfa Aralığı -->
@@ -48,8 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Page 10 - 15"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
 
         <!-- Not İçeriği -->
         <TextView
@@ -57,26 +58,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:maxLines="2"
             android:ellipsize="end"
+            android:maxLines="2"
             android:text="This is a short description of the note content."
-            android:textSize="16sp"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
         <!-- Horizontal Layout for Favorite Icon -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:gravity="start">
 
             <!-- Favori İkonu -->
             <ImageView
                 android:id="@+id/ivFavorite"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/favorite_border"
                 android:contentDescription="Favorite Icon"
+                android:src="@drawable/favorite_border"
                 app:tint="@color/red" />
         </LinearLayout>
     </LinearLayout>

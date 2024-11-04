@@ -12,16 +12,16 @@ data class Item(
     val searchInfo: SearchInfo?,
     val selfLink: String,
     val volumeInfo: VolumeInfo
-){
-
-}
+)
 // İtem.kt
 fun Item.toBook(): Book {
     return Book(
+        id = id,
         authors = volumeInfo.authors ?: emptyList(),
         categories = volumeInfo.categories ?: emptyList(),
         imageLinks = volumeInfo.imageLinks ?: ImageLinks("",""), // Burada bir hata olabilir. Değeri null veya uygun bir varsayılan değer olarak ayarlayın.
-        title = volumeInfo.title ?: "Unknown Title"
+        title = volumeInfo.title ?: "Unknown Title",
+
     )
 }
 
