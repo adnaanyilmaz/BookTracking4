@@ -2,14 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_filter"
-        android:title="Filter"
-        android:icon="@drawable/filter"
-        app:showAsAction="always" />
+        android:id="@+id/actionFilterTitle"
+        android:title="Title"
+        app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_random_note"
+        android:id="@+id/actionFilterDate"
+        android:title="Date"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/actionFilterFavorite"
         android:icon="@drawable/random_icon"
-        android:title="Read Random Note"
-        app:showAsAction="ifRoom" />
+        android:title="Favorite"
+        app:showAsAction="never" />
 </menu>

@@ -68,17 +68,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="start">
+            android:layout_marginTop="8dp">
 
             <!-- Favori İkonu -->
             <ImageView
                 android:id="@+id/ivFavorite"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="start"
                 android:contentDescription="Favorite Icon"
                 android:src="@drawable/favorite_border"
                 app:tint="@color/red" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"/>
+
+            <!-- Silme İkonu -->
+            <ImageView
+                android:id="@+id/ivDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="end"
+                android:contentDescription="Delete Icon"
+                android:src="@drawable/delete"
+                app:tint="@color/gray" />
+
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

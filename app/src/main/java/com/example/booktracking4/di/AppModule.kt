@@ -9,10 +9,10 @@ import com.example.booktracking4.data.remote.GoogleBooksApi
 import com.example.booktracking4.data.remote.repository.BookRepositoryImpl
 import com.example.booktracking4.domain.repository.BookNoteRepository
 import com.example.booktracking4.domain.repository.BookRepository
-import com.example.booktracking4.domain.usecase.AddBookNoteUseCase
-import com.example.booktracking4.domain.usecase.BookNoteUseCases
-import com.example.booktracking4.domain.usecase.DeleteBookNoteUseCase
-import com.example.booktracking4.domain.usecase.GetBookNoteUseCase
+import com.example.booktracking4.domain.usecase.note_use_cases.AddBookNoteUseCase
+import com.example.booktracking4.domain.usecase.note_use_cases.BookNoteUseCases
+import com.example.booktracking4.domain.usecase.note_use_cases.DeleteBookNoteUseCase
+import com.example.booktracking4.domain.usecase.note_use_cases.GetBookNoteUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

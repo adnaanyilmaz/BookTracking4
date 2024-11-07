@@ -1,4 +1,4 @@
-package com.example.booktracking4.domain.usecase
+package com.example.booktracking4.domain.usecase.note_use_cases
 
 import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.domain.model.room.InvalidNoteException

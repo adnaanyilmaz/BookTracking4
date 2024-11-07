@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Not Tarihi -->
+    <TextView
+        android:id="@+id/tvNoteSaveDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="5dp"
+        android:text="12 Oct 2024"
+        android:textColor="@android:color/darker_gray" />
+
+    <Spinner
+        android:id="@+id/spinnerSelectBook"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:entries="@array/book_list_options"
+        android:padding="8dp"
+        android:background="@drawable/edittext_background"
+        />
+
+    <!-- Not Başlığı -->
+    <EditText
+        android:id="@+id/etNoteTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
+        android:hint="Note Title"
+        android:inputType="text"
+        android:maxLines="1"
+        android:padding="8dp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- Not İçeriği -->
+    <EditText
+        android:id="@+id/etNoteContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/edittext_background"
+        android:gravity="top"
+        android:hint="Note Content"
+        android:inputType="textMultiLine"
+        android:minHeight="150dp"
+        android:padding="8dp"
+        android:textSize="16sp" />
+
+    <!-- Sayfa Numarası -->
+    <EditText
+        android:id="@+id/etNotePage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
+        android:hint="Page Number"
+        android:inputType="number"
+        android:padding="8dp" />
+
+    <!-- Favori Seçeneği -->
+    <ImageView
+        android:id="@+id/ivFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Add Favorite"
+        android:padding="8dp"
+        android:src="@drawable/favorite_border" />
+
+    <!-- Kaydet ve İptal Butonları -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button_cancel"
+            android:text="Cancel"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/button_save"
+            android:text="Save"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</LinearLayout>

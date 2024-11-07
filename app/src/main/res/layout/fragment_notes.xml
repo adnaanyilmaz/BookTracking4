@@ -21,6 +21,28 @@
         app:navigationIcon="@drawable/note"
         app:title="My Notes"
         app:titleTextColor="@android:color/white" />
+    <RadioGroup
+        android:id="@+id/radioGroupNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarNotes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewNotes">
+
+        <RadioButton
+            android:id="@+id/rbAscending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Ascending"/>
+        <RadioButton
+            android:id="@+id/rbDescending"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descending"/>
+    </RadioGroup>
 
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
@@ -31,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarNotes" />
+        app:layout_constraintTop_toBottomOf="@id/radioGroupNotes" />
 
     <!-- Floating Action Button for Adding a New Note -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

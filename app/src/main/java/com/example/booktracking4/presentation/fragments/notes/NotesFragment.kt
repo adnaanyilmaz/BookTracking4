@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.booktracking4.databinding.FragmentNotesBinding
 import com.example.booktracking4.databinding.ItemNoteBinding
+import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.domain.model.ui_model.notes_model.NotesModel
 import com.example.booktracking4.presentation.fragments.notes.adapter.NotesAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,18 +36,23 @@ class NotesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.fabAddNote.setOnClickListener{
+            findNavController().navigate(
+                NotesFragmentDirections.actionNotesFragmentToAddNoteFragment()
+            )
+
+        }
 
         val notes = listOf(
-            NotesModel(1, "Note 1", "10-20", "This is content", "18.10.2024", true),
-            NotesModel(1, "Note 1", "10-20", "This is content", "18.10.2024", false),
-            NotesModel(1, "Note 1", "10-20", "This is content", "18.10.2024", true),
-            NotesModel(1, "Note 1", "10-20", "This is content", "18.10.2024", true),
-            NotesModel(1, "Note 1", "10-20", "This is content", "18.10.2024", true),
-            NotesModel(1, "Note 1", "10-20", "This is content", "18.10.2024", true),
-            NotesModel(1, "Note 1", "10-20", "This is content", "18.10.2024", true),
-            NotesModel(1, "Note 1", "10-20", "This is content", "18.10.2024", true),
-            NotesModel(1, "Note 1", "10-20", "This is content", "18.10.2024", true),
-            NotesModel(1, "Note 2", "10-20", "This is another content", "18.10.2024", false)
+            BookNote("Note Title","This is content",0L,"10",true,1),
+            BookNote("Note Title","This is content",0L,"10",true,1),
+            BookNote("Note Title","This is content",0L,"10",false,1),
+            BookNote("Note Title","This is content",0L,"10",true,1),
+            BookNote("Note Title","This is content",0L,"10",false,1),
+            BookNote("Note Title","This is content",0L,"10",true,1),
+            BookNote("Note Title","This is content",0L,"10",true,1),
+            BookNote("Note Title","This is content",0L,"10",false,1),
+
         )
 
         binding.recyclerViewNotes.layoutManager = LinearLayoutManager(view.context)

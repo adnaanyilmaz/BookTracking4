@@ -1,4 +1,4 @@
-package com.example.booktracking4.domain.usecase
+package com.example.booktracking4.domain.usecase.search_use_cases
 
 import com.example.booktracking4.common.Resource
 import com.example.booktracking4.data.remote.dto.search_dto.toBooks

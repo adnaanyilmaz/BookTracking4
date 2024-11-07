@@ -3,7 +3,7 @@ package com.example.booktracking4.presentation.fragments.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.booktracking4.common.Resource
-import com.example.booktracking4.domain.usecase.GetBookUseCase
+import com.example.booktracking4.domain.usecase.search_use_cases.GetBookUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
