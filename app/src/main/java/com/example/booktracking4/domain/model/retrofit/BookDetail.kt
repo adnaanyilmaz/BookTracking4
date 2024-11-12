@@ -3,7 +3,7 @@ import com.example.booktracking4.data.remote.dto.detail_dto.ImageLinks
 import com.example.booktracking4.data.remote.dto.detail_dto.IndustryIdentifier
 
 data class BookDetail(
-    val authors: List<String>?,
+    val authors: List<String> ?,
     val categories: List<String>?,
     val description: String?,
     val imageLinks: ImageLinks?,
@@ -12,5 +12,6 @@ data class BookDetail(
     val publishedDate: String?,
     val publisher: String?,
     val ratingsCount: Int?,
-    val title: String?
+    val title: String?,
+    val id: String?
 )

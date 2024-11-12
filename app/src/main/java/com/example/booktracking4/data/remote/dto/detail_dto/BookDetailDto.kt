@@ -25,6 +25,7 @@ fun BookDetailDto.toBook(): BookDetail{
         publishedDate = volumeInfo.publishedDate,
         publisher = volumeInfo.publisher,
         ratingsCount = volumeInfo.ratingsCount,
-        title = volumeInfo.title
+        title = volumeInfo.title,
+        id = id
     )
 }

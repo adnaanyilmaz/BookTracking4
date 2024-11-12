@@ -13,7 +13,7 @@ import javax.inject.Inject
 class GetBookDetailUseCase @Inject constructor(
     private val repository: BookRepository
 ){
-    operator fun invoke(id: String): Flow<Resource<List<BookDetail>>> = flow {
+    operator fun invoke(id: String): Flow<Resource<BookDetail>> = flow {
         try {
             emit(Resource.Loading())
             val bookDetailDto=repository.getBookDetail(id)

@@ -1,139 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Book Cover Image -->
+    <TextView
+        android:id="@+id/tvNoteDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12 Oct 2024"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        android:layout_gravity="end"
+        android:layout_margin="5dp"
+        />
+    <!-- Not Başlığı -->
+    <EditText
+        android:id="@+id/et_note_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Başlık"
+        android:inputType="text"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:maxLines="1"
+        android:background="@drawable/edittext_background"/>
+
+    <!-- Not İçeriği -->
+    <EditText
+        android:id="@+id/et_note_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:hint="İçerik"
+        android:inputType="textMultiLine"
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:background="@drawable/edittext_background"
+        android:minHeight="150dp"
+        android:gravity="top"
+        android:maxLines="5"/>
+
+    <!-- Sayfa Numarası -->
+    <EditText
+        android:id="@+id/et_note_page"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Sayfa Numarası"
+        android:inputType="number"
+        android:padding="8dp"
+        android:background="@drawable/edittext_background"/>
+
+    <!-- Favori Seçeneği -->
     <ImageView
-        android:id="@+id/ivBookCover"
-        android:layout_width="150dp"
-        android:layout_height="220dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/sample_book_cover"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="Book Cover" />
-
-    <!-- Book Title -->
-    <TextView
-        android:id="@+id/tvBookTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/ivBookCover"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="8dp"
-        android:text="Book Title" />
-
-    <!-- Author -->
-    <TextView
-        android:id="@+id/tvAuthor"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/tvBookTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="4dp"
-        android:text="Author Name" />
-
-    <!-- Publisher -->
-    <TextView
-        android:id="@+id/tvPublisher"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/tvAuthor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="4dp"
-        android:text="Publisher" />
-
-    <!-- Publication Date -->
-    <TextView
-        android:id="@+id/tvPublicationDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/tvPublisher"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="4dp"
-        android:text="Publication Date" />
-
-    <!-- ISBN -->
-    <TextView
-        android:id="@+id/tvISBN"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/tvPublicationDate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="4dp"
-        android:text="ISBN" />
-
-    <!-- Rating (Optional) -->
-    <RatingBar
-        android:id="@+id/ratingBar"
+        android:id="@+id/iv_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:numStars="5"
-        android:stepSize="0.5"
-        app:layout_constraintTop_toBottomOf="@id/tvISBN"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="8dp" />
+        android:src="@drawable/favorite_border"
+        android:contentDescription="Favori ekle"
+        android:padding="8dp"/>
 
-    <!-- Description -->
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="0dp"
+
+    <!-- Kaydet ve İptal Butonları -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/ratingBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="8dp"
-        android:text="Book Description" />
+        android:orientation="horizontal"
+        android:gravity="end">
 
-    <!-- Page Count -->
-    <TextView
-        android:id="@+id/tvPageCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/tvDescription"
-        app:layout_constraintStart_toStartOf="parent"
-        android:paddingTop="8dp"
-        android:text="Page Count: 320" />
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="İptal"
+            android:backgroundTint="@color/button_cancel"
+            android:textColor="@android:color/white"/>
 
-    <!-- Add to List Button with Options -->
-    <Button
-        android:id="@+id/btnAddToList"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Add to List"
-        app:layout_constraintTop_toBottomOf="@id/tvPageCount"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="16dp" />
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Kaydet"
+            android:backgroundTint="@color/button_save"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
 
-    <!-- Dropdown Options: Read, Currently Reading, To Read -->
-    <Spinner
-        android:id="@+id/spinnerOptions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/book_list_options"
-        app:layout_constraintTop_toBottomOf="@id/btnAddToList"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="8dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

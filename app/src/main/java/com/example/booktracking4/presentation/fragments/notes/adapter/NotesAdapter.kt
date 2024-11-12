@@ -12,7 +12,7 @@ import com.example.booktracking4.domain.model.room.BookNote
 
 
 class NotesAdapter(
-    private val itemList: List<BookNote>,
+    private val itemList: List<BookNote> ,
     private val onItemClickListener: (Int) -> Unit
 ) : RecyclerView.Adapter<NoteViewHolder>() {
 

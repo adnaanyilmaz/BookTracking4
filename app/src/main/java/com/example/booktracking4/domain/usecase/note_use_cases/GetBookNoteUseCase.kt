@@ -30,9 +30,7 @@ class GetBookNoteUseCase(
                         is NoteOrder.IsFavorite -> notes.sortedByDescending { it.isFavorite }
                     }
                 }
-
             }
         }
     }
-
 }

@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentAddNoteBinding
+import com.example.booktracking4.databinding.FragmentNotesBinding
 
 
 class AddNoteFragment : Fragment() {
 
-    private var _binding: FragmentAddNoteBinding?=null
+    private var _binding: FragmentAddNoteBinding? = null
     private val binding get() = _binding!!
 
 
@@ -24,9 +25,12 @@ class AddNoteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding= FragmentAddNoteBinding.inflate(inflater,container,false)
+        _binding = FragmentAddNoteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+    }
 }

@@ -69,12 +69,12 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    val notesLiveData = MutableLiveData<NotesModel>()
-
-    fun getData() {
-        val note = NotesModel(1, "Note 1", "25-35", "This is content", "18.10.2024", true)
-        notesLiveData.value = note
-    }
+//    val notesLiveData = MutableLiveData<NotesModel>()
+//
+//    fun getData() {
+//        val note = NotesModel(1, "Note 1", "25-35", "This is content", "18.10.2024", true)
+//        notesLiveData.value = note
+//    }
 
     private fun getOrder(noteOrder: NoteOrder) {
         getNotesJob?.cancel()
