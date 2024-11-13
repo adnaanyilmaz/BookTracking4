@@ -12,6 +12,7 @@ import com.example.booktracking4.domain.repository.BookRepository
 import com.example.booktracking4.domain.usecase.note_use_cases.AddBookNoteUseCase
 import com.example.booktracking4.domain.usecase.note_use_cases.BookNoteUseCases
 import com.example.booktracking4.domain.usecase.note_use_cases.DeleteBookNoteUseCase
+import com.example.booktracking4.domain.usecase.note_use_cases.EditNoteUseCase
 import com.example.booktracking4.domain.usecase.note_use_cases.GetBookNoteUseCase
 import dagger.Module
 import dagger.Provides
@@ -63,7 +64,8 @@ object AppModule {
         return BookNoteUseCases(
             GetBookNoteUseCase(repository),
             DeleteBookNoteUseCase(repository),
-            AddBookNoteUseCase(repository)
+            AddBookNoteUseCase(repository),
+            EditNoteUseCase(repository)
         )
     }
 }

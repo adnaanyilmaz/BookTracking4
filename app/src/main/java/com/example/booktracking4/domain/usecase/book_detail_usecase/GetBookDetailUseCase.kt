@@ -1,10 +1,11 @@
-package com.example.booktracking4.domain.usecase.search_use_cases
+package com.example.booktracking4.domain.usecase.book_detail_usecase
 
 import coil.network.HttpException
 import com.example.booktracking4.common.Resource
 import com.example.booktracking4.data.remote.dto.detail_dto.toBook
 import com.example.booktracking4.domain.model.retrofit.BookDetail
 import com.example.booktracking4.domain.repository.BookRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException

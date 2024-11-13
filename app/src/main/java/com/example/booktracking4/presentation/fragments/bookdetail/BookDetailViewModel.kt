@@ -3,11 +3,10 @@ package com.example.booktracking4.presentation.fragments.bookdetail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.booktracking4.common.Resource
-import com.example.booktracking4.domain.usecase.search_use_cases.GetBookDetailUseCase
+import com.example.booktracking4.domain.usecase.book_detail_usecase.GetBookDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

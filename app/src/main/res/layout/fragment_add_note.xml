@@ -20,7 +20,7 @@
         android:id="@+id/et_note_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Başlık"
+        android:hint="Title"
         android:inputType="text"
         android:textSize="18sp"
         android:padding="8dp"
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:hint="İçerik"
+        android:hint="Content"
         android:inputType="textMultiLine"
         android:textSize="16sp"
         android:padding="8dp"
@@ -46,7 +46,7 @@
         android:id="@+id/et_note_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Sayfa Numarası"
+        android:hint="Page Number"
         android:inputType="number"
         android:padding="8dp"
         android:background="@drawable/edittext_background"/>
@@ -72,7 +72,7 @@
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="İptal"
+            android:text="Cancel"
             android:backgroundTint="@color/button_cancel"
             android:textColor="@android:color/white"/>
 
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Kaydet"
+            android:text="Save"
             android:backgroundTint="@color/button_save"
             android:textColor="@android:color/white"/>
     </LinearLayout>

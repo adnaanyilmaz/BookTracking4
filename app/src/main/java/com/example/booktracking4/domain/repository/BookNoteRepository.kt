@@ -7,7 +7,7 @@ interface BookNoteRepository {
 
     fun getNotes(): Flow<List<BookNote>>
 
-    suspend fun getNoteById(id:Int): BookNote?
+    suspend fun getNoteById(id: Int?): BookNote?
 
     suspend fun insetNote(note: BookNote)
 

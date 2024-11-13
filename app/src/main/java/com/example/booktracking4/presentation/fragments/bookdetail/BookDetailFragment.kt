@@ -2,6 +2,7 @@ package com.example.booktracking4.presentation.fragments.bookdetail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -42,7 +43,7 @@ class BookDetailFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("UnsafeRepeatOnLifecycleDetector")
+    @SuppressLint("UnsafeRepeatOnLifecycleDetector", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -75,10 +76,16 @@ class BookDetailFragment : Fragment() {
                         tvCategories.text = book?.categories?.getOrNull(0) ?: "Unknown Author"
                         book?.imageLinks?.let { ivBookCover.loadImageView(it.thumbnail) }
                         book?.ratingsCount?.let { ratingBar.rating = it.toFloat() }
-                        tvDescription.text = book?.description ?: ""
-                        tvISBN.text = book?.industryIdentifiers.toString()
-                        tvPageCount.text = book?.pageCount.toString()
-                        tvPublicationDate.text = book?.publishedDate
+                        val description: String = book?.description ?: ""
+                        val cleanDescription =
+                            Html.fromHtml(description, Html.FROM_HTML_MODE_LEGACY).toString()
+                        tvDescription.text = cleanDescription
+                        tvISBN.text =
+                            "ISBN: ${book?.industryIdentifiers?.find { it.type == "ISBN_10" }?.identifier
+                                    ?: "ISBN-10 can't find"}"
+                        Log.d("isbn", book?.industryIdentifiers.toString())
+                        tvPageCount.text = "Page Count: ${book?.pageCount.toString()}"
+                        tvPublicationDate.text = book?.publishedDate.toString()
                         tvPublisher.text = book?.publisher
                         spinnerOptions
                         btnAddToList.setOnClickListener {

@@ -6,6 +6,7 @@ import com.example.booktracking4.data.remote.dto.search_dto.BookDto
 import com.example.booktracking4.domain.model.retrofit.BookDetail
 
 import com.example.booktracking4.domain.repository.BookRepository
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class BookRepositoryImpl @Inject constructor(
@@ -16,6 +17,7 @@ class BookRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getBookDetail(id: String): BookDetailDto {
+        delay(1000)
         return api.getBookDetail(id)
     }
 }

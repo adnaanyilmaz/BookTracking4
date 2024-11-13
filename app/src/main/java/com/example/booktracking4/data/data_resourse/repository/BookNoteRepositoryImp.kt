@@ -12,7 +12,7 @@ class BookNoteRepositoryImp(
         return dao.getNotes()
     }
 
-    override suspend fun getNoteById(id: Int): BookNote? {
+    override suspend fun getNoteById(id: Int?): BookNote? {
         return dao.getNoteById(id)
     }
 
