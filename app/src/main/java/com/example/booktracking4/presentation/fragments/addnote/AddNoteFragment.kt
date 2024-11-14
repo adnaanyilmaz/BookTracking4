@@ -1,5 +1,6 @@
 package com.example.booktracking4.presentation.fragments.addnote
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,9 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
@@ -41,7 +45,14 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         handleEvents()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupUI() {
+        //Tarih
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+        val currentDate = Calendar.getInstance().time
+        val formattedDate = dateFormat.format(currentDate)
+        binding.tvNoteDate.text=formattedDate
+
         // Başlık alanı dinleyici
         binding.etNoteTitle.apply {
             setOnFocusChangeListener { _, hasFocus ->

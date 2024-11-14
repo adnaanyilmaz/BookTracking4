@@ -34,10 +34,12 @@ class AddNoteViewModel @Inject constructor(
     )
     val noteContent: StateFlow<NoteTextFieldState> = _noteContent
 
-    private val _pageCount = MutableStateFlow(NoteTextFieldState())
+    private val _pageCount = MutableStateFlow(NoteTextFieldState(
+        hint = "Enter page number"
+    ))
     val pageCount: StateFlow<NoteTextFieldState> = _pageCount
 
-    private val _isFavorite = MutableStateFlow(true)
+    private val _isFavorite = MutableStateFlow(false)
     val isFavorite: StateFlow<Boolean> = _isFavorite
 
     fun toggleFavorite() {
