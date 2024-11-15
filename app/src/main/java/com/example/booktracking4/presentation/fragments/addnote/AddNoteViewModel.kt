@@ -50,9 +50,13 @@ class AddNoteViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+
+    var id: Int?=null
     private var currentNodeId: Int? = null
 
     init {
+        savedStateHandle["noteId"] = id
+
         savedStateHandle.get<Int>("noteId").let { noteId ->
             if(noteId != -1){
               viewModelScope.launch{

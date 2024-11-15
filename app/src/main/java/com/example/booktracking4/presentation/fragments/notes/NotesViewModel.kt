@@ -1,10 +1,8 @@
 package com.example.booktracking4.presentation.fragments.notes
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.booktracking4.domain.model.room.BookNote
-import com.example.booktracking4.domain.model.ui_model.notes_model.NotesModel
 import com.example.booktracking4.domain.usecase.note_use_cases.BookNoteUseCases
 import com.example.booktracking4.domain.util.NoteOrder
 import com.example.booktracking4.domain.util.OrderType
@@ -69,12 +67,6 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-//    val notesLiveData = MutableLiveData<NotesModel>()
-//
-//    fun getData() {
-//        val note = NotesModel(1, "Note 1", "25-35", "This is content", "18.10.2024", true)
-//        notesLiveData.value = note
-//    }
 
     private fun getOrder(noteOrder: NoteOrder) {
         getNotesJob?.cancel()

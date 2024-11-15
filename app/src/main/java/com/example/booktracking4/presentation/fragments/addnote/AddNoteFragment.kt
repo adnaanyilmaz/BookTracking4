@@ -2,6 +2,7 @@ package com.example.booktracking4.presentation.fragments.addnote
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentAddNoteBinding
+import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.presentation.fragments.addnote.AddNoteViewModel.UiEvent
+import com.example.booktracking4.presentation.fragments.bookdetail.BookDetailFragmentArgs
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -21,6 +25,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import kotlin.getValue
 
 @AndroidEntryPoint
 class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
@@ -40,6 +45,14 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val bundle: AddNoteFragmentArgs by navArgs()
+        val id: Int = bundle.id
+
+        viewModel.id=id
+
+
+
         observeViewModel()
         setupUI()
         handleEvents()
