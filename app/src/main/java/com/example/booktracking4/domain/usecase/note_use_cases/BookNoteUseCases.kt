@@ -4,5 +4,6 @@ data class BookNoteUseCases(
     val getBookNoteUseCase: GetBookNoteUseCase,
     val deleteBookNoteUseCase: DeleteBookNoteUseCase,
     val addNote: AddBookNoteUseCase,
-    val editNote: EditNoteUseCase
+    val editNote: EditNoteUseCase,
+    val updateNote: UpdateFavoriteStatusUseCase
 ){}

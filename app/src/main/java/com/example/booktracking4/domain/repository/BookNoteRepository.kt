@@ -13,5 +13,7 @@ interface BookNoteRepository {
 
     suspend fun deleteNote(note: BookNote)
 
+    suspend fun updateNote(note: BookNote)
+
 
 }

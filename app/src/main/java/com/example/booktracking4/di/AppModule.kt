@@ -14,6 +14,7 @@ import com.example.booktracking4.domain.usecase.note_use_cases.BookNoteUseCases
 import com.example.booktracking4.domain.usecase.note_use_cases.DeleteBookNoteUseCase
 import com.example.booktracking4.domain.usecase.note_use_cases.EditNoteUseCase
 import com.example.booktracking4.domain.usecase.note_use_cases.GetBookNoteUseCase
+import com.example.booktracking4.domain.usecase.note_use_cases.UpdateFavoriteStatusUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -65,7 +66,8 @@ object AppModule {
             GetBookNoteUseCase(repository),
             DeleteBookNoteUseCase(repository),
             AddBookNoteUseCase(repository),
-            EditNoteUseCase(repository)
+            EditNoteUseCase(repository),
+            UpdateFavoriteStatusUseCase(repository)
         )
     }
 }

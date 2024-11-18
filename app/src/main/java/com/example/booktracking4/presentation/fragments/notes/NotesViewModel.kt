@@ -58,10 +58,10 @@ class NotesViewModel @Inject constructor(
 
             }
 
-            is NotesEvent.ToggleOrderSection -> {
-                _state.value = state.value.copy(
-                    isOrderSelectionVisible = !state.value.isOrderSelectionVisible
-                )
+            is NotesEvent.ToggleFavorite -> {
+                viewModelScope.launch{
+                    noteUseCases.updateNote(event.note)
+                }
 
             }
         }

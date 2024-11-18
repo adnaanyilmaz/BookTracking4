@@ -1,7 +1,6 @@
 package com.example.booktracking4.presentation.fragments.notes
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -11,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.booktracking4.databinding.FragmentNotesBinding
-import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.presentation.fragments.notes.adapter.NotesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.booktracking4.R
@@ -53,7 +51,6 @@ class NotesFragment : Fragment() {
         setUpRadioGroup()
 
 
-
 //        val notes = listOf(
 //            BookNote("Note Title", "This is content", 0L, "10", true, 1),
 //            BookNote("Note Title", "This is content", 0L, "10", true, 1),
@@ -70,15 +67,24 @@ class NotesFragment : Fragment() {
 //        binding.recyclerViewNotes.adapter = NotesAdapter(notes, {})
     }
 
-    private fun setupRecyclerView(){
-        notesAdapter= NotesAdapter(viewModel.state.value.notes,{id->
-            findNavController().navigate(
-                NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(1)
-            )
-        },{/*delete Click*/})
+    private fun setupRecyclerView() {
+        notesAdapter = NotesAdapter(
+            onItemClickListener = { note ->
+                findNavController().navigate(
+                    NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(note.id ?: 1)
+                )
+            },
+            onDeleteClick = { note ->
+                viewModel.onEvent(NotesEvent.DeleteNote(note))
+            },
+            itemList = viewModel.state.value.notes,
+            onFavoriteClick = { note ->
+                viewModel.onEvent(NotesEvent.ToggleFavorite(note))
+            }
+        )
         binding.recyclerViewNotes.apply {
-            adapter=notesAdapter
-            layoutManager= LinearLayoutManager(context)
+            adapter = notesAdapter
+            layoutManager = LinearLayoutManager(context)
         }
 
     }
@@ -91,7 +97,7 @@ class NotesFragment : Fragment() {
                 }
 
                 R.id.rbDescending -> {
-                    viewModel.onEvent(NotesEvent.Order(NoteOrder.IsFavorite(OrderType.Descending)))
+                    viewModel.onEvent(NotesEvent.Order(NoteOrder.Date(OrderType.Descending)))
                 }
             }
         }
@@ -119,7 +125,6 @@ class NotesFragment : Fragment() {
             }
         }
     }
-
 
 
     override fun onDestroyView() {

@@ -23,4 +23,8 @@ class BookNoteRepositoryImp(
     override suspend fun deleteNote(note: BookNote) {
         return dao.deteleNote(note)
     }
+
+    override suspend fun updateNote(note: BookNote) {
+        return dao.updateNote(note)
+    }
 }

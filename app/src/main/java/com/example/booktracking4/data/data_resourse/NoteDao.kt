@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.booktracking4.domain.model.room.BookNote
 import kotlinx.coroutines.flow.Flow
 
@@ -22,4 +23,7 @@ interface NoteDao {
 
     @Delete
     suspend fun deteleNote(note: BookNote)
+
+    @Update
+    suspend fun updateNote(note: BookNote)
 }

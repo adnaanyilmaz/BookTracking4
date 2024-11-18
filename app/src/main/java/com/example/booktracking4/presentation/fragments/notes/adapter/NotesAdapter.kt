@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.booktracking4.databinding.ItemNoteBinding
-import com.example.booktracking4.domain.model.ui_model.notes_model.NotesModel
 import com.example.booktracking4.presentation.fragments.notes.adapter.NotesAdapter.NoteViewHolder
 import com.example.booktracking4.R
 import com.example.booktracking4.domain.model.room.BookNote
@@ -18,8 +17,9 @@ import java.time.format.DateTimeFormatter
 
 class NotesAdapter(
     private val itemList: List<BookNote> ,
-    private val onItemClickListener: (Int) -> Unit,
-    private val onDeleteClick: (Int) -> Unit
+    private val onItemClickListener: (BookNote) -> Unit,
+    private val onDeleteClick: (BookNote) -> Unit,
+    private val onFavoriteClick: (BookNote) -> Unit
 
 ) : RecyclerView.Adapter<NoteViewHolder>() {
 
@@ -28,7 +28,11 @@ class NotesAdapter(
 
         @RequiresApi(Build.VERSION_CODES.O)
         @SuppressLint("SetTextI18n")
-        fun bind(note: BookNote, onItemClickListener: (Int) -> Unit,onDeleteClick: (Int) -> Unit) {
+        fun bind(
+            note: BookNote, onItemClickListener: (BookNote) -> Unit,
+            onDeleteClick: (BookNote) -> Unit,
+            onFavoriteClick: (BookNote) -> Unit
+        ) {
             binding.apply {
                 tvNoteTitle.text = note.title
                 tvNoteContent.text = note.content
@@ -39,10 +43,13 @@ class NotesAdapter(
                 )
             }
             binding.cardViewNote.setOnClickListener{
-                onItemClickListener.invoke(note.id?.toInt() ?: 1 )
+                onItemClickListener.invoke(note)
             }
-            binding.cardViewNote.setOnClickListener{
-                onDeleteClick.invoke(note.id?.toInt() ?: 1 )
+            binding.ivDelete.setOnClickListener{
+                onDeleteClick.invoke(note)
+            }
+            binding.ivFavorite.setOnClickListener{
+                onFavoriteClick.invoke(note)
             }
 
 
@@ -70,7 +77,7 @@ class NotesAdapter(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int
     ) {
-        holder.bind(itemList[position], onItemClickListener,onDeleteClick)
+        holder.bind(itemList[position], onItemClickListener,onDeleteClick,onFavoriteClick)
     }
 
 
