@@ -39,6 +39,7 @@ class NotesViewModel @Inject constructor(
                 ) {
                     return
                 }
+                getOrder(event.noteOrder)
 
             }
 

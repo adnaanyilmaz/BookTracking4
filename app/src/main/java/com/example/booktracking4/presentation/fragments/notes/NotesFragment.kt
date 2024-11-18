@@ -50,21 +50,6 @@ class NotesFragment : Fragment() {
         setupRecyclerView()
         setUpRadioGroup()
 
-
-//        val notes = listOf(
-//            BookNote("Note Title", "This is content", 0L, "10", true, 1),
-//            BookNote("Note Title", "This is content", 0L, "10", true, 1),
-//            BookNote("Note Title", "This is content", 0L, "10", false, 1),
-//            BookNote("Note Title", "This is content", 0L, "10", true, 1),
-//            BookNote("Note Title", "This is content", 0L, "10", false, 1),
-//            BookNote("Note Title", "This is content", 0L, "10", true, 1),
-//            BookNote("Note Title", "This is content", 0L, "10", true, 1),
-//            BookNote("Note Title", "This is content", 0L, "10", false, 1),
-//
-//            )
-//
-//        binding.recyclerViewNotes.layoutManager = LinearLayoutManager(view.context)
-//        binding.recyclerViewNotes.adapter = NotesAdapter(notes, {})
     }
 
     private fun setupRecyclerView() {
@@ -91,40 +76,40 @@ class NotesFragment : Fragment() {
 
     private fun setUpRadioGroup() {
         binding.radioGroupNotes.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.rbAscending -> {
-                    viewModel.onEvent(NotesEvent.Order(NoteOrder.Date(OrderType.Ascending)))
-                }
-
-                R.id.rbDescending -> {
-                    viewModel.onEvent(NotesEvent.Order(NoteOrder.Date(OrderType.Descending)))
-                }
+            val noteOrder = when (checkedId) {
+                R.id.rbAscending -> NoteOrder.Date(OrderType.Ascending)
+                R.id.rbDescending -> NoteOrder.Date(OrderType.Descending)
+                else -> return@setOnCheckedChangeListener
             }
+            viewModel.onEvent(NotesEvent.Order(noteOrder))
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
+
+        val noteOrder = when (item.itemId) {
             R.id.actionFilterTitle -> {
-                viewModel.onEvent(NotesEvent.Order(NoteOrder.Title(OrderType.Descending)))
-                true
+                NoteOrder.Title(OrderType.Descending)
+                return true
             }
 
             R.id.actionFilterDate -> {
-                viewModel.onEvent(NotesEvent.Order(NoteOrder.Date(OrderType.Descending)))
-                true
+                NoteOrder.Date(OrderType.Descending)
+                return true
             }
 
             R.id.actionFilterFavorite -> {
-                viewModel.onEvent(NotesEvent.Order(NoteOrder.IsFavorite(OrderType.Descending)))
-                true
+                NoteOrder.IsFavorite(OrderType.Descending)
+                return true
             }
 
             else -> {
-                false
+                return false
             }
         }
+        viewModel.onEvent(noteOrder)
     }
+
 
 
     override fun onDestroyView() {
