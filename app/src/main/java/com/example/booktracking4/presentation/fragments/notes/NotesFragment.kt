@@ -53,17 +53,18 @@ class NotesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbarNotes.apply {
-            // Toolbar'ı aktiviteye bağlamak yerine doğrudan fragment'e bağlarız
-            (activity as? AppCompatActivity)?.setSupportActionBar(this)
-        }
+        binding.apply {
+            toolbarNotes.apply {
+                // Toolbar'ı aktiviteye bağlamak yerine doğrudan fragment'e bağlarız
+                (activity as? AppCompatActivity)?.setSupportActionBar(this)
 
-
-        //Add Note Navigation
-        binding.fabAddNote.setOnClickListener {
-            findNavController().navigate(
-                NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(0)
-            )
+                //Add Note Navigation
+                fabAddNote.setOnClickListener {
+                    findNavController().navigate(
+                        NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(0)
+                    )
+                }
+            }
         }
 
         setupRecyclerView()
