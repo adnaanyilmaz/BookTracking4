@@ -21,27 +21,30 @@
         app:navigationIcon="@drawable/note"
         app:title="My Notes"
         app:titleTextColor="@android:color/white" />
+
     <RadioGroup
         android:id="@+id/radioGroupNotes"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarNotes"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewNotes"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewNotes">
+        app:layout_constraintTop_toBottomOf="@+id/toolbarNotes">
 
         <RadioButton
             android:id="@+id/rbAscending"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Ascending"/>
+            android:text="Ascending" />
+
         <RadioButton
             android:id="@+id/rbDescending"
-            android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Descending"/>
+            android:layout_margin="5dp"
+            android:checked="true"
+            android:text="Descending" />
     </RadioGroup>
 
     <!-- RecyclerView -->

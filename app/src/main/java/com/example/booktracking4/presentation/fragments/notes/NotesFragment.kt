@@ -11,7 +11,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,7 +52,11 @@ class NotesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+
+        binding.toolbarNotes.apply {
+            // Toolbar'ı aktiviteye bağlamak yerine doğrudan fragment'e bağlarız
+            (activity as? AppCompatActivity)?.setSupportActionBar(this)
+        }
 
 
         //Add Note Navigation
@@ -60,9 +67,25 @@ class NotesFragment : Fragment() {
         }
 
         setupRecyclerView()
+        setupMenu()
         setUpRadioGroup()
         collectUIState()
 
+    }
+
+    private fun setupMenu() {
+        requireActivity().addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    // Menü dosyasını yükle
+                    menuInflater.inflate(R.menu.menu_notes, menu)
+                }
+
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    return onOptionsItemSelected(menuItem)
+                }
+            }, viewLifecycleOwner, Lifecycle.State.RESUMED
+        )
     }
 
     private fun setupRecyclerView() {
