@@ -49,7 +49,7 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         val bundle: AddNoteFragmentArgs by navArgs()
         val id: Int = bundle.id
 
-        viewModel.id=id
+        viewModel.loadNoteDetails(id)
 
 
 
@@ -64,7 +64,7 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
         val currentDate = Calendar.getInstance().time
         val formattedDate = dateFormat.format(currentDate)
-        binding.tvNoteDate.text=formattedDate
+        binding.tvNoteDate.text = formattedDate
 
         // Başlık alanı dinleyici
         binding.etNoteTitle.apply {
@@ -113,6 +113,10 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
                 launch {
                     viewModel.noteTitle.collectLatest { state ->
                         binding.etNoteTitle.hint = state.hint
+
+                        if (binding.etNoteTitle.text.toString() != state.text) {
+                            binding.etNoteTitle.setText(state.text)
+                        }
                         if (state.isHintVisible) {
                             binding.etNoteTitle.hint = state.hint
                         }
@@ -121,6 +125,9 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
                 launch {
                     viewModel.noteContent.collectLatest { state ->
                         binding.etNoteContent.hint = state.hint
+                        if (binding.etNoteContent.text.toString() != state.text) {
+                            binding.etNoteContent.setText(state.text)
+                        }
                         if (state.isHintVisible) {
                             binding.etNoteContent.hint = state.hint
                         }
@@ -129,6 +136,9 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
                 launch {
                     viewModel.pageCount.collectLatest { state ->
                         binding.etNotePage.hint = state.hint
+                        if (binding.etNotePage.text.toString() != state.text) {
+                            binding.etNotePage.setText(state.text)
+                        }
                         if (state.isHintVisible) {
                             binding.etNotePage.hint = state.hint
                         }
@@ -159,6 +169,7 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
                         is UiEvent.ShowSnackBar -> {
                             Snackbar.make(binding.root, event.message, Snackbar.LENGTH_LONG).show()
                         }
+
                         UiEvent.SaveNote -> {
                             // Not kaydedildiğinde bir işlem yapın (örn. Geri git)
                             requireActivity().onBackPressedDispatcher.onBackPressed()
@@ -168,6 +179,7 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
             }
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
