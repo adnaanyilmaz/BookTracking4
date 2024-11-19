@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter
 class NotesAdapter(
     private val itemList: List<BookNote> ,
     private val onItemClickListener: (BookNote) -> Unit,
-    private val onDeleteClick: (BookNote) -> Unit,
+    private val onDeleteClick: ((BookNote) -> Unit)? = null,
     private val onFavoriteClick: (BookNote) -> Unit
 
 ) : RecyclerView.Adapter<NoteViewHolder>() {
@@ -31,7 +31,7 @@ class NotesAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(
             note: BookNote, onItemClickListener: (BookNote) -> Unit,
-            onDeleteClick: (BookNote) -> Unit,
+            onDeleteClick: ((BookNote) -> Unit)? = null,
             onFavoriteClick: (BookNote) -> Unit
         ) {
             binding.apply {
@@ -47,7 +47,7 @@ class NotesAdapter(
                 onItemClickListener.invoke(note)
             }
             binding.ivDelete.setOnClickListener{
-                onDeleteClick.invoke(note)
+                onDeleteClick?.invoke(note)
 
 
             }

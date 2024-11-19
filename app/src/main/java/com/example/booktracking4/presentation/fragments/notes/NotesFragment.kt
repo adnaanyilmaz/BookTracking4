@@ -13,8 +13,10 @@ import com.example.booktracking4.databinding.FragmentNotesBinding
 import com.example.booktracking4.presentation.fragments.notes.adapter.NotesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.booktracking4.R
+import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.domain.util.NoteOrder
 import com.example.booktracking4.domain.util.OrderType
+import com.google.android.material.snackbar.Snackbar
 
 
 @AndroidEntryPoint
@@ -65,6 +67,7 @@ class NotesFragment : Fragment() {
             itemList = viewModel.state.value.notes,
             onFavoriteClick = { note ->
                 viewModel.onEvent(NotesEvent.ToggleFavorite(note))
+                showUndoSnackBar(note)
             }
         )
         binding.recyclerViewNotes.apply {
@@ -73,6 +76,16 @@ class NotesFragment : Fragment() {
         }
 
     }
+    private fun NotesFragment.showUndoSnackBar(note: BookNote) {
+        Snackbar.make(
+            binding.root,
+            "${note.title} Deleted",
+            Snackbar.LENGTH_LONG
+        ).setAction("Undo") {
+            viewModel.onEvent(NotesEvent.RestoreNote)
+        }.show()
+    }
+
 
     private fun setUpRadioGroup() {
         binding.radioGroupNotes.setOnCheckedChangeListener { _, checkedId ->
@@ -117,3 +130,5 @@ class NotesFragment : Fragment() {
         _binding = null
     }
 }
+
+
