@@ -2,7 +2,6 @@ package com.example.booktracking4.presentation.fragments.addnote
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentAddNoteBinding
-import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.presentation.fragments.addnote.AddNoteViewModel.UiEvent
-import com.example.booktracking4.presentation.fragments.bookdetail.BookDetailFragmentArgs
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -148,7 +145,7 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
                         viewModel.isFavorite.collectLatest { isFavorite ->
                             val imageRes = if (isFavorite) {
-                                R.drawable.favorite  // Favori aktif
+                                R.drawable.ic_favorite  // Favori aktif
                             } else {
                                 R.drawable.favorite_border  // Favori değil
                             }

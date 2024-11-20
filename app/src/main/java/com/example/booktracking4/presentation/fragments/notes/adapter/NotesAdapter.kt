@@ -10,7 +10,6 @@ import com.example.booktracking4.databinding.ItemNoteBinding
 import com.example.booktracking4.presentation.fragments.notes.adapter.NotesAdapter.NoteViewHolder
 import com.example.booktracking4.R
 import com.example.booktracking4.domain.model.room.BookNote
-import com.google.android.material.snackbar.Snackbar
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -40,7 +39,7 @@ class NotesAdapter(
                 tvNotePageRange.text = note.page
                 tvNoteDate.text = convertMillisToDate(note.timestamp)
                 ivFavorite.setImageResource(
-                    if (note.isFavorite) R.drawable.favorite else R.drawable.favorite_border
+                    if (note.isFavorite) R.drawable.ic_favorite else R.drawable.favorite_border
                 )
             }
             binding.cardViewNote.setOnClickListener{

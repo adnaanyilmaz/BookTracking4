@@ -54,4 +54,17 @@
             android:name="id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.example.booktracking4.presentation.fragments.splash.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.booktracking4.presentation.fragments.login.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.booktracking4.presentation.fragments.register.RegisterFragment"
+        android:label="RegisterFragment" />
 </navigation>

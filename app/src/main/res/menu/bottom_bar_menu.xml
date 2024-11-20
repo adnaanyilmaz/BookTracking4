@@ -8,7 +8,7 @@
         android:title="Home" />
     <item
         android:id="@+id/myBooksFragment"
-        android:icon="@drawable/book"
+        android:icon="@drawable/ic_book"
         android:title="My Books" />
     <item
         android:id="@+id/searchFragment"
