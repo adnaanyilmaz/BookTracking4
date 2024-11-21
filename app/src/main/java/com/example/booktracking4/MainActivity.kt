@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.bookDetailFragment -> binding.bottomNav.visibility = View.GONE
                 R.id.addNoteFragment -> binding.bottomNav.visibility = View.GONE
+                R.id.splashScreenFragment -> binding.bottomNav.visibility = View.GONE
                 else -> binding.bottomNav.visibility = View.VISIBLE
             }
         }

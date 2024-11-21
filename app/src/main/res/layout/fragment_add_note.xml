@@ -24,6 +24,7 @@
         android:inputType="text"
         android:textSize="18sp"
         android:padding="8dp"
+        android:textDirection="ltr"
         android:background="@drawable/edittext_background"/>
 
     <!-- Not İçeriği -->
@@ -39,6 +40,7 @@
         android:background="@drawable/edittext_background"
         android:minHeight="150dp"
         android:gravity="top"
+        android:textDirection="ltr"
         android:maxLines="5"/>
 
     <!-- Sayfa Numarası -->
