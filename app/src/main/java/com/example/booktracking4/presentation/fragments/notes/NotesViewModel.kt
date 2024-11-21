@@ -65,7 +65,6 @@ class NotesViewModel @Inject constructor(
                 }
 
             }
-
         }
     }
 

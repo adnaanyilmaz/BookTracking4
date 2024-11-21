@@ -3,17 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/actionFilterTitle"
-        android:title="Filter by Title"
-        android:orderInCategory="1"
+        android:title="Title"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/actionFilterDate"
-        android:title="Filter by Date"
-        android:orderInCategory="2"
+        android:title="Date"
         app:showAsAction="never" />
     <item
         android:id="@+id/actionFilterFavorite"
-        android:title="Filter by Favorite"
-        android:orderInCategory="3"
+        android:icon="@drawable/random_icon"
+        android:title="Favorite"
         app:showAsAction="never" />
 </menu>
