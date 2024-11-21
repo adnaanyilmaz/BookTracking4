@@ -34,9 +34,11 @@ class AddNoteViewModel @Inject constructor(
     )
     val noteContent: StateFlow<NoteTextFieldState> = _noteContent
 
-    private val _pageCount = MutableStateFlow(NoteTextFieldState(
-        hint = "Enter page number"
-    ))
+    private val _pageCount = MutableStateFlow(
+        NoteTextFieldState(
+            hint = "Enter page number"
+        )
+    )
     val pageCount: StateFlow<NoteTextFieldState> = _pageCount
 
     private val _isFavorite = MutableStateFlow(false)
@@ -51,35 +53,37 @@ class AddNoteViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
 
-    var id: Int?=null
+    var id: Int? = null
     private var currentNodeId: Int? = null
 
-    init {
-        savedStateHandle["noteId"] = id
 
-        savedStateHandle.get<Int>("noteId").let { noteId ->
-            if(noteId != -1){
-              viewModelScope.launch{
-                  noteUseCases.editNote(noteId)?.also { note ->
-                      currentNodeId=note.id
-                      _noteTitle.value=noteTitle.value.copy(
-                          text = note.title,
-                          isHintVisible = false
-                      )
-                      _noteContent.value=noteContent.value.copy(
-                          text = note.content,
-                          isHintVisible = false
-                      )
-                      _pageCount.value=pageCount.value.copy(
-                          text = note.title,
-                          isHintVisible = false
-                      )
-                      _isFavorite.value=isFavorite.value
-                  }
-              }
+
+    fun loadNoteDetails(noteId: Int?) {
+        var currentNodeId: Int? = null
+        if (noteId != 0 && noteId != null){
+            viewModelScope.launch {
+                noteUseCases.editNote(noteId)?.let { note ->
+                    currentNodeId = note.id
+                    _noteTitle.value = _noteTitle.value.copy(
+                        text = note.title,
+                        isHintVisible = note.title.isBlank()
+                    )
+                    _noteContent.value = _noteContent.value.copy(
+                        text = note.content,
+                        isHintVisible = note.content.isBlank()
+                    )
+                    _pageCount.value = _pageCount.value.copy(
+                        text = note.page.toString(),
+                        isHintVisible = note.page.toString().isBlank()
+                    )
+                    _isFavorite.value = note.isFavorite
+                }
             }
         }
+
     }
+
+
 
     fun onEvent(event: AddNoteEvent) {
         when (event) {

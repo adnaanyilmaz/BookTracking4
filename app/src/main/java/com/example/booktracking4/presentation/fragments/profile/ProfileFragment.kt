@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentProfileBinding
 import com.example.booktracking4.presentation.fragments.profile.ProfileContract.UiEffect
@@ -42,8 +43,13 @@ class ProfileFragment : Fragment() {
             viewModel.uiEffect.collect { effect ->
                 when (effect) {
                     is UiEffect.GoToLoginScreen -> {
-                        findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
-                    }
+                        findNavController().navigate(
+                            R.id.action_profileFragment_to_loginFragment,
+                            null,
+                            navOptions {
+                                popUpTo(R.id.profileFragment) { inclusive = true } // Back stack'i temizler
+                            }
+                        )                    }
 
                     is UiEffect.ShowToastMessage -> {
                         Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT).show()
