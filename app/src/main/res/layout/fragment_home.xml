@@ -246,7 +246,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:contentDescription="Add Book"
-            android:src="@drawable/add_notes"
+            android:src="@drawable/ic_add"
             app:backgroundTint="@color/buttonColor" />
     </LinearLayout>
 </ScrollView>

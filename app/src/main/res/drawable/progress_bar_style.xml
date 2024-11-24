@@ -1,0 +1,7 @@
+<!-- res/drawable/progress_bar_style.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="4dp"/>
+    <solid android:color="@android:color/darker_gray"/>
+    <size android:height="8dp"/>
+    <padding android:left="2dp" android:right="2dp"/>
+</shape>

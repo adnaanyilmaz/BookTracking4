@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
         android:contentDescription="Add Note"
-        android:src="@drawable/add_notes"
+        android:src="@drawable/ic_add"
         android:tint="@android:color/white"
         app:backgroundTint="@color/buttonColor"
         app:layout_constraintBottom_toBottomOf="parent"

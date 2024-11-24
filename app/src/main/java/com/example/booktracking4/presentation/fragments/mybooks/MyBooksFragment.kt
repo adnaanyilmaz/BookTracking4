@@ -26,6 +26,12 @@ class MyBooksFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        setupMenu()
+
+
+    }
+    fun setupMenu(){
         // MenuProvider ile menüyü ekliyoruz
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -35,9 +41,6 @@ class MyBooksFragment : Fragment() {
                 // SearchView'i buluyoruz
                 val searchItem = menu.findItem(R.id.action_search)
                 val searchView = searchItem.actionView as SearchView
-
-                // Arama ipucu (hint) ekliyoruz
-                searchView.queryHint = "Search in My Books.."
 
                 // Arama işlemi dinleyicisi
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

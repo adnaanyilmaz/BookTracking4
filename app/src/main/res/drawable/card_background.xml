@@ -1,0 +1,6 @@
+<!-- res/drawable/card_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" /> <!-- Kartın arka plan rengi -->
+    <corners android:radius="8dp" /> <!-- Köşe yuvarlama -->
+    <elevation android:value="4dp" /> <!-- Gölge -->
+</shape>
