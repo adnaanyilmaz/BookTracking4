@@ -2,7 +2,7 @@ package com.example.booktracking4.presentation.fragments.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.booktracking4.data.AuthRepository
+import com.example.booktracking4.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow

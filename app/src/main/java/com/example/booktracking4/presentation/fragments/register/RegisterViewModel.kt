@@ -3,7 +3,7 @@ package com.example.booktracking4.presentation.fragments.register
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.booktracking4.common.Resource
-import com.example.booktracking4.data.AuthRepository
+import com.example.booktracking4.data.repository.AuthRepository
 import com.example.booktracking4.presentation.fragments.register.RegisterContract.RegisterUiEffect
 import com.example.booktracking4.presentation.fragments.register.RegisterContract.RegisterUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

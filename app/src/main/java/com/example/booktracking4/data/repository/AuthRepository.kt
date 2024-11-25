@@ -1,4 +1,4 @@
-package com.example.booktracking4.data
+package com.example.booktracking4.data.repository
 
 import com.example.booktracking4.common.Resource
 import com.google.firebase.auth.FirebaseAuth

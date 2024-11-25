@@ -1,6 +1,6 @@
 package com.example.booktracking4.di
 
-import com.example.booktracking4.data.AuthRepository
+import com.example.booktracking4.data.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides

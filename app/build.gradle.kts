@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso.core)
@@ -82,6 +83,7 @@ dependencies {
     // Firebase - Firebase Auth - Firestore
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+    implementation ("com.google.android.gms:play-services-auth:21.2.0")
 
     // Coil (Picassodan daha iyi çalışıyor bence. Bunu daha pratik kullanmakiçin bir extension yazdım)
     implementation(libs.coil)

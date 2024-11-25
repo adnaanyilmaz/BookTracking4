@@ -2,7 +2,7 @@ package com.example.booktracking4.presentation.fragments.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.booktracking4.data.AuthRepository
+import com.example.booktracking4.data.repository.AuthRepository
 import com.example.booktracking4.presentation.fragments.profile.ProfileContract.UiEffect
 import com.example.booktracking4.presentation.fragments.profile.ProfileContract.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -130,17 +130,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDescription" />
 
-        <!-- Add to List Button with Options -->
-        <Button
-            android:id="@+id/btnAddToList"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:text="Add to List"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvPageCount" />
-
         <!-- Dropdown Options: Read, Currently Reading, To Read -->
         <Spinner
             android:id="@+id/spinnerOptions"
@@ -150,7 +139,20 @@
             android:paddingTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnAddToList" />
+            app:layout_constraintTop_toBottomOf="@id/tvPageCount" />
+
+        <!-- Add to List Button with Options -->
+        <Button
+            android:id="@+id/btnAddToList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="Add to List"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinnerOptions" />
+
+
 
         <ProgressBar
             android:id="@+id/progressBar"
