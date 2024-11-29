@@ -102,4 +102,21 @@
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/currentlyReadingFragment"
+        android:name="com.example.booktracking4.presentation.fragments.currently_read.CurrentlyReadingFragment"
+        android:label="CurrentlyReadingFragment" />
+    <fragment
+        android:id="@+id/readFragment"
+        android:name="com.example.booktracking4.presentation.fragments.read.ReadFragment"
+        android:label="ReadFragment" />
+    <fragment
+        android:id="@+id/toReadFragment"
+        android:name="com.example.booktracking4.presentation.fragments.to_read.ToReadFragment"
+        android:label="ToReadFragment" />
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.example.booktracking4.presentation.fragments.friends.FriendsFragment"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends" />
 </navigation>

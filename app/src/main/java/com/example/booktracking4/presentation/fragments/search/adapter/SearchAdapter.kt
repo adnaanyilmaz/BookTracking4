@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.booktracking4.common.loadImageView
-import com.example.booktracking4.databinding.ItemSearchBookBinding
+import com.example.booktracking4.databinding.ItemBookCardBinding
 import com.example.booktracking4.domain.model.retrofit.Book
 import com.example.booktracking4.presentation.fragments.search.adapter.SearchAdapter.SearchBooksViewHolder
 
@@ -13,7 +13,7 @@ class SearchAdapter(
     private val onItemClickListener: (String) -> Unit
 ) : RecyclerView.Adapter<SearchBooksViewHolder>() {
 
-    class SearchBooksViewHolder(private val binding: ItemSearchBookBinding) :
+    class SearchBooksViewHolder(private val binding: ItemBookCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(book: Book, onItemClickListener: (String) -> Unit) {
             binding.apply {
@@ -34,7 +34,7 @@ class SearchAdapter(
         parent: ViewGroup, viewType: Int
     ): SearchBooksViewHolder {
         val binding =
-            ItemSearchBookBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemBookCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchBooksViewHolder(binding)
     }
 

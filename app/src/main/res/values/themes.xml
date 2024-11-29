@@ -15,4 +15,10 @@
         <item name="colorControlHighlight">#009688</item> <!-- Yıldız vurgusu -->
     </style>
 
+    <style name="CircleImageViewStyle" parent="Widget.MaterialComponents.ShapeableImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item> <!-- Tam dairesel olması için %50 -->
+    </style>
+
+
 </resources>

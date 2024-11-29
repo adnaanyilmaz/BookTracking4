@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/gray">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageLogo"
         android:layout_width="120dp"
         android:layout_height="120dp"
@@ -16,7 +16,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/CircleImageViewStyle" />
 
     <TextView
         android:id="@+id/textAppName"
