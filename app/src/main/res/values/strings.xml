@@ -5,10 +5,6 @@
     <string name="open">open</string>
     <string name="close">close</string>
 
-    <string-array name="book_list_options">
-        <item>Read</item>
-        <item>Currently Reading</item>
-        <item>Want to Read</item>
-    </string-array>
+
 
 </resources>

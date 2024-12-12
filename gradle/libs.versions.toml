@@ -1,5 +1,5 @@
 [versions]
-agp = "8.7.2"
+agp = "8.7.3"
 kotlin = "2.0.20"
 core-ktx = "1.13.1"
 junit = "4.13.2"
@@ -24,6 +24,7 @@ firebaseDatabase = "21.0.0"
 googleServices = "4.4.2"
 firebase = "33.4.0"
 firebaseStorage = "21.0.1"
+firebase-firestore = "25.1.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -55,6 +56,8 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebase-firestore" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

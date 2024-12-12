@@ -87,5 +87,8 @@ dependencies {
 
     // Coil (Picassodan daha iyi çalışıyor bence. Bunu daha pratik kullanmakiçin bir extension yazdım)
     implementation(libs.coil)
+
+// Firebase Firestore
+    implementation(libs.firebase.firestore)
 }
 
