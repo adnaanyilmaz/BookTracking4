@@ -67,9 +67,9 @@ class SearchFragment : Fragment() {
                 }
                 val books = state.book // Book türünde list
                 if (books.isNotEmpty()) {
-                    searchAdapter = SearchAdapter(books,{param->
+                    searchAdapter = SearchAdapter(books,{bookId->
                        findNavController().navigate(
-                           SearchFragmentDirections.actionSearchFragmentToBookDetailFragment(param)
+                           SearchFragmentDirections.actionSearchFragmentToBookDetailFragment(bookId)
                        )
                     })
                     binding.rvSearchPage.adapter = searchAdapter

@@ -105,15 +105,27 @@
     <fragment
         android:id="@+id/currentlyReadingFragment"
         android:name="com.example.booktracking4.presentation.fragments.currently_read.CurrentlyReadingFragment"
-        android:label="CurrentlyReadingFragment" />
+        android:label="CurrentlyReadingFragment" >
+        <action
+            android:id="@+id/action_currentlyReadingFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/readFragment"
         android:name="com.example.booktracking4.presentation.fragments.read.ReadFragment"
-        android:label="ReadFragment" />
+        android:label="ReadFragment" >
+        <action
+            android:id="@+id/action_readFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/toReadFragment"
         android:name="com.example.booktracking4.presentation.fragments.to_read.ToReadFragment"
-        android:label="ToReadFragment" />
+        android:label="ToReadFragment" >
+        <action
+            android:id="@+id/action_toReadFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/friendsFragment"
         android:name="com.example.booktracking4.presentation.fragments.friends.FriendsFragment"

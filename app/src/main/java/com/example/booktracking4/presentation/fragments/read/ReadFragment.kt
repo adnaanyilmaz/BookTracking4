@@ -8,12 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentReadBinding
+import com.example.booktracking4.presentation.fragments.currently_read.CurrentlyReadingFragmentDirections
 import com.example.booktracking4.presentation.fragments.read.adapter.ReadAdapter
-import com.example.booktracking4.presentation.fragments.search.adapter.SearchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -53,21 +52,28 @@ class ReadFragment : Fragment() {
     private fun collectViewModel() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
-                if (state.whatIRead.isNotEmpty()) {
-                    binding.tvDescription.text = "You are read ${ state.whatIRead.size } books"
-                    readAdapter.submitData(state.whatIRead)
-                    Log.d("Dante", "Books: ${state.whatIRead}")
+                if (state.read.isNotEmpty()) {
+                    binding.tvDescription.text = "You are read ${state.read.size} books"
+                    readAdapter.submitData(state.read)
+                    Log.d("Dante", "Books: ${state.read}")
                 }
-                if (state.isLoading) {
-                    // Progress Bar koy
-                }
+                binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
+
             }
         }
     }
 
 
     private fun setUpRecyclerView() {
-        readAdapter = ReadAdapter(onItemClickListener = {})
+        readAdapter = ReadAdapter(
+            onItemClickListener = { bookId ->
+                findNavController().navigate(
+                    ReadFragmentDirections.actionReadFragmentToBookDetailFragment(bookId)
+                )
+            },
+            onDeleteClick = {bookId ->
+                viewModel.deleteUserBook(bookId)
+            })
         binding.rvRead.adapter = readAdapter
         binding.rvRead.addItemDecoration(
             DividerItemDecoration(

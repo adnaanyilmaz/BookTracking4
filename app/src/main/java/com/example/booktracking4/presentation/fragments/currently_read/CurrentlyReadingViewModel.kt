@@ -41,12 +41,18 @@ class CurrentlyReadingViewModel @Inject constructor(
                 updateUiState {
                     copy(
                         isLoading = false,
-                        readNow = result.data?.readNow ?: emptyList(),
+                        currentlyReading = result.data?.currentlyReading ?: emptyList(),
                     )
 
                 }
             }
         }
+    }
+    fun deleteUserBook(bookId: String)=viewModelScope.launch{
+        userRepository.deleteUserBooks(
+            userId = authRepository.getUserId(),
+            bookId = bookId
+        )
     }
 
 

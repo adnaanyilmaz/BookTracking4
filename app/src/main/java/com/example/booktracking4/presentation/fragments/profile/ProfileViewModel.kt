@@ -28,7 +28,7 @@ class ProfileViewModel @Inject constructor(
     fun signOut() = viewModelScope.launch {
         authRepository.signOut()
         emitUiEffect(UiEffect.GoToLoginScreen)
-        emitUiEffect(UiEffect.ShowToastMessage("Çıkış yapıldı"))
+        emitUiEffect(UiEffect.ShowToastMessage("Logged out successfully."))
     }
 
     private suspend fun emitUiEffect(uiEffect: UiEffect) {

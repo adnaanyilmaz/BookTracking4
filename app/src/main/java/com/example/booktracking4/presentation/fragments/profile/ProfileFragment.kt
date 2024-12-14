@@ -47,9 +47,12 @@ class ProfileFragment : Fragment() {
                             R.id.action_profileFragment_to_loginFragment,
                             null,
                             navOptions {
-                                popUpTo(R.id.profileFragment) { inclusive = true } // Back stack'i temizler
+                                // NavGraph'in kök öğesine kadar pop işlemi yapar ve tüm back stack'i temizler
+                                popUpTo(R.id.main_activity_bottom_navigation) { inclusive = true }
                             }
-                        )                    }
+                        )
+                    }
+
 
                     is UiEffect.ShowToastMessage -> {
                         Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT).show()

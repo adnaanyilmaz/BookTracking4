@@ -39,12 +39,15 @@ class ToReadViewModel @Inject constructor(
                 updateUiState {
                     copy(
                         isLoading = false,
-                        willRead = result.data?.whatIWillRead ?: emptyList(),
+                        willRead = result.data?.wantToRead ?: emptyList(),
                     )
 
                 }
             }
         }
+    }
+    fun deleteUserBook(bookId: String)=viewModelScope.launch{
+        userRepository.deleteUserBooks(userId = authRepository.getUserId(), bookId = bookId)
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.booktracking4.presentation.fragments.currently_read
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,13 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.booktracking4.R
-import com.example.booktracking4.databinding.FragmentBookDetailBinding
 import com.example.booktracking4.databinding.FragmentCurrentlyReadingBinding
 import com.example.booktracking4.presentation.fragments.currently_read.adapter.CurrentlyReadingAdapter
-import com.example.booktracking4.presentation.fragments.read.ReadViewModel
-import com.example.booktracking4.presentation.fragments.read.adapter.ReadAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.getValue
@@ -49,25 +47,30 @@ class CurrentlyReadingFragment : Fragment() {
         collectViewModel()
     }
 
-
+    @SuppressLint("SuspiciousIndentation", "SetTextI18n")
     private fun collectViewModel() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
-                if (state.readNow.isNotEmpty()) {
-                    binding.tvDescription.text = "You are reading ${ state.readNow.size } books"
-                        readNowAdapter.submitData(state.readNow)
-                    Log.d("Dante", "Books: ${state.readNow}")
+                if (state.currentlyReading.isNotEmpty()) {
+                    binding.tvDescription.text =
+                        "You are reading ${state.currentlyReading.size} books"
+                    readNowAdapter.submitData(state.currentlyReading)
+                    Log.d("Dante", "Books: ${state.currentlyReading}")
                 }
-                if (state.isLoading) {
-                    // Progress Bar koy
-                }
+                binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
             }
         }
     }
 
 
     private fun setUpRecyclerView() {
-        readNowAdapter = CurrentlyReadingAdapter(onItemClickListener = {})
+        readNowAdapter = CurrentlyReadingAdapter(onItemClickListener = {bookId->
+            findNavController().navigate(
+                CurrentlyReadingFragmentDirections.actionCurrentlyReadingFragmentToBookDetailFragment(bookId)
+            )
+        }, onDeleteClick ={bookId->
+            viewModel.deleteUserBook(bookId)
+        } )
         binding.rvCurrentlyReading.adapter = readNowAdapter
         binding.rvCurrentlyReading.addItemDecoration(
             DividerItemDecoration(

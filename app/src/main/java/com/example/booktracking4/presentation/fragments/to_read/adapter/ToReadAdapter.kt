@@ -3,26 +3,37 @@ package com.example.booktracking4.presentation.fragments.to_read.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.booktracking4.common.loadImageView
-import com.example.booktracking4.data.remote.user.WhatIWillRead
+import com.example.booktracking4.data.remote.user.WantToRead
 import com.example.booktracking4.databinding.ItemBookStatusBinding
 import com.example.booktracking4.presentation.fragments.to_read.adapter.ToReadAdapter.ToReadViewHolder
 
 class ToReadAdapter(
-    private val onItemClickListener: (String) -> Unit
-) : ListAdapter<WhatIWillRead, ToReadViewHolder>(WillIReadDiffCallback()) {
+    private val onItemClickListener: (String) -> Unit,
+    private val onDeleteClick: (String) -> Unit
+) : ListAdapter<WantToRead, ToReadViewHolder>(WillIReadDiffCallback()) {
 
     class ToReadViewHolder(private val binding: ItemBookStatusBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(willRead: WhatIWillRead, onItemClickListener: (String) -> Unit) {
+        fun bind(
+            wantToRead: WantToRead,
+            onItemClickListener: (String) -> Unit,
+            onDeleteClick: (String) -> Unit
+        ) {
             binding.apply {
-                tvBookTitle.text = willRead.bookName
-                ivUserProfilePhoto.loadImageView(willRead.image)
-                linearLaoyut.setOnClickListener {
-                    onItemClickListener.invoke(willRead.bookId)
+                tvBookTitle.text = wantToRead.bookName
+                ivUserProfilePhoto.loadImageView(wantToRead.image)
+                cardView.setOnClickListener {
+                    onItemClickListener.invoke(wantToRead.bookId)
+                }
+                ivDelete.setOnClickListener {
+                    onDeleteClick.invoke(wantToRead.bookId)
+                    Toast.makeText(cardView.context,"${wantToRead.bookName} DELETED.", Toast.LENGTH_SHORT).show()
+
                 }
             }
         }
@@ -41,20 +52,20 @@ class ToReadAdapter(
         holder: ToReadViewHolder,
         position: Int
     ) {
-        holder.bind(getItem(position), onItemClickListener)
+        holder.bind(getItem(position), onItemClickListener, onDeleteClick)
     }
 
-    fun submitData(newList: List<WhatIWillRead>) {
+    fun submitData(newList: List<WantToRead>) {
         submitList(newList)
     }
 
     // DiffUtil callback for efficient updates
-    class WillIReadDiffCallback : DiffUtil.ItemCallback<WhatIWillRead>() {
-        override fun areItemsTheSame(oldItem: WhatIWillRead, newItem: WhatIWillRead): Boolean {
+    class WillIReadDiffCallback : DiffUtil.ItemCallback<WantToRead>() {
+        override fun areItemsTheSame(oldItem: WantToRead, newItem: WantToRead): Boolean {
             return oldItem.bookId == newItem.bookId // Unique identifier for the item
         }
 
-        override fun areContentsTheSame(oldItem: WhatIWillRead, newItem: WhatIWillRead): Boolean {
+        override fun areContentsTheSame(oldItem: WantToRead, newItem: WantToRead): Boolean {
             return oldItem == newItem // Check if the contents are the same
         }
     }

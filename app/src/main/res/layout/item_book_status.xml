@@ -1,4 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+<LinearLayout
     android:id="@+id/linearLaoyut"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -68,7 +77,19 @@
             android:layout_height="8dp"
             android:progress="40"
             android:progressDrawable="@drawable/progress_bar_style" />
+
+        <!-- Silme İkonu -->
+        <ImageView
+            android:id="@+id/ivDelete"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_gravity="end"
+            android:contentDescription="Delete Icon"
+            android:src="@drawable/delete"
+            app:tint="@color/gray" />
+
     </LinearLayout>
 
-
 </LinearLayout>
+</androidx.cardview.widget.CardView>
