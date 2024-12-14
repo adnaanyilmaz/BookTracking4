@@ -1,8 +1,8 @@
 package com.example.booktracking4.presentation.fragments.to_read
 
-import com.example.booktracking4.data.remote.user.WhatIWillRead
+import com.example.booktracking4.data.remote.user.WantToRead
 
 data class ToReadUiState(
     val isLoading: Boolean = true,
-    val willRead: List<WhatIWillRead> = emptyList()
+    val willRead: List<WantToRead> = emptyList()
 )
