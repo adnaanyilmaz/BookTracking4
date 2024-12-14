@@ -15,11 +15,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.booktracking4.common.loadImageView
-import com.example.booktracking4.data.remote.user.ReadNow
-import com.example.booktracking4.data.remote.user.WhatIRead
-import com.example.booktracking4.data.remote.user.WhatIWillRead
+import com.example.booktracking4.data.remote.user.CurrentlyReading
+import com.example.booktracking4.data.remote.user.Read
+import com.example.booktracking4.data.remote.user.WantToRead
 import com.example.booktracking4.databinding.FragmentBookDetailBinding
 import com.example.booktracking4.domain.model.retrofit.BookDetail
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,15 +63,15 @@ class BookDetailFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinner.adapter = adapter
 
-        var selectedOption: Selection = Selection.WhatIRead
+        var selectedOption: Selection = Selection.Read
 
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedOption = when (options[position]) {
-                    "Read" -> Selection.WhatIRead
-                    "CurrentlyReading" -> Selection.ReadingNow
-                    "Want to Read" -> Selection.WillIRead
-                    else -> Selection.WhatIRead
+                    "Read" -> Selection.Read
+                    "CurrentlyReading" -> Selection.CurrentlyReading
+                    "Want to Read" -> Selection.WantToRead
+                    else -> Selection.Read
                 }
             }
 
@@ -116,6 +117,8 @@ class BookDetailFragment : Fragment() {
                         btnAddToList.setOnClickListener {
 
                             addToList(selection = selectedOption, bookDetail = book)
+                            findNavController().popBackStack()
+                            Toast.makeText(requireContext(),"$selectedOption added", Toast.LENGTH_SHORT).show()
 
                         }
                     }
@@ -127,17 +130,17 @@ class BookDetailFragment : Fragment() {
     private fun addToList(selection: Selection, bookDetail: BookDetail?){
         val userId = viewModel.getUserId()
         when(selection) {
-            is Selection.WhatIRead -> {
-                val whatIRead = WhatIRead(bookId = bookDetail?.id.orEmpty(), bookName = bookDetail?.title.orEmpty(), image = bookDetail?.imageLinks?.thumbnail.orEmpty())
-                viewModel.addBookWhatIRead(userId = userId, book = whatIRead)
+            is Selection.Read -> {
+                val read = Read(bookId = bookDetail?.id.orEmpty(), bookName = bookDetail?.title.orEmpty(), image = bookDetail?.imageLinks?.thumbnail.orEmpty())
+                viewModel.addBookRead(userId = userId, book = read)
             }
-            is Selection.ReadingNow -> {
-                val readNow = ReadNow(bookId = bookDetail?.id.orEmpty(), bookName = bookDetail?.title.orEmpty(), image = bookDetail?.imageLinks?.thumbnail.orEmpty())
-                viewModel.addBookReadNow(userId = userId, book = readNow)
+            is Selection.CurrentlyReading -> {
+                val currentlyReading = CurrentlyReading(bookId = bookDetail?.id.orEmpty(), bookName = bookDetail?.title.orEmpty(), image = bookDetail?.imageLinks?.thumbnail.orEmpty())
+                viewModel.addBookCurrentlyReading(userId = userId, book = currentlyReading)
             }
-            is Selection.WillIRead -> {
-                val willIRead = WhatIWillRead(bookId = bookDetail?.id.orEmpty(), bookName = bookDetail?.title.orEmpty(), image = bookDetail?.imageLinks?.thumbnail.orEmpty())
-                viewModel.addBookWhatIWillRead(userId = userId, book = willIRead)
+            is Selection.WantToRead -> {
+                val willIRead = WantToRead(bookId = bookDetail?.id.orEmpty(), bookName = bookDetail?.title.orEmpty(), image = bookDetail?.imageLinks?.thumbnail.orEmpty())
+                viewModel.addBookWantToRead(userId = userId, book = willIRead)
             }
         }
 
