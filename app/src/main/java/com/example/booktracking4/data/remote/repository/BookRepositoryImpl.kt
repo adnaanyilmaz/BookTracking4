@@ -17,7 +17,6 @@ class BookRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getBookDetail(id: String): BookDetailDto {
-        delay(1000)
         return api.getBookDetail(id)
     }
 }
