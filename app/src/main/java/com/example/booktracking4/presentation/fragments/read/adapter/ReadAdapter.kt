@@ -12,7 +12,8 @@ import com.example.booktracking4.databinding.ItemBookStatusBinding
 
 class ReadAdapter(
     private val onItemClickListener: (String) -> Unit,
-    private val onDeleteClick: (String) -> Unit
+    private val onDeleteClick: (String) -> Unit,
+    private val onNavigate: (String) -> Unit
 ) : ListAdapter<Read, ReadAdapter.ReadViewHolder>(WhatIReadDiffCallback()) {
 
     class ReadViewHolder(private val binding: ItemBookStatusBinding) :
@@ -20,7 +21,8 @@ class ReadAdapter(
         fun bind(
             read: Read,
             onItemClickListener: (String) -> Unit,
-            onDeleteClick: (String) -> Unit
+            onDeleteClick: (String) -> Unit,
+            onNavigate: (String) -> Unit
         ) {
             binding.apply {
                 tvBookTitle.text = read.bookName
@@ -32,7 +34,9 @@ class ReadAdapter(
                 ivDelete.setOnClickListener {
                     onDeleteClick.invoke(read.bookId)
                     Toast.makeText(cardView.context, "${read.bookName} DELETED.", Toast.LENGTH_SHORT).show()
-
+                }
+                btnAddNote.setOnClickListener{
+                    onNavigate.invoke(read.bookId)
                 }
             }
         }
@@ -45,7 +49,7 @@ class ReadAdapter(
     }
 
     override fun onBindViewHolder(holder: ReadViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemClickListener, onDeleteClick)
+        holder.bind(getItem(position), onItemClickListener, onDeleteClick,onNavigate)
     }
 
     // Submit data method to update the list

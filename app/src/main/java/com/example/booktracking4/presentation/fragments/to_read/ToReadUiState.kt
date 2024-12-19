@@ -4,5 +4,5 @@ import com.example.booktracking4.data.remote.user.WantToRead
 
 data class ToReadUiState(
     val isLoading: Boolean = true,
-    val willRead: List<WantToRead> = emptyList()
+    val toRead: List<WantToRead> = emptyList()
 )

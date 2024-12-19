@@ -45,6 +45,11 @@ class CurrentlyReadingFragment : Fragment() {
         viewModel.fetchUserBooks()
         setUpRecyclerView()
         collectViewModel()
+        binding.fabAddBook.setOnClickListener{
+        findNavController().navigate(
+            CurrentlyReadingFragmentDirections.actionCurrentlyReadingFragmentToSearchFragment()
+        )
+        }
     }
 
     @SuppressLint("SuspiciousIndentation", "SetTextI18n")
@@ -64,13 +69,22 @@ class CurrentlyReadingFragment : Fragment() {
 
 
     private fun setUpRecyclerView() {
-        readNowAdapter = CurrentlyReadingAdapter(onItemClickListener = {bookId->
-            findNavController().navigate(
-                CurrentlyReadingFragmentDirections.actionCurrentlyReadingFragmentToBookDetailFragment(bookId)
+        readNowAdapter = CurrentlyReadingAdapter(
+            onItemClickListener = { bookId ->
+                findNavController().navigate(
+                    CurrentlyReadingFragmentDirections.actionCurrentlyReadingFragmentToBookDetailFragment(
+                        bookId
+                    )
+                )
+            }, onDeleteClick = { bookId ->
+                viewModel.deleteUserBook(bookId)
+            },
+            onNavigate ={ bookId->
+                findNavController().navigate(
+                CurrentlyReadingFragmentDirections.actionCurrentlyReadingFragmentToAddNoteFragment(0)
             )
-        }, onDeleteClick ={bookId->
-            viewModel.deleteUserBook(bookId)
-        } )
+            }
+        )
         binding.rvCurrentlyReading.adapter = readNowAdapter
         binding.rvCurrentlyReading.addItemDecoration(
             DividerItemDecoration(

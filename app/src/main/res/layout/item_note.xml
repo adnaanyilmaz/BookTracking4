@@ -41,17 +41,6 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="12sp" />
         </LinearLayout>
-
-        <!-- Sayfa/Sayfa Aralığı -->
-        <TextView
-            android:id="@+id/tvNotePageRange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Page 10 - 15"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp" />
-
         <!-- Not İçeriği -->
         <TextView
             android:id="@+id/tvNoteContent"
@@ -63,6 +52,17 @@
             android:text="This is a short description of the note content."
             android:textColor="@android:color/black"
             android:textSize="16sp" />
+
+        <!-- Sayfa/Sayfa Aralığı -->
+        <TextView
+            android:id="@+id/tvNotePageRange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Page 10 - 15"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
 
         <!-- Horizontal Layout for Favorite Icon -->
         <LinearLayout
@@ -83,7 +83,7 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="24dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <!-- Silme İkonu -->
             <ImageView

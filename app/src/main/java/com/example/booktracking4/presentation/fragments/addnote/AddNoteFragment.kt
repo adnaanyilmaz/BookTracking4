@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentAddNoteBinding
@@ -105,6 +106,13 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         binding.btnSave.setOnClickListener {
             viewModel.onEvent(AddNoteEvent.SaveNote)
         }
+
+        // Cancel butonu
+        binding.btnCancel.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+
     }
 
     private fun observeViewModel() {

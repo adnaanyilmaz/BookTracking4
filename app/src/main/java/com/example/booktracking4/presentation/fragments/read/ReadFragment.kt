@@ -45,6 +45,11 @@ class ReadFragment : Fragment() {
         viewModel.fetchUserBooks()
         setUpRecyclerView()
         collectViewModel()
+        binding.fabAddBook.setOnClickListener{
+            findNavController().navigate(
+                ReadFragmentDirections.actionReadFragmentToSearchFragment()
+            )
+        }
 
 
     }
@@ -71,8 +76,13 @@ class ReadFragment : Fragment() {
                     ReadFragmentDirections.actionReadFragmentToBookDetailFragment(bookId)
                 )
             },
-            onDeleteClick = {bookId ->
+            onDeleteClick = { bookId ->
                 viewModel.deleteUserBook(bookId)
+            },
+            onNavigate = { bookId ->
+                findNavController().navigate(
+                    ReadFragmentDirections.actionReadFragmentToAddNoteFragment(0)
+                )
             })
         binding.rvRead.adapter = readAdapter
         binding.rvRead.addItemDecoration(

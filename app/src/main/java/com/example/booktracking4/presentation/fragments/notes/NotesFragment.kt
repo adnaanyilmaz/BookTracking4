@@ -57,22 +57,11 @@ class NotesFragment : Fragment() {
             toolbarNotes.apply {
                 // Toolbar'ı aktiviteye bağlamak yerine doğrudan fragment'e bağlarız
                 (activity as? AppCompatActivity)?.setSupportActionBar(this)
-                //Add Note Navigation
-                fabAddNote.setOnClickListener {
-                    findNavController().navigate(
-                        NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(0)
-                    )
-                }
             }
         }
 
 
-        //Add Note Navigation
-        binding.fabAddNote.setOnClickListener {
-            findNavController().navigate(
-                NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(0)
-            )
-        }
+
 
         setupRecyclerView()
         setupMenu()

@@ -10,10 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentToReadBinding
-import com.example.booktracking4.presentation.fragments.currently_read.CurrentlyReadingViewModel
-import com.example.booktracking4.presentation.fragments.currently_read.adapter.CurrentlyReadingAdapter
 import com.example.booktracking4.presentation.fragments.to_read.adapter.ToReadAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -51,15 +48,20 @@ class ToReadFragment : Fragment() {
         viewModel.fetchUserBooks()
         setUpRecyclerView()
         collectViewModel()
+        binding.fabAddBook.setOnClickListener{
+            findNavController().navigate(
+                ToReadFragmentDirections.actionToReadFragmentToSearchFragment()
+            )
+        }
     }
 
     private fun collectViewModel() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
-                if (state.willRead.isNotEmpty()) {
-                    binding.tvDescription.text = "You will read ${state.willRead.size} books"
-                    willReadAdapter.submitData(state.willRead)
-                    Log.d("Dante", "Books: ${state.willRead}")
+                if (state.toRead.isNotEmpty()) {
+                    binding.tvDescription.text = "You will read ${state.toRead.size} books"
+                    willReadAdapter.submitData(state.toRead)
+                    Log.d("Dante", "Books: ${state.toRead}")
                 }
                 binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
             }
@@ -75,6 +77,11 @@ class ToReadFragment : Fragment() {
             },
             onDeleteClick = { bookId ->
                 viewModel.deleteUserBook(bookId)
+            },
+            onNavigate = {bookId ->
+                findNavController().navigate(
+                    ToReadFragmentDirections.actionToReadFragmentToAddNoteFragment(0)
+                )
             })
         binding.rvCurrentlyReading.adapter = willReadAdapter
         binding.rvCurrentlyReading.addItemDecoration(

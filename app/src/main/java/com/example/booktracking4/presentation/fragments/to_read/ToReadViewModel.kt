@@ -39,7 +39,7 @@ class ToReadViewModel @Inject constructor(
                 updateUiState {
                     copy(
                         isLoading = false,
-                        willRead = result.data?.wantToRead ?: emptyList(),
+                        toRead = result.data?.wantToRead ?: emptyList(),
                     )
 
                 }

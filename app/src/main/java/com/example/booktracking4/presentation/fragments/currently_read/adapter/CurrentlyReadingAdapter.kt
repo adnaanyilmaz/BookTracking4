@@ -14,6 +14,7 @@ import com.example.booktracking4.presentation.fragments.currently_read.adapter.C
 class CurrentlyReadingAdapter(
     private val onItemClickListener: (String) -> Unit,
     private val onDeleteClick: (String) -> Unit,
+    private val onNavigate: (String) -> Unit,
 ) : ListAdapter<CurrentlyReading, CurrentlyReadingViewHolder>(ReadNowDiffCallback()) {
 
 
@@ -22,7 +23,8 @@ class CurrentlyReadingAdapter(
         fun bind(
             currentlyReading: CurrentlyReading,
             onItemClickListener: (String) -> Unit,
-            onDeleteClick: (String) -> Unit
+            onDeleteClick: (String) -> Unit,
+            onNavigate: (String) -> Unit
         ) {
             binding.apply {
                 tvBookTitle.text = currentlyReading.bookName
@@ -33,6 +35,9 @@ class CurrentlyReadingAdapter(
                 ivDelete.setOnClickListener {
                     onDeleteClick.invoke(currentlyReading.bookId)
                     Toast.makeText(cardView.context, "${currentlyReading.bookName} DELETED.", Toast.LENGTH_SHORT).show()
+                }
+                btnAddNote.setOnClickListener{
+                    onNavigate.invoke(currentlyReading.bookId)
                 }
             }
 
@@ -49,7 +54,7 @@ class CurrentlyReadingAdapter(
     }
 
     override fun onBindViewHolder(holder: CurrentlyReadingViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemClickListener, onDeleteClick)
+        holder.bind(getItem(position), onItemClickListener, onDeleteClick,onNavigate)
     }
 
     fun submitData(newList: List<CurrentlyReading>) {
