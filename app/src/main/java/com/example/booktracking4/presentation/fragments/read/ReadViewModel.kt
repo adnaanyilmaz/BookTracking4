@@ -52,6 +52,7 @@ class ReadViewModel @Inject constructor(
             userId = authRepository.getUserId(),
             bookId = bookId
             )
+        fetchUserBooks()
     }
 
 

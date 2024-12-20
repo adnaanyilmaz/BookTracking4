@@ -26,6 +26,7 @@ class ReadAdapter(
         ) {
             binding.apply {
                 tvBookTitle.text = read.bookName
+                tvAuthorName.text=read.authorName
                 ivUserProfilePhoto.loadImageView(read.image)
                 tvBookStatus.text = "Read"
                 cardView.setOnClickListener {

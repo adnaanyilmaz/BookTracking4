@@ -28,6 +28,7 @@ class CurrentlyReadingAdapter(
         ) {
             binding.apply {
                 tvBookTitle.text = currentlyReading.bookName
+                tvAuthorName.text=currentlyReading.authorName
                 ivUserProfilePhoto.loadImageView(currentlyReading.image)
                 cardView.setOnClickListener {
                     onItemClickListener.invoke(currentlyReading.bookId)

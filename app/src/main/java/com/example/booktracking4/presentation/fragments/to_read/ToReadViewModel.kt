@@ -48,6 +48,7 @@ class ToReadViewModel @Inject constructor(
     }
     fun deleteUserBook(bookId: String)=viewModelScope.launch{
         userRepository.deleteUserBooks(userId = authRepository.getUserId(), bookId = bookId)
+        fetchUserBooks()
     }
 
 

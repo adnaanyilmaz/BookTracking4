@@ -57,10 +57,14 @@ class CurrentlyReadingFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
                 if (state.currentlyReading.isNotEmpty()) {
-                    binding.tvDescription.text =
-                        "You are reading ${state.currentlyReading.size} books"
+                    binding.tvDescription.text = "You are reading ${state.currentlyReading.size} books"
                     readNowAdapter.submitData(state.currentlyReading)
                     Log.d("Dante", "Books: ${state.currentlyReading}")
+                }
+                else{
+                    readNowAdapter.submitData(emptyList())
+                    binding.tvDescription.text = "You are reading ${state.currentlyReading.size} books"
+
                 }
                 binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
             }

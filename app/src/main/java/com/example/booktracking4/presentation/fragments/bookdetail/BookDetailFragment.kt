@@ -66,7 +66,12 @@ class BookDetailFragment : Fragment() {
         var selectedOption: Selection = Selection.Read
 
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 selectedOption = when (options[position]) {
                     "Read" -> Selection.Read
                     "CurrentlyReading" -> Selection.CurrentlyReading
@@ -108,8 +113,10 @@ class BookDetailFragment : Fragment() {
                             Html.fromHtml(description, Html.FROM_HTML_MODE_LEGACY).toString()
                         tvDescription.text = cleanDescription
                         tvISBN.text =
-                            "ISBN: ${book?.industryIdentifiers?.find { it.type == "ISBN_10" }?.identifier
-                                    ?: "ISBN-10 can't find"}"
+                            "ISBN: ${
+                                book?.industryIdentifiers?.find { it.type == "ISBN_10" }?.identifier
+                                    ?: "ISBN-10 can't find"
+                            }"
                         Log.d("isbn", book?.industryIdentifiers.toString())
                         tvPageCount.text = "Page Count: ${book?.pageCount.toString()}"
                         tvPublicationDate.text = book?.publishedDate.toString()
@@ -118,7 +125,11 @@ class BookDetailFragment : Fragment() {
 
                             addToList(selection = selectedOption, bookDetail = book)
                             findNavController().popBackStack()
-                            Toast.makeText(requireContext(),"$selectedOption added", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "$selectedOption added",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                         }
                     }
@@ -127,19 +138,36 @@ class BookDetailFragment : Fragment() {
         }
     }
 
-    private fun addToList(selection: Selection, bookDetail: BookDetail?){
+    private fun addToList(selection: Selection, bookDetail: BookDetail?) {
         val userId = viewModel.getUserId()
-        when(selection) {
+        when (selection) {
             is Selection.Read -> {
-                val read = Read(bookId = bookDetail?.id.orEmpty(), bookName = bookDetail?.title.orEmpty(), image = bookDetail?.imageLinks?.thumbnail.orEmpty())
+                val read = Read(
+                    bookId = bookDetail?.id.orEmpty(),
+                    bookName = bookDetail?.title.orEmpty(),
+                    image = bookDetail?.imageLinks?.thumbnail.orEmpty(),
+                    authorName = bookDetail?.authors?.get(0).orEmpty()
+                )
                 viewModel.addBookRead(userId = userId, book = read)
             }
+
             is Selection.CurrentlyReading -> {
-                val currentlyReading = CurrentlyReading(bookId = bookDetail?.id.orEmpty(), bookName = bookDetail?.title.orEmpty(), image = bookDetail?.imageLinks?.thumbnail.orEmpty())
+                val currentlyReading = CurrentlyReading(
+                    bookId = bookDetail?.id.orEmpty(),
+                    bookName = bookDetail?.title.orEmpty(),
+                    image = bookDetail?.imageLinks?.thumbnail.orEmpty(),
+                    authorName = bookDetail?.authors?.get(0).orEmpty()
+                )
                 viewModel.addBookCurrentlyReading(userId = userId, book = currentlyReading)
             }
+
             is Selection.WantToRead -> {
-                val willIRead = WantToRead(bookId = bookDetail?.id.orEmpty(), bookName = bookDetail?.title.orEmpty(), image = bookDetail?.imageLinks?.thumbnail.orEmpty())
+                val willIRead = WantToRead(
+                    bookId = bookDetail?.id.orEmpty(),
+                    bookName = bookDetail?.title.orEmpty(),
+                    image = bookDetail?.imageLinks?.thumbnail.orEmpty(),
+                    authorName = bookDetail?.authors?.get(0).orEmpty()
+                )
                 viewModel.addBookWantToRead(userId = userId, book = willIRead)
             }
         }

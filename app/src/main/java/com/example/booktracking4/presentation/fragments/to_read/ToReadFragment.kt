@@ -62,6 +62,9 @@ class ToReadFragment : Fragment() {
                     binding.tvDescription.text = "You will read ${state.toRead.size} books"
                     willReadAdapter.submitData(state.toRead)
                     Log.d("Dante", "Books: ${state.toRead}")
+                }else{
+                    willReadAdapter.submitData(emptyList())
+                    binding.tvDescription.text = "You will read ${state.toRead.size} books"
                 }
                 binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
             }
