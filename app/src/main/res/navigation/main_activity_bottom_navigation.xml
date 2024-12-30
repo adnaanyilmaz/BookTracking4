@@ -149,7 +149,7 @@
     </fragment>
     <fragment
         android:id="@+id/friendsFragment"
-        android:name="com.example.booktracking4.presentation.fragments.friends.FriendsFragment"
+        android:name="com.example.booktracking4.presentation.fragments.friends.SearchFriendsFragment"
         android:label="fragment_friends"
-        tools:layout="@layout/fragment_friends" />
+        tools:layout="@layout/fragment_search_friends" />
 </navigation>

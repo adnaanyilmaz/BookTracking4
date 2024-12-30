@@ -193,6 +193,14 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun checkUserName(userName: String): Boolean {
+        val snapshot = FirebaseFirestore.getInstance()
+            .collection("Users")
+            .whereEqualTo("userName", userName)
+            .get()
+            .await()
+        return !snapshot.isEmpty
+    }
 
 
 }

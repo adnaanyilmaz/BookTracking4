@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.friends.FriendsFragment">
+    tools:context=".presentation.fragments.friends.SearchFriendsFragment">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvFriendsPage"
+        android:id="@+id/cvSearchFriendsPage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <SearchView
-            android:id="@+id/svFriendsPage"
+            android:id="@+id/svSearchFriendsPage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:iconifiedByDefault="false"
@@ -35,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cvFriendsPage" />
+        app:layout_constraintTop_toBottomOf="@id/cvSearchFriendsPage" />
 
     <ProgressBar
         android:id="@+id/progressBar"

@@ -29,7 +29,7 @@ class RegisterFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
@@ -86,18 +86,26 @@ class RegisterFragment : Fragment() {
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 lifecycleScope.launch {
-                    val uid = viewModel.signUp(email, password)
-                    if (uid.isNotEmpty()) {
-                        val user = User(
-                            uid = uid,
-                            userName = userName,
-                            email = email,
-                        )
-                        viewModel.addUser(user = user)
+                    if ((viewModel.checkUserNameExist(userName = userName))){
+                        Toast.makeText(requireContext(),"name is valid", Toast.LENGTH_SHORT).show() // bad practice
+                        // best practice viewmodel da olmalı
                     }
                     else {
-                        // Burada kullanıcı bazı bilgileri boş girdiyse bazı actionlar oluşturulabilir.
+                        val uid = viewModel.signUp(email, password)
+                        if (uid.isNotEmpty()) {
+                            val user = User(
+                                uid = uid,
+                                userName = userName,
+                                email = email,
+                            )
+                            viewModel.addUser(user = user)
+
+
+                        } else {
+                            // Burada kullanıcı bazı bilgileri boş girdiyse bazı actionlar oluşturulabilir.
+                        }
                     }
+
                 }
 
             } else {

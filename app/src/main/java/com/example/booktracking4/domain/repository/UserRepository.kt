@@ -17,5 +17,6 @@ interface UserRepository {
     suspend fun getUserBooks(userId: String): Resource<User>
     suspend fun getUserForBooks(bookId: String): Resource<List<Book>>
     suspend fun getUserName(uid: String): Resource<String>
+    suspend fun checkUserName(userName: String): Boolean
 
 }

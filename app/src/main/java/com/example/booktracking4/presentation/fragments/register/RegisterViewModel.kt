@@ -74,6 +74,9 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
+    suspend fun checkUserNameExist(userName: String): Boolean {
+        return userRepository.checkUserName(userName = userName)
+    }
     private fun updateUiState(block: RegisterUiState.() -> RegisterUiState) {
         _registerUiState.update(block)
     }
