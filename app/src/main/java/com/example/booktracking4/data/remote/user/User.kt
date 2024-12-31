@@ -7,5 +7,6 @@ data class User(
     val email: String = "",
     val read: List<Read> = emptyList(),
     val wantToRead: List<WantToRead> = emptyList(),
-    val currentlyReading: List<CurrentlyReading> = emptyList()
+    val currentlyReading: List<CurrentlyReading> = emptyList(),
+    val friendRequests: List<FriendRequest> = emptyList(), // Gelen arkadaşlık isteklerini tutar
 )

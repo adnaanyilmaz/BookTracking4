@@ -1,4 +1,4 @@
-package com.example.booktracking4.presentation.fragments.friends
+package com.example.booktracking4.presentation.fragments.search_friends
 
 import com.example.booktracking4.data.remote.user.User
 

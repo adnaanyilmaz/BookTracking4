@@ -1,4 +1,4 @@
-package com.example.booktracking4.presentation.fragments.friends
+package com.example.booktracking4.presentation.fragments.search_friends
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.booktracking4.databinding.FragmentSearchFriendsBinding
-import com.example.booktracking4.presentation.fragments.friends.adapter.SearchFriendsAdapter
+import com.example.booktracking4.presentation.fragments.search_friends.adapter.SearchFriendsAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,7 +54,7 @@ class SearchFriendsFragment : Fragment() {
         adapter = SearchFriendsAdapter(
             onAddFriendClicked = { user ->
                 // Kullanıcı, 'Add Friend' butonuna tıkladığında arkadaş ekleme işlemi başlatılır
-                viewModel.addFriend(friendUsername = user.userName)
+                viewModel.sendFriendRequest(friendUsername = user.userName)
             }
         )
         binding.rvSearchPage.layoutManager = LinearLayoutManager(requireContext())

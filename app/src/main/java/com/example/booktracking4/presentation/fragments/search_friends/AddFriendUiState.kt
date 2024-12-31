@@ -1,4 +1,4 @@
-package com.example.booktracking4.presentation.fragments.friends
+package com.example.booktracking4.presentation.fragments.search_friends
 
 sealed class AddFriendUiState {
     object Loading : AddFriendUiState()

@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.readFragment,
                 R.id.toReadFragment,
                 R.id.friendsFragment,
+                R.id.friendsRequestsFragment,
                 R.id.splashScreenFragment -> binding.bottomNav.visibility =
                     View.GONE
 

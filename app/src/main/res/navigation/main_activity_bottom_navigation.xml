@@ -34,6 +34,9 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/profileFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_friendsRequestsFragment"
+            app:destination="@id/friendsRequestsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -149,7 +152,12 @@
     </fragment>
     <fragment
         android:id="@+id/friendsFragment"
-        android:name="com.example.booktracking4.presentation.fragments.friends.SearchFriendsFragment"
+        android:name="com.example.booktracking4.presentation.fragments.search_friends.SearchFriendsFragment"
         android:label="fragment_friends"
         tools:layout="@layout/fragment_search_friends" />
+    <fragment
+        android:id="@+id/friendsRequestsFragment"
+        android:name="com.example.booktracking4.presentation.fragments.friends_requests.FriendsRequestsFragment"
+        android:label="fragment_friends_requests"
+        tools:layout="@layout/fragment_friends_requests" />
 </navigation>

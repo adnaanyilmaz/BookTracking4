@@ -1,57 +1,26 @@
 package com.example.booktracking4.data.remote.repository
 
+import com.example.booktracking4.common.Resource
 import com.example.booktracking4.data.remote.user.User
-import com.example.booktracking4.data.remote.user.Friend
 import com.example.booktracking4.data.remote.user.FriendRequest
 import com.example.booktracking4.data.remote.user.Read
 import com.example.booktracking4.domain.repository.AddFriendsRepository
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class AddFriendsRepositoryImp @Inject constructor(
-    private val firestore: FirebaseFirestore
-): AddFriendsRepository {
-    override suspend fun addFriend(currentUserId: String, friendUserName: String): Result<String> {
-        return try {
-            val querySnapshot = firestore.collection("Users")
-                .whereEqualTo("userName", friendUserName)
-                .get()
-                .await()
+    private val firestore: FirebaseFirestore,
 
-            if (querySnapshot.isEmpty) {
-                return Result.failure(Exception("Friend with username $friendUserName not found."))
-            }
+    ) : AddFriendsRepository {
 
-            val friendUser = querySnapshot.documents.first().let { documentToUser(it) }
-                ?: return Result.failure(Exception("Invalid user data for $friendUserName."))
-
-            val friend = Friend(uid = friendUser.uid, userName = friendUser.userName)
-            val currentUserDocRef = firestore.collection("Users").document(currentUserId)
-
-            firestore.runTransaction { transaction ->
-                val currentUserSnapshot = transaction.get(currentUserDocRef)
-                val currentUser = documentToUser(currentUserSnapshot)
-                    ?: throw Exception("Current user not found.")
-
-                val updatedFriends = currentUser.friend + friend
-                transaction.update(currentUserDocRef, "friends", updatedFriends)
-            }.await()
-
-            Result.success("Friend ${friendUser.userName} added successfully.")
-
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
 
     override suspend fun searchFriendByUsername(userName: String): Result<List<User>> {
         return try {
-            val querySnapshot = firestore.collection("Users")
-                .whereEqualTo("userName", userName)
-                .get()
-                .await()
+            val querySnapshot =
+                firestore.collection("Users").whereEqualTo("userName", userName).get().await()
 
             val users = querySnapshot.documents.mapNotNull { documentToUser(it) }
             Result.success(users)
@@ -60,72 +29,60 @@ class AddFriendsRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun sendFriendRequest(currentUserId: String, friendUserName: String): Result<String> {
+    override suspend fun sendFriendRequest(senderUid: String, receiverUsername: String): Resource<Unit> {
         return try {
+            // Kullanıcı adından UID sorgulama
             val querySnapshot = firestore.collection("Users")
-                .whereEqualTo("userName", friendUserName)
+                .whereEqualTo("userName", receiverUsername)
+                .limit(1)
                 .get()
                 .await()
 
-            if (querySnapshot.isEmpty) {
-                return Result.failure(Exception("User with username $friendUserName not found."))
+            if (querySnapshot.documents.isEmpty()) {
+                return Resource.Error("Kullanıcı bulunamadı")
             }
 
-            val friendUser = querySnapshot.documents.first().let { documentToUser(it) }
-                ?: return Result.failure(Exception("Invalid user data for $friendUserName."))
+            val receiverUid = querySnapshot.documents.first().id
+            val receiverRef = firestore.collection("Users").document(receiverUid)
 
-            val request = FriendRequest(fromUserId = currentUserId, toUserId = friendUser.uid)
-            firestore.collection("friendRequests")
-                .add(request)
+            // Kullanıcı mevcutsa arkadaşlık isteğini ekle
+            receiverRef.update("friendRequests", FieldValue.arrayUnion(FriendRequest(senderUid)))
                 .await()
 
-            Result.success("Friend request sent to ${friendUser.userName}.")
+            Resource.Success(Unit)
         } catch (e: Exception) {
-            Result.failure(e)
+            Resource.Error(e.localizedMessage ?: "Beklenmeyen bir hata oluştu")
         }
     }
 
-    override suspend fun acceptFriendRequest(currentUserId: String, requestId: String): Result<String> {
+
+    override suspend fun acceptFriendRequest(
+        currentUid: String,
+        senderUid: String
+    ): Resource<Unit> {
         return try {
-            val requestDoc = firestore.collection("friendRequests").document(requestId)
-            val requestSnapshot = requestDoc.get().await()
+            val currentUserRef = firestore.collection("Users").document(currentUid)
+            val senderUserRef = firestore.collection("Users").document(senderUid)
 
-            if (!requestSnapshot.exists()) {
-                return Result.failure(Exception("Friend request not found."))
-            }
+            firestore.runBatch { batch ->
+                // Add to friends list
+                batch.update(currentUserRef, "friend", FieldValue.arrayUnion(senderUid))
+                batch.update(senderUserRef, "friend", FieldValue.arrayUnion(currentUid))
 
-            val friendRequest = requestSnapshot.toObject(FriendRequest::class.java)
-                ?: return Result.failure(Exception("Invalid friend request data."))
-
-            val friendDocRef = firestore.collection("Users").document(friendRequest.fromUserId)
-            val currentUserDocRef = firestore.collection("Users").document(currentUserId)
-
-            firestore.runTransaction { transaction ->
-                val currentUserSnapshot = transaction.get(currentUserDocRef)
-                val friendSnapshot = transaction.get(friendDocRef)
-
-                val currentUser = documentToUser(currentUserSnapshot)
-                    ?: throw Exception("Current user not found.")
-                val friendUser = documentToUser(friendSnapshot)
-                    ?: throw Exception("Friend user not found.")
-
-                val newFriend = Friend(uid = friendUser.uid, userName = friendUser.userName)
-                val updatedCurrentUserFriends = currentUser.friend + newFriend
-
-                transaction.update(currentUserDocRef, "friends", updatedCurrentUserFriends)
-
-                val reciprocalFriend = Friend(uid = currentUser.uid, userName = currentUser.userName)
-                val updatedFriendUserFriends = friendUser.friend + reciprocalFriend
-
-                transaction.update(friendDocRef, "friends", updatedFriendUserFriends)
-
-                transaction.delete(requestDoc)
+                // Remove from friendRequests
+                batch.update(
+                    currentUserRef,
+                    "friendRequests",
+                    FieldValue.arrayRemove(FriendRequest(senderUid))
+                )
             }.await()
 
-            Result.success("Friend request accepted.")
+            Resource.Success(Unit)
         } catch (e: Exception) {
-            Result.failure(e)
-        }    }
+            Resource.Error(e.localizedMessage ?: "An unexpected error occurred")
+        }
+    }
+
 
     override suspend fun getFriendsBooks(userId: String): Result<List<Read>> {
         return try {
@@ -139,7 +96,8 @@ class AddFriendsRepositoryImp @Inject constructor(
                 ?: return Result.failure(Exception("Invalid user data."))
 
             val books = user.friend.flatMap { friend ->
-                val friendSnapshot = firestore.collection("Users").document(friend.uid).get().await()
+                val friendSnapshot =
+                    firestore.collection("Users").document(friend.uid).get().await()
                 val friendUser = documentToUser(friendSnapshot)
                 friendUser?.read ?: emptyList()
             }
@@ -147,7 +105,43 @@ class AddFriendsRepositoryImp @Inject constructor(
             Result.success(books)
         } catch (e: Exception) {
             Result.failure(e)
-        }    }
+        }
+    }
+
+    override suspend fun getFriendRequests(currentUid: String): Resource<List<FriendRequest>> {
+        return try {
+            val userSnapshot = firestore.collection("Users").document(currentUid).get().await()
+
+            if (!userSnapshot.exists()) {
+                return Resource.Error("User does not exist")
+            }
+
+            val friendRequests =
+                userSnapshot.toObject(User::class.java)?.friendRequests ?: emptyList()
+            Resource.Success(friendRequests)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "An unexpected error occurred")
+        }
+    }
+
+
+    override suspend fun rejectFriendRequest(
+        currentUid: String,
+        senderUid: String
+    ): Resource<Unit> {
+        return try {
+            val currentUserRef = firestore.collection("Users").document(currentUid)
+            currentUserRef.update(
+                "friendRequests",
+                FieldValue.arrayRemove(FriendRequest(senderUid))
+            ).await()
+            Resource.Success(Unit)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "An unexpected error occurred")
+        }
+    }
+
+
     private fun documentToUser(snapshot: DocumentSnapshot): User? {
         return snapshot.toObject(User::class.java)
     }

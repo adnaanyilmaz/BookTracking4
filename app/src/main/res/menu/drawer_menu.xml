@@ -13,5 +13,5 @@
         android:title="Want to Read" />
     <item
         android:id="@+id/friendsFragment"
-        android:title="Friends" />
+        android:title="Search Friends" />
 </menu>

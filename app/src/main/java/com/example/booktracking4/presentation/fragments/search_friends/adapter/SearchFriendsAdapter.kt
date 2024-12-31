@@ -1,4 +1,4 @@
-package com.example.booktracking4.presentation.fragments.friends.adapter
+package com.example.booktracking4.presentation.fragments.search_friends.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.booktracking4.data.remote.user.User
 import com.example.booktracking4.databinding.ItemFriendsBinding
+import com.example.booktracking4.databinding.ItemRequestFriendBinding
 
 // Kullanıcı modeline göre adapter
 class SearchFriendsAdapter(
@@ -36,6 +37,7 @@ class SearchFriendsAdapter(
             binding.btnAddFriend.setOnClickListener {
                 onAddFriendClicked(user)
             }
+
         }
     }
 

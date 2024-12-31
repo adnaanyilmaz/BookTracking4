@@ -61,6 +61,11 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+        binding.btnNotification.setOnClickListener{
+            findNavController().navigate(
+                ProfileFragmentDirections.actionProfileFragmentToFriendsRequestsFragment()
+            )
+        }
     }
 
     private fun signOut() {
