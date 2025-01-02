@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardViewSearch"
@@ -49,41 +48,26 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- email -->
+            <!-- Name and Surname -->
             <TextView
-                android:id="@+id/tvEmail"
+                android:id="@+id/tvNameSurname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="email"
+                android:text="Name Surname"
                 android:textColor="#777"
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <Button
+            android:id="@+id/btnAddFriend"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:backgroundTint="@color/buttonColor"
+            android:contentDescription="Add Frienfs"
+            android:text="Add Friends" />
 
-            <Button
-                android:id="@+id/btnAccept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/button_save"
-                android:contentDescription="Accept"
-                android:text="Accept" />
-
-            <Button
-                android:id="@+id/btnReject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/button_cancel"
-                android:contentDescription="Reject"
-                android:text="Reject" />
-        </LinearLayout>
 
     </LinearLayout>
 

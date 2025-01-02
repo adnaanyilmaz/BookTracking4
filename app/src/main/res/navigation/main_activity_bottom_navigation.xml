@@ -151,7 +151,7 @@
             app:popUpTo="@id/toReadFragment" />
     </fragment>
     <fragment
-        android:id="@+id/friendsFragment"
+        android:id="@+id/searchFriendsFragment"
         android:name="com.example.booktracking4.presentation.fragments.search_friends.SearchFriendsFragment"
         android:label="fragment_friends"
         tools:layout="@layout/fragment_search_friends" />
@@ -160,4 +160,9 @@
         android:name="com.example.booktracking4.presentation.fragments.friends_requests.FriendsRequestsFragment"
         android:label="fragment_friends_requests"
         tools:layout="@layout/fragment_friends_requests" />
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.example.booktracking4.presentation.fragments.friends.FriendsFragment"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends" />
 </navigation>

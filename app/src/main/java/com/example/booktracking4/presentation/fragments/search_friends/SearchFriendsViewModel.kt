@@ -2,7 +2,6 @@ package com.example.booktracking4.presentation.fragments.search_friends
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.booktracking4.common.Resource
 import com.example.booktracking4.domain.repository.AddFriendsRepository
 import com.example.booktracking4.presentation.fragments.search_friends.AddFriendUiState.*
 import com.google.firebase.auth.FirebaseAuth
@@ -42,34 +41,21 @@ class SearchFriendsViewModel @Inject constructor(
         }
     }
 
-    fun sendFriendRequest(friendUsername: String) {
-        viewModelScope.launch {
-            _addFriendState.value = AddFriendUiState.Loading
-            try {
-                val result = repository.sendFriendRequest(auth.uid.toString(), friendUsername)
-                when (result) {
-                    is Resource.Success<*> -> {
-                        _addFriendState.value = Success(result.data.toString())
-                    }
-
-                    is Resource.Error -> _addFriendState.value =
-                        AddFriendUiState.Error(result.message ?: "Failed to send friend request.")
-
-                    is Resource.Loading -> {}
-                }
-
-            } catch (e: Exception) {
-                _addFriendState.value =
-                    AddFriendUiState.Error(e.message ?: "An unknown error occurred.")
+    fun sendFriendRequest(receiverUserName: String) = viewModelScope.launch {
+        try {
+            val result = repository.sendFriendRequest(
+                senderUid = auth.currentUser?.uid!!,
+                receiverUserName = receiverUserName
+            )
+            if (result.isSuccess) {
+                _addFriendState.value = AddFriendUiState.Success(result.getOrThrow())
+            } else {
+                _addFriendState.value = AddFriendUiState.Error("Friend request could not be sent.")
             }
+        } catch (e: Exception) {
+            _addFriendState.value =
+                AddFriendUiState.Error(e.message ?: "An unknown error occurred.")
         }
-    }
 
-    fun resetSearchState() {
-        _searchState.value = SearchFriendsUiState.Idle
-    }
-
-    fun resetAddFriendState() {
-        _addFriendState.value = AddFriendUiState.Idle
     }
 }

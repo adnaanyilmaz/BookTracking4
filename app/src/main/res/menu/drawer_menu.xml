@@ -12,6 +12,10 @@
         android:id="@+id/toReadFragment"
         android:title="Want to Read" />
     <item
-        android:id="@+id/friendsFragment"
+        android:id="@+id/searchFriendsFragment"
         android:title="Search Friends" />
+    <item
+        android:id="@+id/friendsFragment"
+        android:title="My Friends"
+        />
 </menu>

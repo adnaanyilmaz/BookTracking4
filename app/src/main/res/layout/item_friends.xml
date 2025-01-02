@@ -50,25 +50,14 @@
 
             <!-- Name and Surname -->
             <TextView
-                android:id="@+id/tvNameSurname"
+                android:id="@+id/tvEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Name Surname"
+                android:text="email"
                 android:textColor="#777"
                 android:textSize="14sp" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btnAddFriend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/buttonColor"
-            android:contentDescription="Add Frienfs"
-            android:text="Add Friends" />
-
-
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

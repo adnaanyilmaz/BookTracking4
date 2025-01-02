@@ -12,6 +12,8 @@ import com.example.booktracking4.databinding.FragmentSearchFriendsBinding
 import com.example.booktracking4.presentation.fragments.search_friends.adapter.SearchFriendsAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFriendsFragment : Fragment() {
@@ -52,9 +54,9 @@ class SearchFriendsFragment : Fragment() {
     // RecyclerView'in kurulumu
     private fun setupRecyclerView() {
         adapter = SearchFriendsAdapter(
-            onAddFriendClicked = { user ->
+            onAddFriendClicked = { userName ->
                 // Kullanıcı, 'Add Friend' butonuna tıkladığında arkadaş ekleme işlemi başlatılır
-                viewModel.sendFriendRequest(friendUsername = user.userName)
+                viewModel.sendFriendRequest(receiverUserName = userName)
             }
         )
         binding.rvSearchPage.layoutManager = LinearLayoutManager(requireContext())
@@ -64,8 +66,8 @@ class SearchFriendsFragment : Fragment() {
     // ViewModel'den gelen durumları gözlemleme
     private fun observeViewModel() {
         // Kullanıcı arama durumları
-        lifecycleScope.launchWhenStarted {
-            viewModel.searchState.collect { state ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.searchState.collectLatest { state ->
                 when (state) {
                     is SearchFriendsUiState.Loading -> binding.progressBar.visibility =
                         View.VISIBLE // Yükleniyor
@@ -86,8 +88,8 @@ class SearchFriendsFragment : Fragment() {
         }
 
         // Arkadaş ekleme durumları
-        lifecycleScope.launchWhenStarted {
-            viewModel.addFriendState.collect { state ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.addFriendState.collectLatest { state ->
                 when (state) {
                     is AddFriendUiState.Loading -> binding.progressBar.visibility =
                         View.VISIBLE // Yükleniyor

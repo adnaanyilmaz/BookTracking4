@@ -6,16 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.booktracking4.data.remote.user.User
-import com.example.booktracking4.databinding.ItemFriendsBinding
-import com.example.booktracking4.databinding.ItemRequestFriendBinding
+import com.example.booktracking4.databinding.ItemAddFriendsBinding
 
 // Kullanıcı modeline göre adapter
 class SearchFriendsAdapter(
-    private val onAddFriendClicked: (User) -> Unit // Arkadaş ekleme butonu için tıklama işlevi
+    private val onAddFriendClicked: (String) -> Unit // Arkadaş ekleme butonu için tıklama işlevi
 ) : ListAdapter<User, SearchFriendsAdapter.SearchFriendsViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchFriendsViewHolder {
-        val binding = ItemFriendsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemAddFriendsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchFriendsViewHolder(binding)
     }
 
@@ -24,18 +23,18 @@ class SearchFriendsAdapter(
     }
 
     inner class SearchFriendsViewHolder(
-        private val binding: ItemFriendsBinding
+        private val binding: ItemAddFriendsBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         // ViewHolder'daki verileri bağlama
         fun bind(user: User) {
 
-            binding.tvUserName.text = user.userName ?: "adnan"
-            binding.tvNameSurname.text = user.email // Örnek: Kullanıcı e-posta adresini gösteriyoruz
+            binding.tvUserName.text = user.userName
+            binding.tvNameSurname.text = user.email
 
             // Arkadaş ekleme butonuna tıklama
             binding.btnAddFriend.setOnClickListener {
-                onAddFriendClicked(user)
+                onAddFriendClicked(user.userName)
             }
 
         }
