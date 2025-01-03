@@ -60,9 +60,6 @@ class NotesFragment : Fragment() {
             }
         }
 
-
-
-
         setupRecyclerView()
         setupMenu()
         setUpRadioGroup()
@@ -86,7 +83,7 @@ class NotesFragment : Fragment() {
     private fun setupRecyclerView() {
         notesAdapter = NotesAdapter(onItemClickListener = { note ->
             findNavController().navigate(
-                NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(note.id ?: 0)
+                NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(note.id ?: 0,"")
             )
             Log.e("Dante", note.id.toString())
         }, onDeleteClick = { note ->
@@ -98,7 +95,7 @@ class NotesFragment : Fragment() {
         notesAdapter = NotesAdapter(
             onItemClickListener = { note ->
                 findNavController().navigate(
-                    NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(note.id ?: 1)
+                    NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(note.id ?: 1,"")
                 )
             },
             onDeleteClick = { note ->

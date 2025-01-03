@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.example.booktracking4.common.Constants
 import com.example.booktracking4.data.data_resourse.BookNoteDatabase
+import com.example.booktracking4.data.data_resourse.BookNoteDatabase.Companion.MIGRATION_1_2
 import com.example.booktracking4.data.data_resourse.repository.BookNoteRepositoryImp
 import com.example.booktracking4.data.remote.GoogleBooksApi
 import com.example.booktracking4.data.remote.repository.BookRepositoryImpl
@@ -50,7 +51,7 @@ object AppModule {
         return Room.databaseBuilder(
             app, BookNoteDatabase::class.java,
             BookNoteDatabase.DATABASE_NAME
-        ).build()
+        ) .addMigrations(MIGRATION_1_2).build()
     }
 
     @Provides

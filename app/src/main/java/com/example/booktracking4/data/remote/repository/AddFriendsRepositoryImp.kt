@@ -204,7 +204,7 @@ class AddFriendsRepositoryImp @Inject constructor(
     ): Boolean {
         try {
             // Kullanıcının Firestore'daki belgesini al
-            val userSnapshot = firestore.collection("users")
+            val userSnapshot = firestore.collection("Users")
                 .document(currentUserUid)
                 .get()
                 .await()
@@ -214,10 +214,12 @@ class AddFriendsRepositoryImp @Inject constructor(
 
             // Friends listesinde friendUid olup olmadığını kontrol et
             return user?.friend?.any { it.uid == friendUid } == true
+
         } catch (e: Exception) {
             e.printStackTrace()
             return false
-        }    }
+        }
+    }
 
 
     private fun documentToUser(snapshot: DocumentSnapshot): User? {

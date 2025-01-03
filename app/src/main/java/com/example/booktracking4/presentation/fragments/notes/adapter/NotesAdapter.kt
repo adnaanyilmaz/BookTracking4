@@ -38,6 +38,7 @@ class NotesAdapter(
                 tvNoteContent.text = note.content
                 tvNotePageRange.text = note.page
                 tvNoteDate.text = convertMillisToDate(note.timestamp)
+               tvBookName.text=note.bookName
                 ivFavorite.setImageResource(
                     if (note.isFavorite) R.drawable.ic_favorite else R.drawable.favorite_border
                 )

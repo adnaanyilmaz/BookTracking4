@@ -1,6 +1,7 @@
 package com.example.booktracking4.presentation.fragments.search_friends
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,8 +36,10 @@ class SearchFriendsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         setupRecyclerView() // RecyclerView'i kurar
         observeViewModel() // ViewModel akışlarını gözlemler
+        Log.d("İsFriend",viewModel.isFriend.value.toString())
 
         // SearchView için kullanıcı adı arama işlemi
         binding.svSearchFriendsPage.setOnQueryTextListener(object :
@@ -50,6 +53,7 @@ class SearchFriendsFragment : Fragment() {
                 return false // Text değişikliklerini dinleme
             }
         })
+
     }
 
     // RecyclerView'in kurulumu
@@ -61,11 +65,10 @@ class SearchFriendsFragment : Fragment() {
                 viewModel.sendFriendRequest(receiverUserName = userName)
             },
             sendUid = { uid ->
-                viewModel.checkFriendsState(uid = uid)
+                 lifecycleScope.launch{viewModel.checkFriendsState(uid = uid)}
             },
-            onButtonClickState =viewModel.isFriend.value
+            onButtonClickState = viewModel.isFriend.value
         )
-        observeViewModel()
         binding.rvSearchPage.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSearchPage.adapter = adapter
     }

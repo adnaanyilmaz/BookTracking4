@@ -4,8 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity
+@Entity(tableName = "BookNote")
 data class BookNote(
+    val bookName: String?,
     val title: String,
     val content: String,
     val timestamp: Long,

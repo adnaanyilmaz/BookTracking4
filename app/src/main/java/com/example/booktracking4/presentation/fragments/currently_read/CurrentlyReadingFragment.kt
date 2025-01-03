@@ -83,9 +83,9 @@ class CurrentlyReadingFragment : Fragment() {
             }, onDeleteClick = { bookId ->
                 viewModel.deleteUserBook(bookId)
             },
-            onNavigate ={ bookId->
+            onNavigate ={ bookName->
                 findNavController().navigate(
-                CurrentlyReadingFragmentDirections.actionCurrentlyReadingFragmentToAddNoteFragment(0)
+                CurrentlyReadingFragmentDirections.actionCurrentlyReadingFragmentToAddNoteFragment(0,bookName)
             )
             }
         )

@@ -81,9 +81,9 @@ class ToReadFragment : Fragment() {
             onDeleteClick = { bookId ->
                 viewModel.deleteUserBook(bookId)
             },
-            onNavigate = {bookId ->
+            onNavigate = {bookName ->
                 findNavController().navigate(
-                    ToReadFragmentDirections.actionToReadFragmentToAddNoteFragment(0)
+                    ToReadFragmentDirections.actionToReadFragmentToAddNoteFragment(0,bookName)
                 )
             })
         binding.rvCurrentlyReading.adapter = willReadAdapter

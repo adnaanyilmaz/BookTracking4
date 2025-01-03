@@ -1,6 +1,7 @@
 package com.example.booktracking4.presentation.fragments.search_friends.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -40,13 +41,14 @@ class SearchFriendsAdapter(
             binding.tvNameSurname.text = user.email
              sendUid.invoke(user.uid)
 
+            if (onButtonClickState == true) {
+                binding.btnAddFriend.isEnabled = false // Butonu devre dışı bırak
+                binding.btnAddFriend.backgroundTintList =
+                    ContextCompat.getColorStateList(binding.btnAddFriend.context, R.color.gray) // Renk değişikliği
+            }
             // Arkadaş ekleme butonuna tıklama
             binding.btnAddFriend.setOnClickListener {
-                if (onButtonClickState == true) {
-                    binding.btnAddFriend.isEnabled = false // Butonu devre dışı bırak
-                    binding.btnAddFriend.backgroundTintList =
-                        ContextCompat.getColorStateList(binding.btnAddFriend.context, R.color.gray) // Renk değişikliği
-                }
+
                 onAddFriendClicked(user.userName)
             }
 

@@ -41,6 +41,7 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="12sp" />
         </LinearLayout>
+
         <!-- Not İçeriği -->
         <TextView
             android:id="@+id/tvNoteContent"
@@ -53,6 +54,17 @@
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
+        <!-- Kitap Adı -->
+        <TextView
+            android:id="@+id/tvBookName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Book Name: The Great Gatsby"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
         <!-- Sayfa/Sayfa Aralığı -->
         <TextView
             android:id="@+id/tvNotePageRange"
@@ -62,7 +74,6 @@
             android:text="Page 10 - 15"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />
-
 
         <!-- Horizontal Layout for Favorite Icon -->
         <LinearLayout

@@ -49,6 +49,8 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
 
         val bundle: AddNoteFragmentArgs by navArgs()
         val id: Int = bundle.id
+        val bookName: String=bundle.bookname
+        viewModel.updateBookName(bookName)
 
         viewModel.loadNoteDetails(id)
 
@@ -65,54 +67,35 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
         val currentDate = Calendar.getInstance().time
         val formattedDate = dateFormat.format(currentDate)
-        binding.tvNoteDate.text = formattedDate
 
-        // Başlık alanı dinleyici
-        binding.etNoteTitle.apply {
-            setOnFocusChangeListener { _, hasFocus ->
-                viewModel.onEvent(AddNoteEvent.ChangeTitleFocus(hasFocus))
-            }
-            doOnTextChanged { text, _, _, _ ->
+        binding.apply {
+            //date
+            tvNoteDate.text = formattedDate
+            //title
+            etNoteTitle.doOnTextChanged { text, _, _, _ ->
                 viewModel.onEvent(AddNoteEvent.EnteredTitle(text.toString()))
             }
-        }
-
-        // İçerik alanı dinleyici
-        binding.etNoteContent.apply {
-            setOnFocusChangeListener { _, hasFocus ->
-                viewModel.onEvent(AddNoteEvent.ChangeContentFocus(hasFocus))
-            }
-            doOnTextChanged { text, _, _, _ ->
+            //content
+            etNoteContent.doOnTextChanged { text, _, _, _ ->
                 viewModel.onEvent(AddNoteEvent.EnteredContent(text.toString()))
             }
-        }
-
-        // Sayfa numarası dinleyici
-        binding.etNotePage.apply {
-            setOnFocusChangeListener { _, hasFocus ->
-                viewModel.onEvent(AddNoteEvent.ChangePageNumberFocus(hasFocus))
-            }
-            doOnTextChanged { text, _, _, _ ->
+            //page number
+            etNotePage.doOnTextChanged { text, _, _, _ ->
                 viewModel.onEvent(AddNoteEvent.EnteredPageNumber(text.toString()))
             }
+            //isFavorite
+            ivFavorite.setOnClickListener {
+                viewModel.toggleFavorite()
+            }
+            //save button
+            btnSave.setOnClickListener {
+                viewModel.onEvent(AddNoteEvent.SaveNote)
+            }
+            //cancel button
+            btnCancel.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
-
-        // Favori durumu
-        binding.ivFavorite.setOnClickListener {
-            viewModel.toggleFavorite()
-        }
-
-        // Kaydet butonu
-        binding.btnSave.setOnClickListener {
-            viewModel.onEvent(AddNoteEvent.SaveNote)
-        }
-
-        // Cancel butonu
-        binding.btnCancel.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-
     }
 
     private fun observeViewModel() {
@@ -120,36 +103,26 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.noteTitle.collectLatest { state ->
-                        binding.etNoteTitle.hint = state.hint
 
                         if (binding.etNoteTitle.text.toString() != state.text) {
                             binding.etNoteTitle.setText(state.text)
-                        }
-                        if (state.isHintVisible) {
-                            binding.etNoteTitle.hint = state.hint
                         }
                     }
                 }
                 launch {
                     viewModel.noteContent.collectLatest { state ->
-                        binding.etNoteContent.hint = state.hint
                         if (binding.etNoteContent.text.toString() != state.text) {
                             binding.etNoteContent.setText(state.text)
                         }
-                        if (state.isHintVisible) {
-                            binding.etNoteContent.hint = state.hint
-                        }
+
                     }
                 }
                 launch {
                     viewModel.pageCount.collectLatest { state ->
-                        binding.etNotePage.hint = state.hint
                         if (binding.etNotePage.text.toString() != state.text) {
                             binding.etNotePage.setText(state.text)
                         }
-                        if (state.isHintVisible) {
-                            binding.etNotePage.hint = state.hint
-                        }
+
                     }
                 }
                 lifecycleScope.launch {

@@ -60,8 +60,8 @@ class SearchFriendsViewModel @Inject constructor(
                 AddFriendUiState.Error(e.message ?: "An unknown error occurred.")
         }
     }
-    fun checkFriendsState(uid: String)=viewModelScope.launch{
+    suspend fun checkFriendsState(uid: String): Boolean{
         val result=repository.isUserInFriendsList(currentUserUid = auth.currentUser?.uid!!, friendUid = uid)
-        _isFriend.value = result
+        return result
     }
 }

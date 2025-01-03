@@ -82,9 +82,9 @@ class ReadFragment : Fragment() {
             onDeleteClick = { bookId ->
                 viewModel.deleteUserBook(bookId)
             },
-            onNavigate = { bookId ->
+            onNavigate = { bookName ->
                 findNavController().navigate(
-                    ReadFragmentDirections.actionReadFragmentToAddNoteFragment(0)
+                    ReadFragmentDirections.actionReadFragmentToAddNoteFragment(0,bookName)
                 )
             })
         binding.rvRead.adapter = readAdapter

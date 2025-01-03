@@ -38,7 +38,7 @@ class ToReadAdapter(
                     Toast.makeText(cardView.context,"${wantToRead.bookName} DELETED.", Toast.LENGTH_SHORT).show()
                 }
                 btnAddNote.setOnClickListener{
-                    onNavigate.invoke(wantToRead.bookId)
+                    onNavigate.invoke(wantToRead.bookName)
                 }
             }
         }
