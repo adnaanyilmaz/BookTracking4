@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.booktracking4.databinding.FragmentFriendsBinding
 import com.example.booktracking4.presentation.fragments.friends.adapter.FriendsAdapter
@@ -45,12 +47,17 @@ class FriendsFragment : Fragment() {
 
     }
 
-    private fun setupRecyclerView(){
-        adapter= FriendsAdapter()
-        binding.rvFriends.apply {
-            layoutManager= LinearLayoutManager(requireContext())
-            adapter=adapter
-        }
+    private fun setupRecyclerView() {
+        adapter = FriendsAdapter(onItemClickListener ={uid->
+            findNavController().navigate(FriendsFragmentDirections.actionFriendsFragmentToFriendsDetailFragment(uid))
+        } )
+        binding.rvFriends.adapter = adapter
+        binding.rvFriends.addItemDecoration(
+            DividerItemDecoration(
+                binding.rvFriends.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
     }
 
 
@@ -66,9 +73,17 @@ class FriendsFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+
                     FriendsUiState.Loading -> binding.progressBar.visibility = View.VISIBLE
-                    is FriendsUiState.Success -> binding.progressBar.visibility = View.GONE
-                    else -> {}
+                    is FriendsUiState.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        adapter.submitData(state.requests)
+                        Toast.makeText(requireContext(),"friends list fetched successfully", Toast.LENGTH_SHORT).show()
+
+                    }
+
+                    else -> {
+                    }
                 }
             }
         }

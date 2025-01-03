@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.booktracking4.common.Resource
 import com.example.booktracking4.data.remote.user.Friends
 import com.example.booktracking4.data.remote.user.FriendsRequest
+import com.example.booktracking4.data.remote.user.Read
 import com.example.booktracking4.data.remote.user.User
 import com.example.booktracking4.domain.repository.AddFriendsRepository
 import com.google.firebase.firestore.DocumentSnapshot
@@ -80,7 +81,7 @@ class AddFriendsRepositoryImp @Inject constructor(
     override suspend fun acceptFriendRequest(
         receiverUid: String,
         senderUserName: String,
-    ): Result<String> {
+    ): Resource<String> {
         return try {
             // Kullanıcı dökümanlarını uid ve userName ile al
             val receiverQuery = usersCollection.whereEqualTo("uid", receiverUid).get().await()
@@ -127,9 +128,9 @@ class AddFriendsRepositoryImp @Inject constructor(
                     ).await()
                 }
             }
-            Result.success("Friends Request Accepted")
+            Resource.Success("Friends Request Accepted")
         } catch (e: Exception) {
-            Result.failure(e)
+            Resource.Error(e.message)
         }
     }
 
@@ -137,7 +138,7 @@ class AddFriendsRepositoryImp @Inject constructor(
     override suspend fun rejectFriendRequest(
         receiverUid: String,
         senderUserName: String,
-    ): Result<String> {
+    ): Resource<String> {
         return try {
             // receiver'ın dökümanını uid ile al
             val receiverQuery = usersCollection.whereEqualTo("uid", receiverUid).get().await()
@@ -155,9 +156,9 @@ class AddFriendsRepositoryImp @Inject constructor(
                     receiverSnapshot.reference.update("friendsRequest", updatedRequests).await()
                 }
             }
-            Result.success("Friends Request Rejected")
+            Resource.Success("Friends Request Rejected")
         } catch (e: Exception) {
-            Result.failure(e)
+            Resource.Error(e.message)
         }
     }
 
@@ -196,6 +197,27 @@ class AddFriendsRepositoryImp @Inject constructor(
             Resource.Error(e.message ?: "getFriendsRequests An unknown error occurred.")
         }
     }
+
+    override suspend fun isUserInFriendsList(
+        currentUserUid: String,
+        friendUid: String
+    ): Boolean {
+        try {
+            // Kullanıcının Firestore'daki belgesini al
+            val userSnapshot = firestore.collection("users")
+                .document(currentUserUid)
+                .get()
+                .await()
+
+            // Kullanıcı belgesini User sınıfına dönüştür
+            val user = userSnapshot.toObject(User::class.java)
+
+            // Friends listesinde friendUid olup olmadığını kontrol et
+            return user?.friend?.any { it.uid == friendUid } == true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }    }
 
 
     private fun documentToUser(snapshot: DocumentSnapshot): User? {

@@ -1,15 +1,14 @@
 package com.example.booktracking4.presentation.fragments.friends_requests
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.booktracking4.databinding.FragmentFriendsRequestsBinding
 import com.example.booktracking4.presentation.fragments.friends_requests.adapter.FriendRequestsAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,57 +39,72 @@ class FriendsRequestsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecyclerView()
+        setUpRecyclerView()
+        collectViewModel()
         observeViewModel()
-
-        // Fetch friend requests when the fragment is created
-        viewModel.getFriendsRequests()
     }
 
-    private fun setupRecyclerView() {
-        adapter = FriendRequestsAdapter(
-            onAcceptClicked = { senderUserName ->
-                viewModel.acceptFriendRequest(senderUserName)
-                Toast.makeText(requireContext(), "$senderUserName accepted", Toast.LENGTH_SHORT).show()
-
-            },
-            onRejectClicked = { senderUserName ->
-                viewModel.rejectFriendRequest(senderUserName)
-                Toast.makeText(requireContext(), "$senderUserName rejected", Toast.LENGTH_SHORT).show()
+    private fun collectViewModel() {
+        lifecycleScope.launch {
+            viewModel.uiState.collect { state ->
+                if (state.friendRequestList.isNotEmpty()) {
+                    adapter.submitData(state.friendRequestList)
+                } else {
+                    adapter.submitData(emptyList())
+                }
+                binding.progressBar.visibility =
+                    if (state.isLoading == true) View.VISIBLE else View.GONE
 
             }
-        )
-        binding.rvFriendRequests.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter =adapter
         }
     }
 
-    private fun observeViewModel() {
-        // Observe FriendRequestsUiState
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.friendRequestsState.collectLatest { state ->
-                when (state) {
-                    is FriendRequestsUiState.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
 
-                    is FriendRequestsUiState.Error -> {
+    private fun setUpRecyclerView() {
+        adapter = FriendRequestsAdapter(
+            onAcceptClicked = {
+                viewModel.acceptFriendRequest(senderUserName = it)
+                collectViewModel()
+            },
+            onRejectClicked = {
+                viewModel.rejectFriendRequest(senderUserName = it)
+                collectViewModel()
+            }
+        )
+
+        binding.rvFriendRequests.adapter = adapter
+        binding.rvFriendRequests.addItemDecoration(
+            DividerItemDecoration(
+                binding.rvFriendRequests.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
+    }
+
+    private fun observeViewModel() {
+        // Observe AcceptRequestsUiState
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.acceptRequestState.collectLatest { state ->
+                when (state) {
+                    is AcceptRequestUiState.Error -> {
                         binding.progressBar.visibility = View.GONE
                         Toast.makeText(
                             requireContext(),
                             state.message,
                             Toast.LENGTH_SHORT
                         ).show()
-                        // Show error message (e.g., using a Toast or Snackbar)
                     }
 
-                    is FriendRequestsUiState.Idle -> {
-                        binding.progressBar.visibility = View.GONE
-                    }
+                    AcceptRequestUiState.Idle -> binding.progressBar.visibility = View.GONE
 
-                    is FriendRequestsUiState.Success -> {
+                    AcceptRequestUiState.Loading -> binding.progressBar.visibility = View.VISIBLE
+                    is AcceptRequestUiState.Success ->{
                         binding.progressBar.visibility = View.GONE
+                        Toast.makeText(
+                            requireContext(),
+                            state.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -116,26 +130,8 @@ class FriendsRequestsFragment : Fragment() {
                 }
             }
         }
-
-        // Observe AcceptRequestUiState
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.acceptRequestState.collectLatest { state ->
-                when (state) {
-                    is AcceptRequestUiState.Success -> {
-                        // Handle success message (e.g., refresh UI or show a Toast)
-                        Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
-                    }
-
-                    is AcceptRequestUiState.Error -> {
-                        Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
-                        // Handle error message (e.g., show a Snackbar)
-                    }
-
-                    else -> {}
-                }
-            }
-        }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

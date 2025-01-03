@@ -4,10 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.booktracking4.common.Resource
 import com.example.booktracking4.domain.repository.AddFriendsRepository
+import com.example.booktracking4.presentation.fragments.friends_requests.AcceptRequestUiState
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,8 +20,8 @@ class FriendsRequestsViewModel @Inject constructor(
     private val auth: FirebaseAuth,
 ) : ViewModel() {
 
-    private val _friendRequestsState = MutableStateFlow<FriendRequestsUiState>(FriendRequestsUiState.Idle)
-    val friendRequestsState: StateFlow<FriendRequestsUiState> get() = _friendRequestsState
+    private var _uiState = MutableStateFlow(FriendRequestsUiState())
+    val uiState: StateFlow<FriendRequestsUiState> = _uiState.asStateFlow()
 
     private val _acceptRequestState = MutableStateFlow<AcceptRequestUiState>(AcceptRequestUiState.Idle)
     val acceptRequestState: StateFlow<AcceptRequestUiState> get() = _acceptRequestState
@@ -27,65 +30,70 @@ class FriendsRequestsViewModel @Inject constructor(
     val rejectRequestState: StateFlow<RejectRequestsUiState> get() = _rejectRequestState
 
 
-    fun acceptFriendRequest(senderUserName: String) = viewModelScope.launch {
-        try {
-            val result = repository.acceptFriendRequest(
+    fun acceptFriendRequest(senderUserName: String) {
+        viewModelScope.launch {
+            val result=repository.acceptFriendRequest(
                 receiverUid = auth.currentUser?.uid!!,
                 senderUserName = senderUserName
             )
-            if (result.isSuccess) {
-                _acceptRequestState.value = AcceptRequestUiState.Success("Friend request accepted")
-            } else {
-                _acceptRequestState.value =
-                    AcceptRequestUiState.Error("Friend request could not be accepted")
+            when(result){
+                is Resource.Error -> _acceptRequestState.value= AcceptRequestUiState.Error(result.data.toString())
+                is Resource.Loading -> _acceptRequestState.value= AcceptRequestUiState.Loading
+                is Resource.Success -> _acceptRequestState.value= AcceptRequestUiState.Success(result.data.toString())
             }
-        }catch (e: Exception){
-            _acceptRequestState.value= AcceptRequestUiState.Error(e.message ?: "An unknown error occurred.")
+            getFriendRequest()
+        }
+
+
+    }
+
+    fun rejectFriendRequest(senderUserName: String) {
+        viewModelScope.launch {
+            val result=repository.rejectFriendRequest(
+                receiverUid = auth.currentUser?.uid!!,
+                senderUserName = senderUserName
+            )
+            when(result){
+                is Resource.Error -> _rejectRequestState.value= RejectRequestsUiState.Error(result.data.toString())
+                is Resource.Loading -> _rejectRequestState.value= RejectRequestsUiState.Loading
+                is Resource.Success -> _rejectRequestState.value= RejectRequestsUiState.Success(result.data.toString())
+            }
+            getFriendRequest()
         }
     }
 
-    fun getFriendsRequests() = viewModelScope.launch {
-        val uid = auth.currentUser?.uid
-        if (uid == null) {
-            _friendRequestsState.value = FriendRequestsUiState.Error("User not authenticated.")
-            return@launch
-        }
+    init {
+        getFriendRequest()
+    }
 
-        _friendRequestsState.value = FriendRequestsUiState.Loading // Yükleme durumu
 
-        val result = repository.getFriendsRequests(uid)
+    fun getFriendRequest() = viewModelScope.launch {
+        val result = repository.getFriendsRequests(uid = auth.currentUser?.uid.orEmpty())
         when (result) {
             is Resource.Success -> {
-                _friendRequestsState.value = FriendRequestsUiState.Success(result.data ?: emptyList())
+                updateUiState { copy(isLoading = false, friendRequestList = result.data.orEmpty()) }
             }
+
+            is Resource.Loading -> {
+                updateUiState { copy(isLoading = true) }
+            }
+
             is Resource.Error -> {
-                _friendRequestsState.value = FriendRequestsUiState.Error("Friend requests could not be received.")
+                updateUiState {
+                    copy(
+                        isLoading = false,
+                        errorMessageFriendRequestList = result.message
+                    )
+                }
             }
-            is Resource.Loading -> {}
         }
     }
 
 
-    fun rejectFriendRequest(senderUserName: String) = viewModelScope.launch() {
-       try {
-           val result=repository.rejectFriendRequest(receiverUid = auth.currentUser?.uid!!, senderUserName = senderUserName)
-           if (result.isSuccess){
-               _rejectRequestState.value= RejectRequestsUiState.Success("Friend request rejected.")
-           }else{
-               _rejectRequestState.value= RejectRequestsUiState.Error("An unknown error occurred. Try again.")
-           }
-       }catch (e: Exception){
-           _rejectRequestState.value= RejectRequestsUiState.Error(e.message ?:"An unknown error occurred.")
-       }
+    private fun updateUiState(block: FriendRequestsUiState.() -> FriendRequestsUiState) {
+        _uiState.update(block)
     }
 
 
-    fun resetFriendRequestsState() {
-        _friendRequestsState.value = FriendRequestsUiState.Idle
-    }
-
-    fun resetAcceptRequestState() {
-        _acceptRequestState.value = AcceptRequestUiState.Idle
-    }
 }
 

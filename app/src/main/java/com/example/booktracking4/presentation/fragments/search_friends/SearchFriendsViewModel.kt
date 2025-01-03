@@ -23,6 +23,9 @@ class SearchFriendsViewModel @Inject constructor(
     private val _addFriendState = MutableStateFlow<AddFriendUiState>(AddFriendUiState.Idle)
     val addFriendState: StateFlow<AddFriendUiState> get() = _addFriendState
 
+    private val _isFriend = MutableStateFlow<Boolean?>(null)
+    val isFriend: StateFlow<Boolean?> = _isFriend
+
     fun searchFriendsByUsername(username: String) {
         viewModelScope.launch {
             _searchState.value = SearchFriendsUiState.Loading
@@ -56,6 +59,9 @@ class SearchFriendsViewModel @Inject constructor(
             _addFriendState.value =
                 AddFriendUiState.Error(e.message ?: "An unknown error occurred.")
         }
-
+    }
+    fun checkFriendsState(uid: String)=viewModelScope.launch{
+        val result=repository.isUserInFriendsList(currentUserUid = auth.currentUser?.uid!!, friendUid = uid)
+        _isFriend.value = result
     }
 }

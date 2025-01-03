@@ -41,6 +41,11 @@ class FriendRequestsAdapter(
         }
     }
 
+    // Submit data method to update the list
+    fun submitData(newList: List<FriendsRequest>) {
+        submitList(newList)
+    }
+
     companion object DiffCallback : DiffUtil.ItemCallback<FriendsRequest>() {
         override fun areItemsTheSame(oldItem: FriendsRequest, newItem: FriendsRequest): Boolean {
             return oldItem.uid==newItem.uid

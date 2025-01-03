@@ -164,5 +164,17 @@
         android:id="@+id/friendsFragment"
         android:name="com.example.booktracking4.presentation.fragments.friends.FriendsFragment"
         android:label="fragment_friends"
-        tools:layout="@layout/fragment_friends" />
+        tools:layout="@layout/fragment_friends" >
+        <action
+            android:id="@+id/action_friendsFragment_to_friendsDetailFragment"
+            app:destination="@id/friendsDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/friendsDetailFragment"
+        android:name="com.example.booktracking4.presentation.fragments.friends_detail.FriendsDetailFragment"
+        android:label="FriendsDetailFragment" >
+        <argument
+            android:name="uid"
+            app:argType="string" />
+    </fragment>
 </navigation>

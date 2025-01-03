@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -39,7 +40,7 @@ class SearchFriendsFragment : Fragment() {
 
         // SearchView için kullanıcı adı arama işlemi
         binding.svSearchFriendsPage.setOnQueryTextListener(object :
-            android.widget.SearchView.OnQueryTextListener {
+            SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let { viewModel.searchFriendsByUsername(it) } // ViewModel üzerinden arama işlemi
                 return true
@@ -53,12 +54,18 @@ class SearchFriendsFragment : Fragment() {
 
     // RecyclerView'in kurulumu
     private fun setupRecyclerView() {
+
         adapter = SearchFriendsAdapter(
             onAddFriendClicked = { userName ->
                 // Kullanıcı, 'Add Friend' butonuna tıkladığında arkadaş ekleme işlemi başlatılır
                 viewModel.sendFriendRequest(receiverUserName = userName)
-            }
+            },
+            sendUid = { uid ->
+                viewModel.checkFriendsState(uid = uid)
+            },
+            onButtonClickState =viewModel.isFriend.value
         )
+        observeViewModel()
         binding.rvSearchPage.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSearchPage.adapter = adapter
     }

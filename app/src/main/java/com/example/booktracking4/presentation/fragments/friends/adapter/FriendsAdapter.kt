@@ -9,7 +9,9 @@ import com.example.booktracking4.data.remote.user.Friends
 import com.example.booktracking4.databinding.ItemFriendsBinding
 
 class FriendsAdapter(
-) : ListAdapter<Friends, FriendsAdapter.FriendRequestViewHolder>(DiffCallback) {
+    private val onItemClickListener: (String) -> Unit
+
+    ) : ListAdapter<Friends, FriendsAdapter.FriendRequestViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendRequestViewHolder {
         val binding = ItemFriendsBinding.inflate(
@@ -27,13 +29,18 @@ class FriendsAdapter(
     inner class FriendRequestViewHolder(
         private val binding: ItemFriendsBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(friendRequest: Friends) {
-            binding.tvUserName.text = friendRequest.userName
-            binding.tvEmail.text = friendRequest.email
-
+        fun bind(friendsList: Friends) {
+            binding.tvUserName.text = friendsList.userName
+            binding.tvEmail.text = friendsList.email
+            binding.cardViewSearch.setOnClickListener{
+                onItemClickListener.invoke(friendsList.uid)
+            }
         }
     }
-
+    // Submit data method to update the list
+    fun submitData(newList: List<Friends>) {
+        submitList(newList)
+    }
     companion object DiffCallback : DiffUtil.ItemCallback<Friends>() {
         override fun areItemsTheSame(oldItem: Friends, newItem: Friends): Boolean {
             return oldItem.uid == newItem.uid

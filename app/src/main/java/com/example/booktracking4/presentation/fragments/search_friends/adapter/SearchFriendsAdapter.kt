@@ -1,16 +1,22 @@
 package com.example.booktracking4.presentation.fragments.search_friends.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.booktracking4.data.remote.user.User
 import com.example.booktracking4.databinding.ItemAddFriendsBinding
+import com.example.booktracking4.R
+
 
 // Kullanıcı modeline göre adapter
 class SearchFriendsAdapter(
-    private val onAddFriendClicked: (String) -> Unit // Arkadaş ekleme butonu için tıklama işlevi
+    private val onAddFriendClicked: (String) -> Unit, // Arkadaş ekleme butonu için tıklama işlevi
+    private val sendUid: (String) -> Unit,
+    private val onButtonClickState: Boolean?
 ) : ListAdapter<User, SearchFriendsAdapter.SearchFriendsViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchFriendsViewHolder {
@@ -27,15 +33,23 @@ class SearchFriendsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         // ViewHolder'daki verileri bağlama
+        @SuppressLint("ResourceAsColor")
         fun bind(user: User) {
 
             binding.tvUserName.text = user.userName
             binding.tvNameSurname.text = user.email
+             sendUid.invoke(user.uid)
 
             // Arkadaş ekleme butonuna tıklama
             binding.btnAddFriend.setOnClickListener {
+                if (onButtonClickState == true) {
+                    binding.btnAddFriend.isEnabled = false // Butonu devre dışı bırak
+                    binding.btnAddFriend.backgroundTintList =
+                        ContextCompat.getColorStateList(binding.btnAddFriend.context, R.color.gray) // Renk değişikliği
+                }
                 onAddFriendClicked(user.userName)
             }
+
 
         }
     }

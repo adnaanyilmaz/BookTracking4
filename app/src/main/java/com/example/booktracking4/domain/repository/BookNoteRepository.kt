@@ -6,14 +6,9 @@ import kotlinx.coroutines.flow.Flow
 interface BookNoteRepository {
 
     fun getNotes(): Flow<List<BookNote>>
-
     suspend fun getNoteById(id: Int?): BookNote?
-
     suspend fun insetNote(note: BookNote)
-
     suspend fun deleteNote(note: BookNote)
-
     suspend fun updateNote(note: BookNote)
-
 
 }
