@@ -11,7 +11,7 @@ import com.example.booktracking4.domain.model.room.BookNote
     version = 2
 )
 abstract class BookNoteDatabase: RoomDatabase() {
-    abstract val bookNoteDao: NoteDao
+    abstract fun bookNoteDao(): NoteDao
 
     companion object{
         const val DATABASE_NAME="book_note_db"

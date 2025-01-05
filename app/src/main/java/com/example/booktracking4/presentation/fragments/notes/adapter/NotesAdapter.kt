@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter
 
 
 class NotesAdapter(
-    private val itemList: List<BookNote> ,
+    private var itemList: MutableList<BookNote>,
     private val onItemClickListener: (BookNote) -> Unit,
     private val onDeleteClick: ((BookNote) -> Unit)? = null,
     private val onFavoriteClick: (BookNote) -> Unit
@@ -38,34 +38,29 @@ class NotesAdapter(
                 tvNoteContent.text = note.content
                 tvNotePageRange.text = note.page
                 tvNoteDate.text = convertMillisToDate(note.timestamp)
-               tvBookName.text=note.bookName
+                tvBookName.text = note.bookName
                 ivFavorite.setImageResource(
                     if (note.isFavorite) R.drawable.ic_favorite else R.drawable.favorite_border
                 )
             }
-            binding.cardViewNote.setOnClickListener{
+            binding.cardViewNote.setOnClickListener {
                 onItemClickListener.invoke(note)
             }
-            binding.ivDelete.setOnClickListener{
+            binding.ivDelete.setOnClickListener {
                 onDeleteClick?.invoke(note)
-
-
             }
-            binding.ivFavorite.setOnClickListener{
+            binding.ivFavorite.setOnClickListener {
                 onFavoriteClick.invoke(note)
             }
-
-
         }
 
         @RequiresApi(Build.VERSION_CODES.O)
-        fun convertMillisToDate(millis: Long): String{
+        fun convertMillisToDate(millis: Long): String {
             val instant = Instant.ofEpochMilli(millis)
             val formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm")
                 .withZone(ZoneId.systemDefault())
             return formatter.format(instant)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
@@ -76,12 +71,18 @@ class NotesAdapter(
 
     override fun getItemCount(): Int = itemList.size
 
-
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: NoteViewHolder, position: Int
-    ) {
-        holder.bind(itemList[position], onItemClickListener,onDeleteClick,onFavoriteClick)
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
+        holder.bind(itemList[position], onItemClickListener, onDeleteClick, onFavoriteClick)
     }
 
-
+    /**
+     * Listeyi güncellemek için kullanılan fonksiyon.
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateItems(newItems: List<BookNote>) {
+        itemList.clear() // Mevcut listeyi temizle
+        itemList.addAll(newItems) // Yeni elemanları ekle
+        notifyDataSetChanged() // Tüm listeyi yeniden çiz
+    }
 }

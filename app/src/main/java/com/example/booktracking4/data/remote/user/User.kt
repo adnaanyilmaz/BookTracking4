@@ -1,5 +1,7 @@
 package com.example.booktracking4.data.remote.user
 
+import com.example.booktracking4.domain.model.room.BookNote
+
 data class User(
     val uid: String = "",
     val userName: String = "",
@@ -9,4 +11,5 @@ data class User(
     val currentlyReading: List<CurrentlyReading> = emptyList(),
     val friend: List<Friends> = emptyList(),
     val friendsRequest: List<FriendsRequest> = emptyList(),
+    val notes: List<BookNote> = emptyList(),
 )
