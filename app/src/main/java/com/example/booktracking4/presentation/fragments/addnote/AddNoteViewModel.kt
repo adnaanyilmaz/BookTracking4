@@ -7,6 +7,9 @@ import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.domain.model.room.InvalidNoteException
 import com.example.booktracking4.domain.usecase.note_use_cases.BookNoteUseCases
 import com.example.booktracking4.presentation.fragments.addnote.AddNoteViewModel.UiEvent.*
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddNoteViewModel @Inject constructor(
     private val noteUseCases: BookNoteUseCases,
-    savedStateHandle: SavedStateHandle
+    private val auth: FirebaseAuth
+
 ) : ViewModel() {
     private val _noteTitle = MutableStateFlow(NoteTextFieldState())
     val noteTitle: StateFlow<NoteTextFieldState> = _noteTitle
@@ -111,10 +115,11 @@ class AddNoteViewModel @Inject constructor(
                                 page = pageCount.value.text,
                                 isFavorite = isFavorite.value,
                                 id = currentNoteId,
-                                bookName = bookName.value.text
+                                bookName = bookName.value.text,
+                                userId = auth.currentUser?.uid!!
                             )
                         )
-                        _eventFlow.emit(UiEvent.SaveNote)
+                        _eventFlow.emit(SaveNote)
                     } catch (e: InvalidNoteException) {
                         ShowSnackBar(
                             message = e.message ?: "Couldn't save note"

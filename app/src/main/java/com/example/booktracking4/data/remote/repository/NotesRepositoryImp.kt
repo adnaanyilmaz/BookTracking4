@@ -12,10 +12,10 @@ import javax.inject.Inject
 
 class NotesRepositoryImp @Inject constructor(
     private val bookNoteDao: NoteDao,
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
 ): NotesRepository {
-    override suspend fun getAllNotesFromRoom(): Flow<List<BookNote>> {
-        return bookNoteDao.getNotes()
+    override suspend fun getAllNotesFromRoom(uid: String): Flow<List<BookNote>> {
+        return bookNoteDao.getNotes(uid)
     }
 
     override suspend fun syncNotesWithFirebase(uid: String, notes: List<BookNote>) {
@@ -27,7 +27,10 @@ class NotesRepositoryImp @Inject constructor(
                     "content" to bookNote.content,
                     "timestamp" to bookNote.timestamp,
                     "page" to bookNote.page,
-                    "isFavorite" to bookNote.isFavorite
+                    "isFavorite" to bookNote.isFavorite,
+                    "userId" to bookNote.userId,
+                    "id" to bookNote.id
+
                 )
             }
         )
@@ -43,5 +46,40 @@ class NotesRepositoryImp @Inject constructor(
             }
     }
 
-
+    // Firebase'den kullanıcıya özel notları yükle
+    override suspend fun fetchNotesFromFirebase(uid: String): List<BookNote> {
+        val result = mutableListOf<BookNote>()
+        firestore.collection("Users")
+            .document(uid)
+            .get()
+            .addOnSuccessListener { document ->
+                val notes = document.get("notes") as? List<Map<String, Any>> ?: emptyList()
+                result.addAll(
+                    notes.map { note ->
+                        BookNote(
+                            bookName = note["bookName"] as? String ?: "",
+                            title = note["title"] as String,
+                            content = note["content"] as String,
+                            timestamp = (note["timestamp"] as? Long) ?: 0L,
+                            page = note["page"] as String,
+                            isFavorite = note["isFavorite"] as? Boolean ?: false,
+                            id = note["id"] as? Int,
+                            userId =note["userId"] as? String ?: "",
+                        )
+                    }
+                )
+                Log.d("FirebaseSync", "Notes fetched successfully for user: $uid")
+            }
+            .addOnFailureListener { e ->
+                Log.e("FirebaseSync", "Error fetching notes for user: ${e.message}")
+            }
+        return result
+    }
+    override suspend fun syncRoomWithFirebase(uid: String) {
+        val notesFromFirebase = fetchNotesFromFirebase(uid)
+        notesFromFirebase.forEach { bookNote ->
+            bookNoteDao.insertNote(bookNote.copy(userId = uid)) // Room'da kullanıcıya özel alan eklenir
+        }
+        Log.d("FirebaseSync", "Room database synced with Firebase for user: $uid")
+    }
 }

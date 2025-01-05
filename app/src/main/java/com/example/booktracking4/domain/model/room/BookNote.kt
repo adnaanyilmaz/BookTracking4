@@ -12,6 +12,7 @@ data class BookNote(
     val timestamp: Long,
     val page: String,
     val isFavorite: Boolean,
+    val userId: String,
     @PrimaryKey val id: Int? = null
 ) {
     companion object {

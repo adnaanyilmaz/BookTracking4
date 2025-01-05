@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 @Suppress("OVERRIDE_DEPRECATION")
 @AndroidEntryPoint
 class NotesFragment : Fragment() {
+
     private var _binding: FragmentNotesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NotesViewModel by viewModels()
@@ -52,10 +53,10 @@ class NotesFragment : Fragment() {
         setupRecyclerView()
         setupMenu()
         setupRadioGroup()
-        collectUIState()
         observeSyncState()
 
-        // Kullanıcının işlem yapmasına gerek kalmadan Firebase senkronizasyonu başlat
+        // Kullanıcının notlarını yükleme ve otomatik senkronizasyon
+        viewModel.syncNotesToFirebase()
     }
 
     private fun setupToolbar() {
@@ -79,7 +80,6 @@ class NotesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        // Adapteri boş bir listeyle başlatıyoruz
         notesAdapter = NotesAdapter(
             itemList = mutableListOf(),
             onItemClickListener = { note ->
@@ -120,26 +120,6 @@ class NotesFragment : Fragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val selectedRadioButton = getSelectedRadioButtonText()
-
-        val noteOrder = when (selectedRadioButton) {
-            "Ascending" -> OrderType.Ascending
-            "Descending" -> OrderType.Descending
-            else -> OrderType.Descending
-        }
-
-        val event = when (item.itemId) {
-            R.id.actionFilterTitle -> NotesEvent.Order(NoteOrder.Title(noteOrder))
-            R.id.actionFilterDate -> NotesEvent.Order(NoteOrder.Date(noteOrder))
-            R.id.actionFilterFavorite -> NotesEvent.Order(NoteOrder.IsFavorite(noteOrder))
-            else -> return false
-        }
-
-        viewModel.onEvent(event)
-        return true
-    }
-
     private fun observeSyncState() {
         lifecycleScope.launchWhenStarted {
             viewModel.syncState.collect { state ->
@@ -159,13 +139,7 @@ class NotesFragment : Fragment() {
         }
     }
 
-    private fun collectUIState() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.state.collect { state ->
-                notesAdapter.updateItems(state.notes)
-            }
-        }
-    }
+
 
     private fun showLoadingIndicator() {
         binding.progressBar.visibility = View.VISIBLE
@@ -182,6 +156,26 @@ class NotesFragment : Fragment() {
         } else {
             "null"
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val selectedRadioButton = getSelectedRadioButtonText()
+
+        val noteOrder = when (selectedRadioButton) {
+            "Ascending" -> OrderType.Ascending
+            "Descending" -> OrderType.Descending
+            else -> OrderType.Descending
+        }
+
+        val event = when (item.itemId) {
+            R.id.actionFilterTitle -> NotesEvent.Order(NoteOrder.Title(noteOrder))
+            R.id.actionFilterDate -> NotesEvent.Order(NoteOrder.Date(noteOrder))
+            R.id.actionFilterFavorite -> NotesEvent.Order(NoteOrder.IsFavorite(noteOrder))
+            else -> return false
+        }
+
+        viewModel.onEvent(event)
+        return true
     }
 
     override fun onDestroyView() {

@@ -8,19 +8,14 @@ import com.example.booktracking4.domain.model.room.BookNote
 
 @Database(
     entities = [BookNote::class],
-    version = 2
+    version = 3
 )
 abstract class BookNoteDatabase: RoomDatabase() {
     abstract fun bookNoteDao(): NoteDao
 
     companion object{
         const val DATABASE_NAME="book_note_db"
-        val MIGRATION_1_2 = object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                // Şema değişikliği için SQL komutları
-                database.execSQL("ALTER TABLE BookNote ADD COLUMN bookName TEXT")
-            }
-        }
+
     }
 
 }

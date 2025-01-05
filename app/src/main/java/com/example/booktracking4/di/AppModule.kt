@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.room.Room
 import com.example.booktracking4.common.Constants
 import com.example.booktracking4.data.data_resourse.BookNoteDatabase
-import com.example.booktracking4.data.data_resourse.BookNoteDatabase.Companion.MIGRATION_1_2
 import com.example.booktracking4.data.data_resourse.NoteDao
 import com.example.booktracking4.data.data_resourse.repository.BookNoteRepositoryImp
 import com.example.booktracking4.data.remote.GoogleBooksApi
@@ -19,6 +18,7 @@ import com.example.booktracking4.domain.usecase.note_use_cases.DeleteBookNoteUse
 import com.example.booktracking4.domain.usecase.note_use_cases.EditNoteUseCase
 import com.example.booktracking4.domain.usecase.note_use_cases.GetBookNoteUseCase
 import com.example.booktracking4.domain.usecase.note_use_cases.UpdateFavoriteStatusUseCase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -54,7 +54,7 @@ object AppModule {
         return Room.databaseBuilder(
             app, BookNoteDatabase::class.java,
             BookNoteDatabase.DATABASE_NAME
-        ).addMigrations(MIGRATION_1_2).build()
+        ).build()
     }
 
     @Provides
@@ -65,8 +65,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBookNoteRepository(db: BookNoteDatabase): BookNoteRepository {
-        return BookNoteRepositoryImp(db.bookNoteDao())
+    fun provideBookNoteRepository(db: BookNoteDatabase,auth: FirebaseAuth): BookNoteRepository {
+        return BookNoteRepositoryImp(db.bookNoteDao(),auth)
     }
 
     @Provides
@@ -85,7 +85,7 @@ object AppModule {
     @Singleton
     fun provideNotesRepository(
         bookNoteDao: NoteDao,
-        firestore: FirebaseFirestore
+        firestore: FirebaseFirestore,
     ): NotesRepository {
         return NotesRepositoryImp(bookNoteDao, firestore)
     }
