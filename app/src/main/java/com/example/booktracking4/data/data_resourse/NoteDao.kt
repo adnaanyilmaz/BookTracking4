@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteDao {
 
-    @Query("SELECT * FROM booknote WHERE userId")
+    @Query("SELECT * FROM booknote WHERE userId = :userId")
     fun getNotes(userId: String): Flow<List<BookNote>>
 
     @Query("SELECT * FROM booknote WHERE id= :id")

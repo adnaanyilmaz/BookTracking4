@@ -27,7 +27,7 @@ class SearchFriendsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentSearchFriendsBinding.inflate(inflater, container, false)
         return binding.root
@@ -39,7 +39,7 @@ class SearchFriendsFragment : Fragment() {
 
         setupRecyclerView() // RecyclerView'i kurar
         observeViewModel() // ViewModel akışlarını gözlemler
-        Log.d("İsFriend",viewModel.isFriend.value.toString())
+        Log.d("İsFriend", viewModel.isFriend.value.toString())
 
         // SearchView için kullanıcı adı arama işlemi
         binding.svSearchFriendsPage.setOnQueryTextListener(object :
@@ -64,10 +64,7 @@ class SearchFriendsFragment : Fragment() {
                 // Kullanıcı, 'Add Friend' butonuna tıkladığında arkadaş ekleme işlemi başlatılır
                 viewModel.sendFriendRequest(receiverUserName = userName)
             },
-            sendUid = { uid ->
-                 lifecycleScope.launch{viewModel.checkFriendsState(uid = uid)}
-            },
-            onButtonClickState = viewModel.isFriend.value
+            viewModel = viewModel,
         )
         binding.rvSearchPage.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSearchPage.adapter = adapter

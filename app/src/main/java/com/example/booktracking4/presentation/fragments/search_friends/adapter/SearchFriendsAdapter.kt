@@ -1,7 +1,6 @@
 package com.example.booktracking4.presentation.fragments.search_friends.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -11,13 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.booktracking4.data.remote.user.User
 import com.example.booktracking4.databinding.ItemAddFriendsBinding
 import com.example.booktracking4.R
+import com.example.booktracking4.presentation.fragments.search_friends.SearchFriendsViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 // Kullanıcı modeline göre adapter
 class SearchFriendsAdapter(
     private val onAddFriendClicked: (String) -> Unit, // Arkadaş ekleme butonu için tıklama işlevi
-    private val sendUid: (String) -> Unit,
-    private val onButtonClickState: Boolean?
+
+    val viewModel: SearchFriendsViewModel,
 ) : ListAdapter<User, SearchFriendsAdapter.SearchFriendsViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchFriendsViewHolder {
@@ -36,19 +39,23 @@ class SearchFriendsAdapter(
         // ViewHolder'daki verileri bağlama
         @SuppressLint("ResourceAsColor")
         fun bind(user: User) {
-
             binding.tvUserName.text = user.userName
             binding.tvNameSurname.text = user.email
-             sendUid.invoke(user.uid)
 
-            if (onButtonClickState == true) {
-                binding.btnAddFriend.isEnabled = false // Butonu devre dışı bırak
-                binding.btnAddFriend.backgroundTintList =
-                    ContextCompat.getColorStateList(binding.btnAddFriend.context, R.color.gray) // Renk değişikliği
+
+            CoroutineScope(Dispatchers.Main).launch {
+                val buttonClickState = viewModel.checkFriendsState(uid = user.uid)
+                if (buttonClickState) {
+                    binding.btnAddFriend.isEnabled = false
+                    binding.btnAddFriend.backgroundTintList = ContextCompat.getColorStateList(
+                        binding.btnAddFriend.context,
+                        R.color.gray
+                    )
+                }
             }
-            // Arkadaş ekleme butonuna tıklama
-            binding.btnAddFriend.setOnClickListener {
 
+
+            binding.btnAddFriend.setOnClickListener {
                 onAddFriendClicked(user.userName)
             }
 
