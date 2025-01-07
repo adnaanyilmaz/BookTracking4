@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "BookNote")
 data class BookNote(
     val bookName: String?,
-    val title: String,
-    val content: String,
+    val title: String="",
+    val content: String="",
     val timestamp: Long,
-    val page: String,
-    val isFavorite: Boolean,
+    val page: String="",
+    val isFavorite: Boolean=false,
     val userId: String,
     @PrimaryKey val id: Int? = null
 ) {
