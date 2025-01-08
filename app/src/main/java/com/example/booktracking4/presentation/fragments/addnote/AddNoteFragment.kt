@@ -50,9 +50,11 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         val bundle: AddNoteFragmentArgs by navArgs()
         val id: Int = bundle.id
         val bookName: String=bundle.bookname
-        viewModel.updateBookName(bookName)
 
+        viewModel.updateBookName(bookName)
+        viewModel.updateData(id)
         viewModel.loadNoteDetails(id)
+
 
 
 

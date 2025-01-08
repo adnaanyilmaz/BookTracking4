@@ -1,85 +1,129 @@
 package com.example.booktracking4.data.remote.repository
 
 import android.util.Log
-import com.example.booktracking4.data.data_resourse.NoteDao
+import com.example.booktracking4.data.remote.user.User
 import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.domain.repository.NotesRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
 class NotesRepositoryImp @Inject constructor(
-    private val bookNoteDao: NoteDao,
     private val firestore: FirebaseFirestore,
-): NotesRepository {
-    override suspend fun getAllNotesFromRoom(uid: String): Flow<List<BookNote>> {
-        return bookNoteDao.getNotes(uid)
-    }
+    private val auth: FirebaseAuth
+) : NotesRepository {
 
-    override suspend fun syncNotesWithFirebase(uid: String, notes: List<BookNote>) {
-        val userNotesMap = mapOf(
-            "notes" to notes.map { bookNote ->
-                mapOf(
-                    "bookName" to (bookNote.bookName ?: ""),
-                    "title" to bookNote.title,
-                    "content" to bookNote.content,
-                    "timestamp" to bookNote.timestamp,
-                    "page" to bookNote.page,
-                    "isFavorite" to bookNote.isFavorite,
-                    "userId" to bookNote.userId,
-                    "id" to bookNote.id
+    private val usersCollection = "Users" // Firestore'daki kullanıcı koleksiyonunun adı
 
-                )
-            }
-        )
+    override fun getNotes(): Flow<List<BookNote>> = flow {
+        try {
+            val currentUserUid = auth.currentUser?.uid ?: throw Exception("Kullanıcı giriş yapmamış")
+            val userDocRef = firestore.collection(usersCollection).document(currentUserUid)
 
-        firestore.collection("Users")
-            .document(uid)
-            .set(userNotesMap, SetOptions.merge()) // Mevcut verileri koruyarak günceller
-            .addOnSuccessListener {
-                Log.d("FirebaseSync", "Notes successfully updated in User object")
-            }
-            .addOnFailureListener { e ->
-                Log.e("FirebaseSync", "Error updating notes in User object: ${e.message}")
-            }
-    }
+            val snapshot = userDocRef.get().await()
+            val user = snapshot.toObject(User::class.java)
 
-    // Firebase'den kullanıcıya özel notları yükle
-    override suspend fun fetchNotesFromFirebase(uid: String): List<BookNote> {
-        val result = mutableListOf<BookNote>()
-        firestore.collection("Users")
-            .document(uid)
-            .get()
-            .addOnSuccessListener { document ->
-                val notes = document.get("notes") as? List<Map<String, Any>> ?: emptyList()
-                result.addAll(
-                    notes.map { note ->
-                        BookNote(
-                            bookName = note["bookName"] as? String ?: "",
-                            title = note["title"] as String,
-                            content = note["content"] as String,
-                            timestamp = (note["timestamp"] as? Long) ?: 0L,
-                            page = note["page"] as String,
-                            isFavorite = note["isFavorite"] as? Boolean ?: false,
-                            id = note["id"] as? Int,
-                            userId =note["userId"] as? String ?: "",
-                        )
-                    }
-                )
-                Log.d("FirebaseSync", "Notes fetched successfully for user: $uid")
+            if (user != null) {
+                emit(user.notes)
+            } else {
+                emit(emptyList()) // Eğer kullanıcı bulunamazsa boş liste döner
             }
-            .addOnFailureListener { e ->
-                Log.e("FirebaseSync", "Error fetching notes for user: ${e.message}")
-            }
-        return result
-    }
-    override suspend fun syncRoomWithFirebase(uid: String) {
-        val notesFromFirebase = fetchNotesFromFirebase(uid)
-        notesFromFirebase.forEach { bookNote ->
-            bookNoteDao.insertNote(bookNote.copy(userId = uid)) // Room'da kullanıcıya özel alan eklenir
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(emptyList()) // Hata durumunda boş liste döner
         }
-        Log.d("FirebaseSync", "Room database synced with Firebase for user: $uid")
+    }
+
+    override suspend fun getNoteById(id: Int?): BookNote? {
+        try {
+            val currentUserUid = auth.currentUser?.uid ?: throw Exception("Kullanıcı giriş yapmamış")
+            val userDocRef = firestore.collection(usersCollection).document(currentUserUid)
+
+            val snapshot = userDocRef.get().await()
+            val user = snapshot.toObject(User::class.java)
+
+            return user?.notes?.find { it.id == id }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null // Hata durumunda null döner
+        }
+    }
+
+    override suspend fun insertNote(note: BookNote) {
+        try {
+            val currentUserUid = auth.currentUser?.uid ?: throw Exception("Kullanıcı giriş yapmamış")
+            val userDocRef = firestore.collection(usersCollection).document(currentUserUid)
+
+            val userSnapshot = userDocRef.get().await()
+            val user = userSnapshot.toObject(User::class.java)
+
+            if (user != null) {
+                val updatedNotes = user.notes.toMutableList().apply {
+                    add(note)
+                }
+
+                userDocRef.update("notes", updatedNotes).await()
+            } else {
+                throw Exception("Kullanıcı dokümanı bulunamadı")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e
+        }
+    }
+
+    override suspend fun deleteNote(note: BookNote) {
+        try {
+            val currentUserUid = auth.currentUser?.uid ?: throw Exception("Kullanıcı giriş yapmamış")
+            val userDocRef = firestore.collection(usersCollection).document(currentUserUid)
+
+            val userSnapshot = userDocRef.get().await()
+            val user = userSnapshot.toObject(User::class.java)
+
+            if (user != null) {
+                val updatedNotes = user.notes.toMutableList().apply {
+                    removeIf { it.id == note.id }
+                }
+
+                userDocRef.update("notes", updatedNotes).await()
+            } else {
+                throw Exception("Kullanıcı dokümanı bulunamadı")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e
+        }
+    }
+
+    override suspend fun updateNote(note: BookNote) {
+        try {
+            val currentUserUid = auth.currentUser?.uid ?: throw Exception("Kullanıcı giriş yapmamış")
+            val userDocRef = firestore.collection(usersCollection).document(currentUserUid)
+
+            val userSnapshot = userDocRef.get().await()
+            val user = userSnapshot.toObject(User::class.java)
+
+            if (user != null) {
+                val updatedNotes = user.notes.toMutableList().apply {
+                    val index = indexOfFirst { it.id == note.id }
+                    if (index != -1) {
+                        set(index, note) // Mevcut notu güncelle
+                    }
+                }
+
+                userDocRef.update("notes", updatedNotes).await()
+                Log.d("firestore",updatedNotes.toString())
+            } else {
+                throw Exception("Kullanıcı dokümanı bulunamadı")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e
+        }
     }
 }
+

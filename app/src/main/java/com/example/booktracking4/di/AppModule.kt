@@ -65,28 +65,27 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBookNoteRepository(db: BookNoteDatabase,auth: FirebaseAuth): BookNoteRepository {
-        return BookNoteRepositoryImp(db.bookNoteDao(),auth)
+    fun provideBookNoteRepository(db: BookNoteDatabase, auth: FirebaseAuth): BookNoteRepository {
+        return BookNoteRepositoryImp(db.bookNoteDao(), auth)
     }
 
     @Provides
     @Singleton
-    fun provideBookNoteUseCases(repository: BookNoteRepository): BookNoteUseCases {
+    fun provideBookNoteUseCases(repository: BookNoteRepository,firebaseRepository: NotesRepository): BookNoteUseCases {
         return BookNoteUseCases(
-            GetBookNoteUseCase(repository),
-            DeleteBookNoteUseCase(repository),
+            GetBookNoteUseCase(firebaseRepository),
+            DeleteBookNoteUseCase(repository,firebaseRepository),
             AddBookNoteUseCase(repository),
-            EditNoteUseCase(repository),
-            UpdateFavoriteStatusUseCase(repository)
+            EditNoteUseCase(repository,firebaseRepository),
+            UpdateFavoriteStatusUseCase(repository,firebaseRepository)
         )
     }
 
     @Provides
     @Singleton
     fun provideNotesRepository(
-        bookNoteDao: NoteDao,
-        firestore: FirebaseFirestore,
+        auth: FirebaseAuth, firestore: FirebaseFirestore,
     ): NotesRepository {
-        return NotesRepositoryImp(bookNoteDao, firestore)
+        return NotesRepositoryImp(firestore, auth)
     }
 }

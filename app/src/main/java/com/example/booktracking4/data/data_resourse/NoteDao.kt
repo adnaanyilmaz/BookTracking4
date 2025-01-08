@@ -26,4 +26,7 @@ interface NoteDao {
 
     @Update
     suspend fun updateNote(note: BookNote)
+
+    @Query("SELECT * FROM booknote ORDER BY id DESC LIMIT 1")
+    suspend fun getLastNote(): BookNote
 }

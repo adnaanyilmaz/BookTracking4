@@ -15,13 +15,14 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+
 class NotesAdapter(
-    private var itemList: MutableList<BookNote>,
     private val onItemClickListener: (BookNote) -> Unit,
     private val onDeleteClick: ((BookNote) -> Unit)? = null,
     private val onFavoriteClick: (BookNote) -> Unit
-
-) : RecyclerView.Adapter<NoteViewHolder>() {
+) : ListAdapter<BookNote, NotesAdapter.NoteViewHolder>(DIFF_CALLBACK) {
 
     class NoteViewHolder(private val binding: ItemNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -29,7 +30,8 @@ class NotesAdapter(
         @RequiresApi(Build.VERSION_CODES.O)
         @SuppressLint("SetTextI18n")
         fun bind(
-            note: BookNote, onItemClickListener: (BookNote) -> Unit,
+            note: BookNote,
+            onItemClickListener: (BookNote) -> Unit,
             onDeleteClick: ((BookNote) -> Unit)? = null,
             onFavoriteClick: (BookNote) -> Unit
         ) {
@@ -55,7 +57,7 @@ class NotesAdapter(
         }
 
         @RequiresApi(Build.VERSION_CODES.O)
-        fun convertMillisToDate(millis: Long): String {
+        private fun convertMillisToDate(millis: Long): String {
             val instant = Instant.ofEpochMilli(millis)
             val formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm")
                 .withZone(ZoneId.systemDefault())
@@ -69,20 +71,25 @@ class NotesAdapter(
         return NoteViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = itemList.size
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        holder.bind(itemList[position], onItemClickListener, onDeleteClick, onFavoriteClick)
+        holder.bind(
+            getItem(position),
+            onItemClickListener,
+            onDeleteClick,
+            onFavoriteClick
+        )
     }
 
-    /**
-     * Listeyi güncellemek için kullanılan fonksiyon.
-     */
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(newItems: List<BookNote>) {
-        itemList.clear() // Mevcut listeyi temizle
-        itemList.addAll(newItems) // Yeni elemanları ekle
-        notifyDataSetChanged() // Tüm listeyi yeniden çiz
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<BookNote>() {
+            override fun areItemsTheSame(oldItem: BookNote, newItem: BookNote): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: BookNote, newItem: BookNote): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

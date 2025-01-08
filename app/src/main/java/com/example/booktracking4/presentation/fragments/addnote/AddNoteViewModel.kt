@@ -3,8 +3,10 @@ package com.example.booktracking4.presentation.fragments.addnote
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.booktracking4.data.data_resourse.NoteDao
 import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.domain.model.room.InvalidNoteException
+import com.example.booktracking4.domain.repository.NotesRepository
 import com.example.booktracking4.domain.usecase.note_use_cases.BookNoteUseCases
 import com.example.booktracking4.presentation.fragments.addnote.AddNoteViewModel.UiEvent.*
 import com.google.firebase.Firebase
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +25,9 @@ import javax.inject.Inject
 @HiltViewModel
 class AddNoteViewModel @Inject constructor(
     private val noteUseCases: BookNoteUseCases,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val firebaseRepository: NotesRepository,
+    private val noteDao: NoteDao
 
 ) : ViewModel() {
     private val _noteTitle = MutableStateFlow(NoteTextFieldState())
@@ -40,6 +45,13 @@ class AddNoteViewModel @Inject constructor(
     private val _isFavorite = MutableStateFlow(false)
     val isFavorite: StateFlow<Boolean> = _isFavorite
 
+    private val _id = MutableStateFlow(0)
+    val id: StateFlow<Int> = _id
+
+    fun updateData(newData: Int) {
+        _id.value = newData
+    }
+
 
     fun toggleFavorite() {
         _isFavorite.value = !_isFavorite.value
@@ -49,7 +61,6 @@ class AddNoteViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
 
-    var id: Int? = null
     private var currentNoteId: Int? = null
 
 
@@ -86,24 +97,29 @@ class AddNoteViewModel @Inject constructor(
                     text = event.value
                 )
             }
+
             is AddNoteEvent.EnteredContent -> {
                 _noteContent.value = noteContent.value.copy(
                     text = event.value
                 )
             }
+
             is AddNoteEvent.BookName -> {
-                _bookName.value=bookName.value.copy(
+                _bookName.value = bookName.value.copy(
                     text = event.value
                 )
             }
+
             is AddNoteEvent.EnteredPageNumber -> {
                 _pageCount.value = pageCount.value.copy(
                     text = event.value
                 )
             }
+
             is AddNoteEvent.isFavorite -> {
                 _isFavorite.value = isFavorite.value
             }
+
             is AddNoteEvent.SaveNote -> {
                 viewModelScope.launch {
                     try {
@@ -119,6 +135,21 @@ class AddNoteViewModel @Inject constructor(
                                 userId = auth.currentUser?.uid!!
                             )
                         )
+                        val result = firebaseRepository.getNoteById(_id.value)
+                        if (currentNoteId==null) {
+                            firebaseRepository.insertNote(noteDao.getLastNote())
+                        } else if (result != null) {
+                            firebaseRepository.updateNote(BookNote(
+                                title = noteTitle.value.text,
+                                content = noteContent.value.text,
+                                timestamp = System.currentTimeMillis(),
+                                page = pageCount.value.text,
+                                isFavorite = isFavorite.value,
+                                id = result.id,
+                                bookName = bookName.value.text,
+                                userId = auth.currentUser?.uid!!
+                            ))
+                        }
                         _eventFlow.emit(SaveNote)
                     } catch (e: InvalidNoteException) {
                         ShowSnackBar(
@@ -127,8 +158,6 @@ class AddNoteViewModel @Inject constructor(
                     }
                 }
             }
-
-
         }
     }
 

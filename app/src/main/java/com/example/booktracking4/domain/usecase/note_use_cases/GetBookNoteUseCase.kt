@@ -2,13 +2,14 @@ package com.example.booktracking4.domain.usecase.note_use_cases
 
 import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.domain.repository.BookNoteRepository
+import com.example.booktracking4.domain.repository.NotesRepository
 import com.example.booktracking4.domain.util.NoteOrder
 import com.example.booktracking4.domain.util.OrderType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetBookNoteUseCase(
-    private val repository: BookNoteRepository
+    private val repository: NotesRepository
 ) {
     operator fun invoke(
         noteOrder: NoteOrder = NoteOrder.Date(OrderType.Descending)

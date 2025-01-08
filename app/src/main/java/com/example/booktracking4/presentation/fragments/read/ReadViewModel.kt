@@ -33,7 +33,7 @@ class ReadViewModel @Inject constructor(
 
             is Resource.Error -> {
                 updateUiState { copy(isLoading = false) }
-                Log.e("Dante", "Error okudukarım viewmodel")
+                Log.e("Dante", result.message.toString())
             }
 
             is Resource.Success -> {

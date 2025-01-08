@@ -6,17 +6,26 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "BookNote")
 data class BookNote(
-    val bookName: String?,
-    val title: String="",
-    val content: String="",
-    val timestamp: Long,
-    val page: String="",
-    val isFavorite: Boolean=false,
-    val userId: String,
+    val bookName: String? = null,
+    val title: String = "",
+    val content: String = "",
+    val timestamp: Long = 0L,
+    val page: String = "",
+    var isFavorite: Boolean = false,
+    val userId: String = "",
     @PrimaryKey val id: Int? = null
 ) {
-    companion object {
-
-    }
+    // Firestore için varsayılan bir constructor gerekli
+    constructor() : this(
+        bookName = null,
+        title = "",
+        content = "",
+        timestamp = 0L,
+        page = "",
+        isFavorite = false,
+        userId = "",
+        id = null
+    )
 }
-class InvalidNoteException(message: String): Exception(message)
+
+class InvalidNoteException(message: String) : Exception(message)

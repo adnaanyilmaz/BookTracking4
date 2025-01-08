@@ -3,6 +3,7 @@ package com.example.booktracking4.domain.usecase.note_use_cases
 import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.domain.model.room.InvalidNoteException
 import com.example.booktracking4.domain.repository.BookNoteRepository
+import com.example.booktracking4.domain.repository.NotesRepository
 
 class AddBookNoteUseCase(
     private val repository: BookNoteRepository
@@ -17,5 +18,6 @@ class AddBookNoteUseCase(
             throw InvalidNoteException("The content of the note can't be empty")
         }
         repository.insetNote(note)
+
     }
 }
