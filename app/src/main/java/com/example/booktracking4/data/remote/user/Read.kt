@@ -5,5 +5,6 @@ data class Read(
     val bookName: String = "",
     val authorName: String = "",
     val image: String = "",
-    val pageCount: Int? =null
+    val pageCount: Int? =null,
+    val category: String = ""
 )

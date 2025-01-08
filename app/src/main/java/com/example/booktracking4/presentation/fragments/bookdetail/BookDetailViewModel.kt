@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.booktracking4.common.Resource
 import com.example.booktracking4.data.remote.user.CurrentlyReading
 import com.example.booktracking4.data.remote.user.Read
+import com.example.booktracking4.data.remote.user.User
+import com.example.booktracking4.data.remote.user.UserCategories
 import com.example.booktracking4.data.remote.user.WantToRead
 import com.example.booktracking4.data.repository.AuthRepository
 import com.example.booktracking4.domain.repository.UserRepository
@@ -55,15 +57,19 @@ class BookDetailViewModel @Inject constructor(
         }
     }
 
+
     fun addBookRead(userId: String, book: Read) = viewModelScope.launch {
         val result = userRepository.addBookToRead(userId = userId, book = book)
         when (result) {
             is Resource.Error -> {
                 updateUiState { copy(isLoading = false) }
+                val categoriesList = UserCategories(userCategoryName = book.category)
+                userRepository.addUserCategories(userId = userId, category = categoriesList )
 
             }
             is Resource.Success -> {
                 updateUiState { copy(isLoading = false) }
+
 
             }
             is Resource.Loading -> { updateUiState { copy(isLoading = true) }}

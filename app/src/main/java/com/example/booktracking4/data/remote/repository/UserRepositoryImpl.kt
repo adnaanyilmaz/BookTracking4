@@ -4,16 +4,16 @@ import com.example.booktracking4.common.Resource
 import com.example.booktracking4.data.remote.user.CurrentlyReading
 import com.example.booktracking4.data.remote.user.User
 import com.example.booktracking4.data.remote.user.Read
+import com.example.booktracking4.data.remote.user.UserCategories
 import com.example.booktracking4.data.remote.user.WantToRead
-import com.example.booktracking4.domain.model.ui_model.search_model.Book
 import com.example.booktracking4.domain.repository.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val firestore: FirebaseFirestore
-): UserRepository{
+    private val firestore: FirebaseFirestore,
+) : UserRepository {
     override suspend fun addUser(user: User): Resource<String> {
         return try {
             firestore.collection("Users")
@@ -28,7 +28,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun addBookToRead(
         userId: String,
-        book: Read
+        book: Read,
     ): Resource<String> {
         return try {
             val userDocRef = firestore.collection("Users").document(userId)
@@ -55,7 +55,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun addBookToWantToRead(
         userId: String,
-        book: WantToRead
+        book: WantToRead,
     ): Resource<String> {
         return try {
             val userDocRef = firestore.collection("Users").document(userId)
@@ -82,7 +82,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun addBookToCurrentlyReading(
         userId: String,
-        book: CurrentlyReading
+        book: CurrentlyReading,
     ): Resource<String> {
         return try {
             val userDocRef = firestore.collection("Users").document(userId)
@@ -121,7 +121,8 @@ class UserRepositoryImpl @Inject constructor(
                 }
 
                 // Kitabı kaldırma işlemleri
-                val updatedCurrentlyReading = currentUser.currentlyReading.filterNot { it.bookId == bookId }
+                val updatedCurrentlyReading =
+                    currentUser.currentlyReading.filterNot { it.bookId == bookId }
                 val updatedRead = currentUser.read.filterNot { it.bookId == bookId }
                 val updatedWantToRead = currentUser.wantToRead.filterNot { it.bookId == bookId }
 
@@ -143,7 +144,8 @@ class UserRepositoryImpl @Inject constructor(
             }.await()
 
             // Başarıyla güncellenen kullanıcıyı döndür
-            val updatedUser = firestore.collection("Users").document(userId).get().await().toObject(User::class.java)
+            val updatedUser = firestore.collection("Users").document(userId).get().await()
+                .toObject(User::class.java)
             if (updatedUser != null) {
                 Resource.Success(updatedUser)
             } else {
@@ -153,7 +155,6 @@ class UserRepositoryImpl @Inject constructor(
             Resource.Error("Failed to delete book: ${e.message}")
         }
     }
-
 
 
     override suspend fun getUserBooks(userId: String): Resource<User> {
@@ -196,6 +197,51 @@ class UserRepositoryImpl @Inject constructor(
             .get()
             .await()
         return !snapshot.isEmpty
+    }
+
+    override suspend fun addUserCategories(
+        userId: String,
+        category: UserCategories,
+    ): Resource<String> {
+        return try {
+            val userDocRef = firestore.collection("Users").document(userId)
+            firestore.runTransaction { transaction ->
+                val snapshot = transaction.get(userDocRef)
+                val currentUser = snapshot.toObject(User::class.java)
+
+                val updatedCategories = currentUser?.userCategory?.toMutableList() ?: mutableListOf()
+
+                // Kitap zaten mevcutsa işlem yapılmaz
+                if (updatedCategories.any { it.userCategoryName == category.userCategoryName }) {
+                    throw Exception("Exist")
+                }
+
+                updatedCategories.add(category)
+                transaction.update(userDocRef, "userCategory", updatedCategories)
+            }.await()
+
+            Resource.Success(category.userCategoryName)
+        } catch (e: Exception) {
+            Resource.Error("Failed to add book to what I will read: ${e.message}")
+        }
+    }
+
+    override suspend fun getUserCategories(userId: String): Resource<List<UserCategories>> {
+        return try {
+            val snapshot = firestore.collection("Users")
+                .document(userId)
+                .get()
+                .await()
+
+            val user = snapshot.toObject(User::class.java)
+            if (user != null) {
+                Resource.Success(user.userCategory)
+            } else {
+                Resource.Error("User not found with uid: $userId")
+            }
+        } catch (e: Exception) {
+            Resource.Error("An error occurred: ${e.localizedMessage}")
+        }
     }
 
 

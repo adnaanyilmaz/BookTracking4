@@ -4,6 +4,7 @@ import com.example.booktracking4.common.Constants.API_KEY
 import com.example.booktracking4.data.remote.dto.detail_dto.BookDetailDto
 import com.example.booktracking4.data.remote.dto.search_dto.BookDto
 import com.example.booktracking4.domain.model.retrofit.BookDetail
+import com.onuryasarkaraduman.dto.HomeCategoriesResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -20,4 +21,9 @@ interface GoogleBooksApi {
     suspend fun getBookDetail(
         @Path("id") id: String
     ): BookDetailDto
+
+    @GET("v1/volumes")
+    suspend fun getBooksByCategory(
+        @Query("q") subject: String,
+    ): HomeCategoriesResponse
 }

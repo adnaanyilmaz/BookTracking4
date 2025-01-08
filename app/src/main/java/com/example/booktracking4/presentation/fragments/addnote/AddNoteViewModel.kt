@@ -79,7 +79,7 @@ class AddNoteViewModel @Inject constructor(
                         text = note.page.toString(),
                     )
                     _bookName.value = _bookName.value.copy(
-                        text = note.page.toString(),
+                        text = note.bookName.toString(),
                     )
 
                     _isFavorite.value = note.isFavorite

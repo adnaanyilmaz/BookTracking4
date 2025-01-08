@@ -52,30 +52,32 @@ class NotesViewModel @Inject constructor(
                 recentlyDeleteNote = event.note
                 viewModelScope.launch {
                     noteUseCases.deleteBookNoteUseCase(event.note)
-                    firebaseRepository.insertNote(event.note)
+                    getOrder(NoteOrder.Date(OrderType.Descending))
                 }
-                getOrder(NoteOrder.Date(OrderType.Descending))
+
             }
 
             is NotesEvent.RestoreNote -> {
                 viewModelScope.launch {
                     noteUseCases.addNote(recentlyDeleteNote ?: return@launch)
-
+                    firebaseRepository.insertNote(recentlyDeleteNote ?: BookNote())
                     recentlyDeleteNote = null
+                    getOrder(NoteOrder.Date(OrderType.Descending))
                 }
-                getOrder(NoteOrder.Date(OrderType.Descending))
+
             }
 
             is NotesEvent.ToggleFavorite -> {
                 viewModelScope.launch{
                     noteUseCases.updateNote(event.note)
+                    getOrder(NoteOrder.Date(OrderType.Descending))
                 }
-                getOrder(NoteOrder.Date(OrderType.Descending))
+
             }
         }
     }
 
-    private fun getOrder(noteOrder: NoteOrder) {
+    fun getOrder(noteOrder: NoteOrder) {
         getNotesJob?.cancel()
         getNotesJob = noteUseCases.getBookNoteUseCase(noteOrder).onEach { notes ->
             _state.value = state.value.copy(

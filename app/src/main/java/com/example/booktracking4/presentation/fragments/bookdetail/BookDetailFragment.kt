@@ -143,7 +143,8 @@ class BookDetailFragment : Fragment() {
                     bookName = bookDetail?.title.orEmpty(),
                     image = bookDetail?.imageLinks?.thumbnail.orEmpty(),
                     authorName = bookDetail?.authors?.get(0).orEmpty(),
-                    pageCount = bookDetail?.pageCount
+                    pageCount = bookDetail?.pageCount,
+                    category = bookDetail?.categories?.first().orEmpty()
                 )
                 viewModel.addBookRead(userId = userId, book = read)
             }
