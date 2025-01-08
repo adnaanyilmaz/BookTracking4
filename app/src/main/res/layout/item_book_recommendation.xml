@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Kitap Kapağı -->
+    <ImageView
+        android:id="@+id/ivBookCover"
+        android:layout_width="120dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center"
+        android:contentDescription="book_cover"
+        android:scaleType="centerCrop"
+        android:src="@drawable/sample_book_cover" />
+
+    <!-- Kitap Başlığı -->
+    <TextView
+        android:id="@+id/tvBookTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:maxWidth="140dp"
+        android:maxLines="3"
+        android:text="Book Title"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Kitap Yazarı -->
+    <TextView
+        android:id="@+id/tvBookAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:maxWidth="140dp"
+        android:maxLines="1"
+        android:text="Author Name"
+        android:textColor="@color/gray"
+        android:textSize="14sp" />
+
+    <!-- Kategori -->
+    <TextView
+        android:id="@+id/tvBookCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:maxWidth="140dp"
+        android:maxLines="1"
+        android:text="Category"
+        android:textColor="@color/gray"
+        android:textSize="14sp" />
+</LinearLayout>

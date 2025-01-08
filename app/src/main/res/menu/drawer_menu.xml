@@ -4,18 +4,23 @@
 
     <item
         android:id="@+id/currentlyReadingFragment"
+        android:icon="@drawable/ic_currently_reading"
         android:title="Currently Reading" />
     <item
         android:id="@+id/readFragment"
+        android:icon="@drawable/ic_read"
         android:title="Read" />
     <item
         android:id="@+id/toReadFragment"
+        android:icon="@drawable/ic_to_read"
         android:title="Want to Read" />
     <item
         android:id="@+id/searchFriendsFragment"
+        android:icon="@drawable/ic_person_search"
         android:title="Search Friends" />
     <item
         android:id="@+id/friendsFragment"
+        android:icon="@drawable/ic_group"
         android:title="My Friends"
         />
 </menu>

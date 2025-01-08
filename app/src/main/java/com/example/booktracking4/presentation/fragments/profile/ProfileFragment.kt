@@ -69,7 +69,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun signOut() {
-        binding.btnSignOut.setOnClickListener {
+        binding.btnLogoutButton.setOnClickListener {
             viewModel.signOut()
         }
     }

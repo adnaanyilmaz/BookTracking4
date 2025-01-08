@@ -60,33 +60,13 @@
                 android:inputType="textWebPassword"
                 android:padding="20dp" />
 
-            <EditText
-                android:id="@+id/etPhoneNumberRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
-                android:hint="Phone Number"
-                android:inputType="phone"
-                android:padding="20dp" />
-
-            <CheckBox
-                android:id="@+id/cbAccept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="I accept the User Agreement and Privacy Policy." />
-
-            <CheckBox
-                android:id="@+id/cbNotification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="I want to receive notifications about new book recommendations or application news." />
 
             <Button
                 android:id="@+id/btnSingUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/cardview_dark_background"
+                android:backgroundTint="@color/buttonColor"
                 android:text="Sing Up"
                 android:textColor="@color/white" />
 

@@ -41,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20sp"
                 android:hint="Password"
+                android:drawableStart="@drawable/ic_settings_password"
                 android:inputType="textWebPassword"
                 android:padding="20dp" />
 
@@ -49,17 +50,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:text="Sing In"
+                android:backgroundTint="@color/buttonColor"
+                android:text="Sign In"
                 android:textColor="@color/white" />
 
             <Button
-                android:id="@+id/btnLoginWithGoogle"
+                android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:text="Sing In With Google"
+                android:backgroundTint="@color/buttonColor"
+                android:text="Register"
                 android:textColor="@color/white"
                 />
 
@@ -80,14 +81,7 @@
                     android:textColor="@color/cardview_dark_background"
                     android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/btnRegister"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/cardview_dark_background"
-                    android:text="Register" />
+
             </LinearLayout>
         </LinearLayout>
 

@@ -40,6 +40,7 @@ class HomeViewModel @Inject constructor(
         fetchUserBooks()
         getCategoriesAndFetchRecommendedBooks()
         getRandomFriendAndBooks()
+        getFriendsCategoriesAndFetchRecommendedBooks("O1Xl0OKXnZPLMyw2YhYymcXcRfp2")
     }
 
 
@@ -147,10 +148,7 @@ class HomeViewModel @Inject constructor(
                                     friend = getFriendUserNameResult.data.orEmpty()
                                 )
                             }
-                            Log.e(
-                                "Dante",
-                                "friendBooks: $result friendName: ${getFriendUserNameResult.data}"
-                            )
+                            Log.e("Dante", "friendBooks: $result friendName: ${getFriendUserNameResult.data}")
                         }
 
                         is Resource.Error -> {}

@@ -41,7 +41,6 @@ class FriendsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getFriendsList()
         setupRecyclerView()
         observeViewModel()
 
@@ -54,9 +53,7 @@ class FriendsFragment : Fragment() {
         } )
         binding.rvFriends.adapter = adapter
         binding.rvFriends.addItemDecoration(
-            DividerItemDecoration(
-                binding.rvFriends.context,
-                DividerItemDecoration.VERTICAL
+            DividerItemDecoration(binding.rvFriends.context, DividerItemDecoration.VERTICAL
             )
         )
     }
