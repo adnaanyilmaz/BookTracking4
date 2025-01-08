@@ -12,6 +12,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.booktracking4.databinding.FragmentFriendsDetailBinding
 import com.example.booktracking4.presentation.fragments.friends_detail.adapter.FriendsDetailAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -45,9 +47,11 @@ class FriendsDetailFragment : Fragment() {
         val bundle: FriendsDetailFragmentArgs by navArgs()
         val uid: String = bundle.uid
 
+        viewModel.getUser(uid)
         viewModel.getFriendsBook(uid)
         setupRecyclerView()
         observeViewModel()
+
 
 
     }
@@ -87,6 +91,12 @@ class FriendsDetailFragment : Fragment() {
                     else -> {
                     }
                 }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.userName.collectLatest { state ->
+            binding.tvUserName.text=state.userName
+
             }
         }
     }

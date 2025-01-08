@@ -68,22 +68,12 @@
                     android:text="Author Name"
                     android:textColor="@color/gray" />
 
-                <!-- İlerleme Çubuğu -->
-                <ProgressBar
-                    android:id="@+id/pbCurrentlyReadingProgress"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progress="50" />
 
-                <TextView
-                    android:id="@+id/tvProgressLabel"
+                <View
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_marginTop="4dp"
-                    android:text="İlerleme: %50"
-                    android:textColor="@color/gray" />
+                     />
 
                 <!-- Devam Et Butonu -->
                 <Button

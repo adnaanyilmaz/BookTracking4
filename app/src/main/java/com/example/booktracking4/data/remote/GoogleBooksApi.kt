@@ -13,8 +13,7 @@ import retrofit2.http.Query
 interface GoogleBooksApi {
     @GET("v1/volumes")
     suspend fun getBooks(
-        @Query("q") searchWord: String,
-        @Query("key") apiKey: String = API_KEY
+        @Query("q") searchWord: String
     ): BookDto
 
     @GET("v1/volumes/{id}")

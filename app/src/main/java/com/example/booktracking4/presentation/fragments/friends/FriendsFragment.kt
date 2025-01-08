@@ -45,6 +45,7 @@ class FriendsFragment : Fragment() {
         setupRecyclerView()
         observeViewModel()
 
+
     }
 
     private fun setupRecyclerView() {

@@ -5,4 +5,5 @@ data class CurrentlyReading(
     val bookName: String = "",
     val authorName: String = "",
     val image: String = "",
+    val pageCount: Int?=null
 )

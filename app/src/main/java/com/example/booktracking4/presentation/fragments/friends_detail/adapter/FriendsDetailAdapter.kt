@@ -31,7 +31,7 @@ class FriendsDetailAdapter(
         fun bind(readBook: Read) {
             binding.apply {
                 tvBookTitle.text = readBook.bookName
-                tvBookAuthors.text = readBook.authorName[0].toString()
+                tvBookAuthors.text = readBook.authorName.toString()
                 ivBookThumbnail.loadImageView(readBook.image)
 
             }

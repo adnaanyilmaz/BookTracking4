@@ -103,24 +103,20 @@ class BookDetailFragment : Fragment() {
 
 
                     binding.apply {
-                        tvBookTitle.text = book?.title
-                        tvAuthor.text = book?.authors?.getOrNull(0) ?: "Unknown Author"
-                        tvCategories.text = book?.categories?.getOrNull(0) ?: "Unknown Author"
+                        tvBookTitle.text = "Book Name: ${book?.title}"
+                        tvAuthor.text = "Author: ${book?.authors?.getOrNull(0)}" ?: "Unknown Author"
+                        tvCategories.text = "Categories: ${book?.categories?.getOrNull(0)}" ?: "Unknown Author"
                         book?.imageLinks?.let { ivBookCover.loadImageView(it.thumbnail) }
                         book?.ratingsCount?.let { ratingBar.rating = it.toFloat() }
                         val description: String = book?.description ?: ""
                         val cleanDescription =
                             Html.fromHtml(description, Html.FROM_HTML_MODE_LEGACY).toString()
                         tvDescription.text = cleanDescription
-                        tvISBN.text =
-                            "ISBN: ${
-                                book?.industryIdentifiers?.find { it.type == "ISBN_10" }?.identifier
-                                    ?: "ISBN-10 can't find"
-                            }"
+                        tvISBN.text = "ISBN: ${book?.industryIdentifiers?.find { it.type == "ISBN_10" }?.identifier ?: book?.industryIdentifiers?.get(0)?.identifier}"
                         Log.d("isbn", book?.industryIdentifiers.toString())
                         tvPageCount.text = "Page Count: ${book?.pageCount.toString()}"
-                        tvPublicationDate.text = book?.publishedDate.toString()
-                        tvPublisher.text = book?.publisher
+                        tvPublicationDate.text = "Publication Date${book?.publishedDate.toString()}"
+                        tvPublisher.text = "Publisher ${book?.publisher}"
                         btnAddToList.setOnClickListener {
 
                             addToList(selection = selectedOption, bookDetail = book)
@@ -146,7 +142,8 @@ class BookDetailFragment : Fragment() {
                     bookId = bookDetail?.id.orEmpty(),
                     bookName = bookDetail?.title.orEmpty(),
                     image = bookDetail?.imageLinks?.thumbnail.orEmpty(),
-                    authorName = bookDetail?.authors?.get(0).orEmpty()
+                    authorName = bookDetail?.authors?.get(0).orEmpty(),
+                    pageCount = bookDetail?.pageCount
                 )
                 viewModel.addBookRead(userId = userId, book = read)
             }
@@ -156,7 +153,9 @@ class BookDetailFragment : Fragment() {
                     bookId = bookDetail?.id.orEmpty(),
                     bookName = bookDetail?.title.orEmpty(),
                     image = bookDetail?.imageLinks?.thumbnail.orEmpty(),
-                    authorName = bookDetail?.authors?.get(0).orEmpty()
+                    authorName = bookDetail?.authors?.get(0).orEmpty(),
+                    pageCount = bookDetail?.pageCount
+
                 )
                 viewModel.addBookCurrentlyReading(userId = userId, book = currentlyReading)
             }
@@ -166,7 +165,8 @@ class BookDetailFragment : Fragment() {
                     bookId = bookDetail?.id.orEmpty(),
                     bookName = bookDetail?.title.orEmpty(),
                     image = bookDetail?.imageLinks?.thumbnail.orEmpty(),
-                    authorName = bookDetail?.authors?.get(0).orEmpty()
+                    authorName = bookDetail?.authors?.get(0).orEmpty(),
+                    pageCount = bookDetail?.pageCount
                 )
                 viewModel.addBookWantToRead(userId = userId, book = willIRead)
             }

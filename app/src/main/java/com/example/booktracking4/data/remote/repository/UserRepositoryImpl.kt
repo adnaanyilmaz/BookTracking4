@@ -171,10 +171,6 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUserForBooks(bookId: String): Resource<List<Book>> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun getUserName(uid: String): Resource<String> {
         return try {
             val snapshot = firestore.collection("Users")

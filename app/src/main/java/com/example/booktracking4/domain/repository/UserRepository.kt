@@ -15,7 +15,6 @@ interface UserRepository {
     suspend fun addBookToCurrentlyReading(userId: String, book: CurrentlyReading): Resource<String>
     suspend fun deleteUserBooks(userId: String,bookId: String): Resource<User>
     suspend fun getUserBooks(userId: String): Resource<User>
-    suspend fun getUserForBooks(bookId: String): Resource<List<Book>>
     suspend fun getUserName(uid: String): Resource<String>
     suspend fun checkUserName(userName: String): Boolean
 

@@ -29,6 +29,7 @@ class ToReadAdapter(
             binding.apply {
                 tvBookTitle.text = wantToRead.bookName
                 tvAuthorName.text=wantToRead.authorName
+                tvProgress.text=wantToRead.pageCount.toString()
                 ivUserProfilePhoto.loadImageView(wantToRead.image)
                 cardView.setOnClickListener {
                     onItemClickListener.invoke(wantToRead.bookId)
