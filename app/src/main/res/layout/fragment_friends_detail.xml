@@ -16,7 +16,7 @@
             android:layout_height="150dp"
             android:contentDescription="Book Cover"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_placeholder"
+            android:src="@drawable/profile_placeholder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

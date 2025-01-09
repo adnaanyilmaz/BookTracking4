@@ -1,5 +1,6 @@
 package com.example.booktracking4.presentation.fragments.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ class ProfileFragment : Fragment() {
 
     private val viewModel: ProfileViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -39,6 +41,17 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         signOut()
+        collectViewModel()
+
+        binding.btnNotification.setOnClickListener {
+            findNavController().navigate(
+                ProfileFragmentDirections.actionProfileFragmentToFriendsRequestsFragment()
+            )
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun collectViewModel() {
         lifecycleScope.launch {
             viewModel.uiEffect.collect { effect ->
                 when (effect) {
@@ -61,11 +74,24 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-        binding.btnNotification.setOnClickListener{
-            findNavController().navigate(
-                ProfileFragmentDirections.actionProfileFragmentToFriendsRequestsFragment()
-            )
+
+        lifecycleScope.launch {
+            viewModel.userState.collect { state ->
+                binding.tvUserName.text = state.userName.toString()
+                binding.tvUserEmail.text = state.email
+            }
         }
+
+        lifecycleScope.launch {
+            viewModel.uiState.collect { state ->
+                val readPageCount = state.read.sumOf { it.pageCount ?: 0 }
+
+                binding.tvTotalPages.text=readPageCount.toString()
+                binding.tvReadBooksCount.text=state.read.size.toString()
+                binding.tvReadingBooksCount.text=state.currentlyReading.size.toString()
+            }
+        }
+
     }
 
     private fun signOut() {

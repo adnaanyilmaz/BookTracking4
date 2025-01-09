@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.booktracking4.databinding.FragmentFriendsDetailBinding
@@ -53,12 +54,17 @@ class FriendsDetailFragment : Fragment() {
         observeViewModel()
 
 
-
     }
 
 
     private fun setupRecyclerView() {
-        adapter = FriendsDetailAdapter()
+        adapter = FriendsDetailAdapter(
+            onItemClickListener = { bookId ->
+                findNavController().navigate(
+                    FriendsDetailFragmentDirections.actionFriendsDetailFragmentToBookDetailFragment(bookId)
+                )
+            }
+        )
         binding.rvFriendsDetail.adapter = adapter
         binding.rvFriendsDetail.addItemDecoration(
             DividerItemDecoration(
@@ -67,6 +73,7 @@ class FriendsDetailFragment : Fragment() {
             )
         )
     }
+
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collectLatest { state ->
@@ -80,11 +87,17 @@ class FriendsDetailFragment : Fragment() {
                         ).show()
                     }
 
-                    is FriendsDetailUiState.Loading -> if (state.isLoading==true) binding.progressBar.visibility = View.VISIBLE else binding.progressBar.visibility = View.GONE
+                    is FriendsDetailUiState.Loading -> if (state.isLoading == true) binding.progressBar.visibility =
+                        View.VISIBLE else binding.progressBar.visibility = View.GONE
+
                     is FriendsDetailUiState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         adapter.submitData(state.requests)
-                        Toast.makeText(requireContext(),"book list fetched successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "book list fetched successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                     }
 
@@ -95,7 +108,7 @@ class FriendsDetailFragment : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.userName.collectLatest { state ->
-            binding.tvUserName.text=state.userName
+                binding.tvUserName.text = state.userName
 
             }
         }

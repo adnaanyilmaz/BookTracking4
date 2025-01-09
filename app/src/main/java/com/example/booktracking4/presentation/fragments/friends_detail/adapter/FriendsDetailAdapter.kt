@@ -10,7 +10,9 @@ import com.example.booktracking4.data.remote.user.Read
 import com.example.booktracking4.databinding.ItemBookCardBinding
 
 class FriendsDetailAdapter(
-) : ListAdapter<Read, FriendsDetailAdapter.FriendRequestViewHolder>(DiffCallback) {
+    private val onItemClickListener: (String) -> Unit,
+
+    ) : ListAdapter<Read, FriendsDetailAdapter.FriendRequestViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendRequestViewHolder {
         val binding = ItemBookCardBinding.inflate(
@@ -33,6 +35,9 @@ class FriendsDetailAdapter(
                 tvBookTitle.text = readBook.bookName
                 tvBookAuthors.text = readBook.authorName.toString()
                 ivBookThumbnail.loadImageView(readBook.image)
+                linearLaoyut.setOnClickListener{
+                    onItemClickListener.invoke(readBook.bookId)
+                }
 
             }
 
