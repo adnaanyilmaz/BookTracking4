@@ -103,7 +103,7 @@ class BookDetailFragment : Fragment() {
 
 
                     binding.apply {
-                        tvBookTitle.text = "Book Name: ${book?.title}"
+                        tvBookTitle.text =  book?.title
                         tvAuthor.text = "Author: ${book?.authors?.getOrNull(0)}" ?: "Unknown Author"
                         tvCategories.text = "Categories: ${book?.categories?.getOrNull(0)}" ?: "Unknown Author"
                         book?.imageLinks?.let { ivBookCover.loadImageView(it.thumbnail) }
@@ -115,8 +115,8 @@ class BookDetailFragment : Fragment() {
                         tvISBN.text = "ISBN: ${book?.industryIdentifiers?.find { it.type == "ISBN_10" }?.identifier ?: book?.industryIdentifiers?.get(0)?.identifier}"
                         Log.d("isbn", book?.industryIdentifiers.toString())
                         tvPageCount.text = "Page Count: ${book?.pageCount.toString()}"
-                        tvPublicationDate.text = "Publication Date${book?.publishedDate.toString()}"
-                        tvPublisher.text = "Publisher ${book?.publisher}"
+                        tvPublicationDate.text = "Publication Date: ${book?.publishedDate.toString()}"
+                        tvPublisher.text = "Publisher: ${book?.publisher}"
                         btnAddToList.setOnClickListener {
 
                             addToList(selection = selectedOption, bookDetail = book)

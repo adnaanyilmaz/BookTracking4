@@ -34,6 +34,7 @@ class FriendsDetailAdapter(
             binding.apply {
                 tvBookTitle.text = readBook.bookName
                 tvBookAuthors.text = readBook.authorName.toString()
+                tvBookCategory.text=readBook.category
                 ivBookThumbnail.loadImageView(readBook.image)
                 linearLaoyut.setOnClickListener{
                     onItemClickListener.invoke(readBook.bookId)
