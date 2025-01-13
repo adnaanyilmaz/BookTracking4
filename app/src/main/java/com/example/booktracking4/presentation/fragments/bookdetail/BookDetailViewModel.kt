@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.booktracking4.common.Resource
 import com.example.booktracking4.data.remote.user.CurrentlyReading
 import com.example.booktracking4.data.remote.user.Read
-import com.example.booktracking4.data.remote.user.User
 import com.example.booktracking4.data.remote.user.UserCategories
 import com.example.booktracking4.data.remote.user.WantToRead
 import com.example.booktracking4.data.repository.AuthRepository

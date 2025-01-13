@@ -8,7 +8,7 @@ import com.example.booktracking4.domain.model.room.BookNote
 
 @Database(
     entities = [BookNote::class],
-    version = 3
+    version = 4
 )
 abstract class BookNoteDatabase: RoomDatabase() {
     abstract fun bookNoteDao(): NoteDao

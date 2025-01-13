@@ -48,6 +48,13 @@ class AddNoteViewModel @Inject constructor(
     private val _id = MutableStateFlow(0)
     val id: StateFlow<Int> = _id
 
+    private val _isPrivateStatus = MutableStateFlow(true)
+    val isPrivateStatus: StateFlow<Boolean> = _isPrivateStatus
+
+    fun updatePrivateStatus(newStatus: Boolean) {
+        _isPrivateStatus.value = newStatus
+    }
+
     fun updateData(newData: Int) {
         _id.value = newData
     }
@@ -132,7 +139,8 @@ class AddNoteViewModel @Inject constructor(
                                 isFavorite = isFavorite.value,
                                 id = currentNoteId,
                                 bookName = bookName.value.text,
-                                userId = auth.currentUser?.uid!!
+                                userId = auth.currentUser?.uid!!,
+                                status = isPrivateStatus.value
                             )
                         )
                         val result = firebaseRepository.getNoteById(_id.value)
@@ -147,7 +155,8 @@ class AddNoteViewModel @Inject constructor(
                                 isFavorite = isFavorite.value,
                                 id = result.id,
                                 bookName = bookName.value.text,
-                                userId = auth.currentUser?.uid!!
+                                userId = auth.currentUser?.uid!!,
+                                status = _isPrivateStatus.value
                             ))
                         }
                         _eventFlow.emit(SaveNote)

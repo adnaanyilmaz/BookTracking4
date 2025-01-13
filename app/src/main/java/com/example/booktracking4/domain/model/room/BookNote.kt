@@ -13,6 +13,7 @@ data class BookNote(
     val page: String = "",
     var isFavorite: Boolean = false,
     val userId: String = "",
+    var status: Boolean=false,
     @PrimaryKey val id: Int? = null
 ) {
     // Firestore için varsayılan bir constructor gerekli
@@ -24,7 +25,8 @@ data class BookNote(
         page = "",
         isFavorite = false,
         userId = "",
-        id = null
+        id = null,
+        status = false
     )
 }
 

@@ -1,5 +1,6 @@
 package com.example.booktracking4.presentation.fragments.favorite_books.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -17,6 +18,7 @@ class FavoriteBooksAdapter(
 
     class ReadViewHolder(private val binding: ItemBookReadBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(
             read: Read,
             onFavoriteClick: (String, Boolean) -> Unit,

@@ -17,8 +17,11 @@ import androidx.navigation.fragment.navArgs
 import com.example.booktracking4.R
 import com.example.booktracking4.databinding.FragmentAddNoteBinding
 import com.example.booktracking4.domain.model.room.BookNote
+import com.example.booktracking4.domain.util.NoteOrder
+import com.example.booktracking4.domain.util.OrderType
 import com.example.booktracking4.presentation.fragments.addnote.AddNoteViewModel.UiEvent
 import com.example.booktracking4.presentation.fragments.bookdetail.BookDetailFragmentArgs
+import com.example.booktracking4.presentation.fragments.notes.NotesEvent
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -50,6 +53,7 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         val bundle: AddNoteFragmentArgs by navArgs()
         val id: Int = bundle.id
         val bookName: String=bundle.bookname
+        setUpRadioGroup()
 
         viewModel.updateBookName(bookName)
         viewModel.updateData(id)
@@ -159,6 +163,17 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun setUpRadioGroup() {
+        binding.radioGroupNotes.setOnCheckedChangeListener { _, checkedId ->
+             when (checkedId) {
+                R.id.rbPrivate -> viewModel.updatePrivateStatus(true)
+
+                R.id.rbPublic -> viewModel.updatePrivateStatus(false)
+                else -> return@setOnCheckedChangeListener
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.booktracking4.presentation.fragments.read
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -39,6 +40,7 @@ class ReadFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -68,6 +70,7 @@ class ReadFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun collectViewModel() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->

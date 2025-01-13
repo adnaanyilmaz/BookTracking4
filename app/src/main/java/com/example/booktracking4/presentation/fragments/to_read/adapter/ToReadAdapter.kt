@@ -1,6 +1,7 @@
 package com.example.booktracking4.presentation.fragments.to_read.adapter
 
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -20,6 +21,7 @@ class ToReadAdapter(
 
     class ToReadViewHolder(private val binding: ItemBookStatusBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(
             wantToRead: WantToRead,
             onItemClickListener: (String) -> Unit,
