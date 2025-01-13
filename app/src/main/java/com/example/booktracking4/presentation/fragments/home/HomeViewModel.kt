@@ -38,9 +38,9 @@ class HomeViewModel @Inject constructor(
 
     init {
         fetchUserBooks()
-        getCategoriesAndFetchRecommendedBooks()
-        getRandomFriendAndBooks()
-        getFriendsCategoriesAndFetchRecommendedBooks("Qk7Ah8gdR9gJzPI4t2ma6jXRGFK2")
+        //getCategoriesAndFetchRecommendedBooks()
+       // getRandomFriendAndBooks()
+     //   getFriendsCategoriesAndFetchRecommendedBooks("Qk7Ah8gdR9gJzPI4t2ma6jXRGFK2")
     }
 
 

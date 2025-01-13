@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_profileFragment_to_friendsRequestsFragment"
             app:destination="@id/friendsRequestsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_favoriteBooksFragment"
+            app:destination="@id/favoriteBooksFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -189,4 +192,8 @@
             android:id="@+id/action_friendsDetailFragment_to_bookDetailFragment"
             app:destination="@id/bookDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/favoriteBooksFragment"
+        android:name="com.example.booktracking4.presentation.fragments.favorite_books.FavoriteBooksFragment"
+        android:label="FavoriteBooksFragment" />
 </navigation>

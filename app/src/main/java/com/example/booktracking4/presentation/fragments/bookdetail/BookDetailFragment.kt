@@ -107,7 +107,6 @@ class BookDetailFragment : Fragment() {
                         tvAuthor.text = "Author: ${book?.authors?.getOrNull(0)}" ?: "Unknown Author"
                         tvCategories.text = "Categories: ${book?.categories?.getOrNull(0)}" ?: "Unknown Author"
                         book?.imageLinks?.let { ivBookCover.loadImageView(it.thumbnail) }
-                        book?.ratingsCount?.let { ratingBar.rating = it.toFloat() }
                         val description: String = book?.description ?: ""
                         val cleanDescription =
                             Html.fromHtml(description, Html.FROM_HTML_MODE_LEGACY).toString()
@@ -121,11 +120,11 @@ class BookDetailFragment : Fragment() {
 
                             addToList(selection = selectedOption, bookDetail = book)
                             findNavController().popBackStack()
-                            Toast.makeText(
-                                requireContext(),
-                                "$selectedOption added",
-                                Toast.LENGTH_SHORT
-                            ).show()
+//                            Toast.makeText(
+//                                requireContext(),
+//                                "$selectedOption added",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
 
                         }
                     }
@@ -156,7 +155,6 @@ class BookDetailFragment : Fragment() {
                     image = bookDetail?.imageLinks?.thumbnail.orEmpty(),
                     authorName = bookDetail?.authors?.get(0).orEmpty(),
                     pageCount = bookDetail?.pageCount
-
                 )
                 viewModel.addBookCurrentlyReading(userId = userId, book = currentlyReading)
             }

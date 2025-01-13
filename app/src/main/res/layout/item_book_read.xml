@@ -18,6 +18,16 @@
         android:padding="16dp">
 
 
+        <!-- Favori İkonu -->
+        <ImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="start"
+            android:contentDescription="Favorite Icon"
+            android:src="@drawable/favorite_border"
+            app:tint="@color/red" />
+
         <!-- Kitap Kapağı -->
         <ImageView
             android:id="@+id/ivUserProfilePhoto"

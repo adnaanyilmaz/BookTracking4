@@ -50,6 +50,20 @@ class ReadFragment : Fragment() {
                 ReadFragmentDirections.actionReadFragmentToSearchFragment()
             )
         }
+        binding.ivFavoriteFilters.setOnClickListener{
+            viewModel.filterFavoriteBooks()
+            lifecycleScope.launch{
+                viewModel.uiState.collect{state ->
+                    if (state.read.isNotEmpty()) {
+                    readAdapter.submitData(state.read)
+                    binding.tvDescription.text="You have ${state.read.size} favorite books"
+                    } else{
+                        readAdapter.submitData(emptyList())
+                        binding.tvDescription.text="You have ${state.read.size} favorite books"
+                    }
+                }
+            }
+        }
 
 
     }
@@ -86,7 +100,11 @@ class ReadFragment : Fragment() {
                 findNavController().navigate(
                     ReadFragmentDirections.actionReadFragmentToAddNoteFragment(0,bookName)
                 )
-            })
+            }, onFavoriteClick = {bookId,newFavorite ->
+                viewModel.upDateFavorite(bookId = bookId, newIsFavoriteStatus = newFavorite)
+//                collectViewModel()
+            }
+            )
         binding.rvRead.adapter = readAdapter
         binding.rvRead.addItemDecoration(
             DividerItemDecoration(

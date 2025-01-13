@@ -48,6 +48,11 @@ class ProfileFragment : Fragment() {
                 ProfileFragmentDirections.actionProfileFragmentToFriendsRequestsFragment()
             )
         }
+        binding.btnFavoriteBooks.setOnClickListener{
+            findNavController().navigate(
+                ProfileFragmentDirections.actionProfileFragmentToFavoriteBooksFragment()
+            )
+        }
     }
 
     @SuppressLint("SetTextI18n")

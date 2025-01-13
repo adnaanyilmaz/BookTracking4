@@ -65,7 +65,6 @@ class BookDetailViewModel @Inject constructor(
                 updateUiState { copy(isLoading = false) }
                 val categoriesList = UserCategories(userCategoryName = book.category)
                 userRepository.addUserCategories(userId = userId, category = categoriesList )
-
             }
             is Resource.Success -> {
                 updateUiState { copy(isLoading = false) }

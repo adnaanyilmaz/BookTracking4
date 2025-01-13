@@ -54,6 +54,42 @@ class ReadViewModel @Inject constructor(
             )
         fetchUserBooks()
     }
+    fun upDateFavorite(bookId: String,newIsFavoriteStatus: Boolean)=viewModelScope.launch{
+        userRepository.updateIsFavorite(
+            userId = authRepository.getUserId(),
+            bookId = bookId,
+            newIsFavoriteStatus =newIsFavoriteStatus
+        )
+        fetchUserBooks()
+    }
+
+    fun filterFavoriteBooks()=viewModelScope.launch{
+         val result=userRepository.getFavoriteBooks(
+            userId = authRepository.getUserId()
+        )
+        when(result){
+            is Resource.Error -> updateUiState {
+                copy(
+                    isLoading = true,
+                    read = emptyList()
+                )
+
+            }
+            is Resource.Loading -> updateUiState {
+                copy(
+                    isLoading = true,
+                )
+
+            }
+            is Resource.Success -> updateUiState {
+                copy(
+                    isLoading = false,
+                    read = result.data ?: emptyList(),
+                )
+
+            }
+        }
+    }
 
 
     private fun updateUiState(block: ReadUiState.() -> ReadUiState) {

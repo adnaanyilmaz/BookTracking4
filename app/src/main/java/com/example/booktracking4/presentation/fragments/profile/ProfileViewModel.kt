@@ -48,8 +48,16 @@ class ProfileViewModel @Inject constructor(
     fun getUser() = viewModelScope.launch() {
         val result = userRepository.getUserName(auth.currentUser?.uid!!)
         when (result) {
-            is Resource.Error -> TODO()
-            is Resource.Loading -> TODO()
+            is Resource.Error -> {
+                updateUiState {
+                    copy(
+                        userName = result.data.toString(),
+                        email = ""
+                    )
+                }
+            }
+
+            is Resource.Loading -> {}
             is Resource.Success -> {
                 updateUiState {
                     copy(

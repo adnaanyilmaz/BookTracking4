@@ -27,6 +27,7 @@ class ToReadAdapter(
             onNavigate: (String) -> Unit
         ) {
             binding.apply {
+                tvBookStatus.text="To Read"
                 tvBookTitle.text = wantToRead.bookName
                 tvAuthorName.text=wantToRead.authorName
                 tvProgress.text=wantToRead.pageCount.toString()

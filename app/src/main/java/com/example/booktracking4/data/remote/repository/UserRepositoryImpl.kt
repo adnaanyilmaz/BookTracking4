@@ -37,10 +37,14 @@ class UserRepositoryImpl @Inject constructor(
                 val currentUser = snapshot.toObject(User::class.java)
 
                 val updatedBooks = currentUser?.read?.toMutableList() ?: mutableListOf()
+                val wantToReadBooks = currentUser?.wantToRead ?: emptyList()
+                val currentlyReadingBooks = currentUser?.currentlyReading ?: emptyList()
 
-                // Kitap zaten mevcutsa işlem yapılmaz
-                if (updatedBooks.any { it.bookId == book.bookId }) {
-                    throw Exception("Book is already in the 'What I Read' list")
+                // Kitap diğer listelerde veya mevcut listede zaten varsa işlem yapılmaz
+                if (updatedBooks.any { it.bookId == book.bookId } ||
+                    wantToReadBooks.any { it.bookId == book.bookId } ||
+                    currentlyReadingBooks.any { it.bookId == book.bookId }) {
+                    throw Exception("Book is already in another list or in 'What I Read' list")
                 }
 
                 updatedBooks.add(book)
@@ -64,10 +68,14 @@ class UserRepositoryImpl @Inject constructor(
                 val currentUser = snapshot.toObject(User::class.java)
 
                 val updatedBooks = currentUser?.wantToRead?.toMutableList() ?: mutableListOf()
+                val readBooks = currentUser?.read ?: emptyList()
+                val currentlyReadingBooks = currentUser?.currentlyReading ?: emptyList()
 
-                // Kitap zaten mevcutsa işlem yapılmaz
-                if (updatedBooks.any { it.bookId == book.bookId }) {
-                    throw Exception("Book is already in the 'What I Will Read' list")
+                // Kitap diğer listelerde veya mevcut listede zaten varsa işlem yapılmaz
+                if (updatedBooks.any { it.bookId == book.bookId } ||
+                    readBooks.any { it.bookId == book.bookId } ||
+                    currentlyReadingBooks.any { it.bookId == book.bookId }) {
+                    throw Exception("Book is already in another list or in 'What I Will Read' list")
                 }
 
                 updatedBooks.add(book)
@@ -91,10 +99,14 @@ class UserRepositoryImpl @Inject constructor(
                 val currentUser = snapshot.toObject(User::class.java)
 
                 val updatedBooks = currentUser?.currentlyReading?.toMutableList() ?: mutableListOf()
+                val readBooks = currentUser?.read ?: emptyList()
+                val wantToReadBooks = currentUser?.wantToRead ?: emptyList()
 
-                // Kitap zaten mevcutsa işlem yapılmaz
-                if (updatedBooks.any { it.bookId == book.bookId }) {
-                    throw Exception("Book is already in the 'What I Will Read' list")
+                // Kitap diğer listelerde veya mevcut listede zaten varsa işlem yapılmaz
+                if (updatedBooks.any { it.bookId == book.bookId } ||
+                    readBooks.any { it.bookId == book.bookId } ||
+                    wantToReadBooks.any { it.bookId == book.bookId }) {
+                    throw Exception("Book is already in another list or in 'Currently Reading' list")
                 }
 
                 updatedBooks.add(book)
@@ -103,9 +115,10 @@ class UserRepositoryImpl @Inject constructor(
 
             Resource.Success(book.bookName)
         } catch (e: Exception) {
-            Resource.Error("Failed to add book to what I will read: ${e.message}")
+            Resource.Error("Failed to add book to currently reading: ${e.message}")
         }
     }
+
 
     override suspend fun deleteUserBooks(userId: String, bookId: String): Resource<User> {
         return try {
@@ -209,7 +222,8 @@ class UserRepositoryImpl @Inject constructor(
                 val snapshot = transaction.get(userDocRef)
                 val currentUser = snapshot.toObject(User::class.java)
 
-                val updatedCategories = currentUser?.userCategory?.toMutableList() ?: mutableListOf()
+                val updatedCategories =
+                    currentUser?.userCategory?.toMutableList() ?: mutableListOf()
 
                 // Kitap zaten mevcutsa işlem yapılmaz
                 if (updatedCategories.any { it.userCategoryName == category.userCategoryName }) {
@@ -241,6 +255,56 @@ class UserRepositoryImpl @Inject constructor(
             }
         } catch (e: Exception) {
             Resource.Error("An error occurred: ${e.localizedMessage}")
+        }
+    }
+
+    override suspend fun updateIsFavorite(
+        userId: String,
+        bookId: String,
+        newIsFavoriteStatus: Boolean
+    ): Result<Unit> {
+        return try {
+            val userDocRef = firestore.collection("Users").document(userId)
+
+            // Firestore işlem bloğu ile güncelleme
+            firestore.runTransaction { transaction ->
+                // Kullanıcı verisini getir
+                val snapshot = transaction.get(userDocRef)
+                val user = snapshot.toObject(User::class.java)
+                    ?: throw IllegalArgumentException("User not found.")
+
+                // currentlyReading listesini güncelle
+                val updatedRead = user.read.map { book ->
+                    if (book.bookId == bookId) {
+                        book.copy(isFavorite = newIsFavoriteStatus) // Yeni isFavorite durumu
+                    } else {
+                        book
+                    }
+                }
+
+                // Güncellenmiş listeyi Firestore'a yaz
+                transaction.update(userDocRef, "read", updatedRead)
+            }.await() // Asenkron işlemi bekle
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    override suspend fun getFavoriteBooks(userId: String): Resource<List<Read>> {
+        return try {
+            val userDocRef = firestore.collection("Users").document(userId)
+
+            // Kullanıcı verisini çek
+            val snapshot = userDocRef.get().await()
+            val user = snapshot.toObject(User::class.java)
+                ?: throw IllegalArgumentException("User not found.")
+
+            // read listesini filtrele
+            val favoriteBooks = user.read.filter { it.isFavorite }
+
+            Resource.Success(favoriteBooks)
+        } catch (e: Exception) {
+            Resource.Error(e.message)
         }
     }
 

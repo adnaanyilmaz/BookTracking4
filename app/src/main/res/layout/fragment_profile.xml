@@ -137,6 +137,15 @@
             android:textColor="@color/white" />
 
         <Button
+            android:id="@+id/btnFavoriteBooks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/buttonColor"
+            android:text="Favorite Books"
+            android:textColor="@color/white" />
+
+        <Button
             android:id="@+id/btnLogoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

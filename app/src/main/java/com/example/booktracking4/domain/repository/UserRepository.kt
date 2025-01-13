@@ -1,13 +1,11 @@
 package com.example.booktracking4.domain.repository
 
-import android.R
 import com.example.booktracking4.common.Resource
 import com.example.booktracking4.data.remote.user.CurrentlyReading
 import com.example.booktracking4.data.remote.user.User
 import com.example.booktracking4.data.remote.user.Read
 import com.example.booktracking4.data.remote.user.UserCategories
 import com.example.booktracking4.data.remote.user.WantToRead
-import com.example.booktracking4.domain.model.ui_model.search_model.Book
 
 interface UserRepository {
 
@@ -21,5 +19,6 @@ interface UserRepository {
     suspend fun checkUserName(userName: String): Boolean
     suspend fun addUserCategories(userId: String, category: UserCategories): Resource<String>
     suspend fun getUserCategories(uid: String): Resource<List<UserCategories>>
-
+    suspend fun updateIsFavorite(userId: String, bookId: String, newIsFavoriteStatus: Boolean): Result<Unit>
+    suspend fun getFavoriteBooks(userId: String): Resource<List<Read>>
 }
