@@ -22,30 +22,46 @@
         app:title="My Notes"
         app:titleTextColor="@android:color/white" />
 
-    <RadioGroup
-        android:id="@+id/radioGroupNotes"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+    <LinearLayout
+        android:id="@+id/llRadioGroupAndSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewNotes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarNotes">
 
-        <RadioButton
-            android:id="@+id/rbAscending"
+        <RadioGroup
+            android:id="@+id/radioGroupNotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Ascending" />
+            android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/rbDescending"
+            <RadioButton
+                android:id="@+id/rbAscending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Ascending" />
+
+            <RadioButton
+                android:id="@+id/rbDescending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:checked="true"
+                android:text="Descending" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:checked="true"
-            android:text="Descending" />
-    </RadioGroup>
+            android:paddingTop="8dp"
+            />
+    </LinearLayout>
+
 
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
@@ -56,7 +72,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupNotes" />
+        app:layout_constraintTop_toBottomOf="@id/llRadioGroupAndSpinner" />
 
     <!-- ProgressBar -->
     <ProgressBar

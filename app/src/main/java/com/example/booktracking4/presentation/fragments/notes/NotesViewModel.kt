@@ -88,4 +88,25 @@ class NotesViewModel @Inject constructor(
             .launchIn(viewModelScope)
 
     }
+    fun fetchDistinctBookNames() {
+        viewModelScope.launch {
+            firebaseRepository.getNotes().collect { notes ->
+                val bookNames = mutableListOf<String>()
+                bookNames.add("Please select") // Varsayılan öğeyi ekle
+                bookNames.addAll(notes.mapNotNull { it.bookName }.distinct())
+                _state.value = state.value.copy(bookNames = bookNames)
+            }
+        }
+    }
+
+    fun filterNotesByBookName(bookName: String) {
+        viewModelScope.launch {
+            firebaseRepository.getNotes().collect { notes ->
+                val filteredNotes = notes.filter { it.bookName == bookName }
+                _state.value = state.value.copy(notes = filteredNotes)
+            }
+        }
+    }
+
+
 }

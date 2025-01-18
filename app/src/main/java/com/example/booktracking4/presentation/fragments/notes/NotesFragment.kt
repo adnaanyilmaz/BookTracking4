@@ -10,6 +10,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
@@ -69,6 +71,11 @@ class NotesFragment : Fragment() {
         setupMenu()
         setUpRadioGroup()
         collectUIState()
+
+        viewModel.fetchDistinctBookNames()
+        setupSpinner()
+
+
 
     }
     private fun setupMenu() {
@@ -178,6 +185,38 @@ class NotesFragment : Fragment() {
         }
         return "null"
     }
+
+    private fun setupSpinner() {
+        lifecycleScope.launch{
+        viewModel.state.collect { state ->
+            val adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                state.bookNames
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinner.adapter = adapter
+        }
+        }
+
+        // Varsayılan olarak hiçbir seçim yapılmamasını sağla
+        binding.spinner.setSelection(0)
+
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedBookName = parent?.getItemAtPosition(position).toString()
+                if (selectedBookName != "Please select") {
+                    viewModel.filterNotesByBookName(selectedBookName)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Hiçbir şey seçilmediğinde yapılacak işlem
+            }
+        }
+    }
+
+
 
 
     override fun onDestroyView() {
