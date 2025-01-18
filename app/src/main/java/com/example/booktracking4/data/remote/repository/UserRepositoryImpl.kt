@@ -291,6 +291,7 @@ class UserRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
     override suspend fun getFavoriteBooks(userId: String): Resource<List<Read>> {
         return try {
             val userDocRef = firestore.collection("Users").document(userId)
@@ -309,7 +310,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFriendsPublicNotes(userId: String): Resource<List<BookNote>> {
+    override suspend fun getFriendsPublicNotes(userId: String): Resource<List<Pair<String, BookNote>>> {
         try {
             // Kullanıcının arkadaşlarını Firestore'dan al
             val userSnapshot = firestore.collection("Users")
@@ -319,20 +320,24 @@ class UserRepositoryImpl @Inject constructor(
             val userFriends = userSnapshot.toObject(User::class.java)?.friend ?: emptyList()
 
             // Tüm arkadaşların public notlarını topla
-            val publicNotes = mutableListOf<BookNote>()
+            val publicNotesWithUsername = mutableListOf<Pair<String, BookNote>>()
             for (friend in userFriends) {
                 val friendSnapshot = firestore.collection("Users")
                     .document(friend.uid)
                     .get()
                     .await()
-                val friendNotes = friendSnapshot.toObject(User::class.java)?.notes ?: emptyList()
-                // Sadece public (status = false) notları ekle
-                publicNotes.addAll(friendNotes.filter { !it.status })
+                val friendData = friendSnapshot.toObject(User::class.java)
+                val friendUsername = friendData?.userName ?: "Unknown"
+                val friendNotes = friendData?.notes ?: emptyList()
+
+                // Sadece public (status = false) notları ekle ve username ile eşleştir
+                publicNotesWithUsername.addAll(friendNotes.filter { !it.status }
+                    .map { friendUsername to it })
             }
-            return Resource.Success(publicNotes)
+            return Resource.Success(publicNotesWithUsername)
         } catch (e: Exception) {
             e.printStackTrace()
-            return Resource.Error(e.message,emptyList())
+            return Resource.Error(e.message, emptyList())
         }
     }
 }

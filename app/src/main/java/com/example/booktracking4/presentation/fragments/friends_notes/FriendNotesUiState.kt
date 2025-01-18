@@ -5,6 +5,6 @@ import com.example.booktracking4.domain.model.room.BookNote
 data class FriendNotesUiState(
     val isLoading: Boolean = true,
     val error: String = "",
-    val notes: List<BookNote> = emptyList(),
-    val userName: String=""
+    val notesWithUsernames: List<Pair<String, BookNote>> = emptyList() // Username ve not eşleşmeleri
 )
+

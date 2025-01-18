@@ -196,4 +196,8 @@
         android:id="@+id/favoriteBooksFragment"
         android:name="com.example.booktracking4.presentation.fragments.favorite_books.FavoriteBooksFragment"
         android:label="FavoriteBooksFragment" />
+    <fragment
+        android:id="@+id/friendNotesFragment"
+        android:name="com.example.booktracking4.presentation.fragments.friends_notes.FriendNotesFragment"
+        android:label="FriendNotesFragment" />
 </navigation>

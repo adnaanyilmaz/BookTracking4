@@ -22,5 +22,5 @@ interface UserRepository {
     suspend fun getUserCategories(uid: String): Resource<List<UserCategories>>
     suspend fun updateIsFavorite(userId: String, bookId: String, newIsFavoriteStatus: Boolean): Result<Unit>
     suspend fun getFavoriteBooks(userId: String): Resource<List<Read>>
-    suspend fun getFriendsPublicNotes(userId: String): Resource<List<BookNote>>
+    suspend fun getFriendsPublicNotes(userId: String): Resource<List<Pair<String, BookNote>>>
 }

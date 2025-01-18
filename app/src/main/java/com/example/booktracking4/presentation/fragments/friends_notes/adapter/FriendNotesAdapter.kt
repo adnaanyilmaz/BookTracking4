@@ -15,21 +15,16 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 
-class FriendNotesAdapter(
-    private val onFavoriteClick: (String, Boolean) -> Unit,
-    private val userName: String
-) : ListAdapter<BookNote, FriendNotesAdapter.ReadViewHolder>(WhatIReadDiffCallback()) {
+class FriendNotesAdapter :
+    ListAdapter<Pair<String, BookNote>, FriendNotesAdapter.NoteViewHolder>(FriendNotesDiffCallback()) {
 
-    class ReadViewHolder(private val binding: ItemFriendNoteBinding) :
+    class NoteViewHolder(private val binding: ItemFriendNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         @SuppressLint("SetTextI18n", "NewApi")
-        fun bind(
-            note: BookNote,
-            onFavoriteClick: (String, Boolean) -> Unit,
-            userName: String
-        ) {
+        fun bind(username: String, note: BookNote) {
             binding.apply {
-                tvUserName.text=userName
+                tvUserName.text = username
                 tvNoteTitle.text = note.title
                 tvNoteContent.text = note.content
                 tvNotePageRange.text = note.page
@@ -39,29 +34,36 @@ class FriendNotesAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReadViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding =
             ItemFriendNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ReadViewHolder(binding)
+        return NoteViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ReadViewHolder, position: Int) {
-        holder.bind(getItem(position),onFavoriteClick,userName)
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
+        val (username, note) = getItem(position)
+        holder.bind(username, note)
     }
 
     // Submit data method to update the list
-    fun submitData(newList: List<BookNote>) {
+    fun submitData(newList: List<Pair<String, BookNote>>) {
         submitList(newList)
     }
 }
 
 // DiffUtil callback for efficient updates
-class WhatIReadDiffCallback : DiffUtil.ItemCallback<BookNote>() {
-    override fun areItemsTheSame(oldItem: BookNote, newItem: BookNote): Boolean {
-        return oldItem.id == newItem.id // Unique identifier for the item
+class FriendNotesDiffCallback : DiffUtil.ItemCallback<Pair<String, BookNote>>() {
+    override fun areItemsTheSame(
+        oldItem: Pair<String, BookNote>,
+        newItem: Pair<String, BookNote>
+    ): Boolean {
+        return oldItem.second.id == newItem.second.id // Unique identifier for the note
     }
 
-    override fun areContentsTheSame(oldItem: BookNote, newItem: BookNote): Boolean {
+    override fun areContentsTheSame(
+        oldItem: Pair<String, BookNote>,
+        newItem: Pair<String, BookNote>
+    ): Boolean {
         return oldItem == newItem // Check if the contents are the same
     }
 }
