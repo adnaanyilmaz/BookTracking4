@@ -6,6 +6,7 @@ import com.example.booktracking4.data.remote.user.User
 import com.example.booktracking4.data.remote.user.Read
 import com.example.booktracking4.data.remote.user.UserCategories
 import com.example.booktracking4.data.remote.user.WantToRead
+import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.domain.repository.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -308,5 +309,30 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getFriendsPublicNotes(userId: String): Resource<List<BookNote>> {
+        try {
+            // Kullanıcının arkadaşlarını Firestore'dan al
+            val userSnapshot = firestore.collection("Users")
+                .document(userId)
+                .get()
+                .await()
+            val userFriends = userSnapshot.toObject(User::class.java)?.friend ?: emptyList()
 
+            // Tüm arkadaşların public notlarını topla
+            val publicNotes = mutableListOf<BookNote>()
+            for (friend in userFriends) {
+                val friendSnapshot = firestore.collection("Users")
+                    .document(friend.uid)
+                    .get()
+                    .await()
+                val friendNotes = friendSnapshot.toObject(User::class.java)?.notes ?: emptyList()
+                // Sadece public (status = false) notları ekle
+                publicNotes.addAll(friendNotes.filter { !it.status })
+            }
+            return Resource.Success(publicNotes)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return Resource.Error(e.message,emptyList())
+        }
+    }
 }

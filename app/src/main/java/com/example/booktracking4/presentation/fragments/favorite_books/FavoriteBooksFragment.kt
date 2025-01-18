@@ -76,10 +76,10 @@ class FavoriteBooksFragment : Fragment() {
                 collectViewModel()
             }
         )
-        binding.rvRead.adapter = favoriteBooksAdapter
-        binding.rvRead.addItemDecoration(
+        binding.rvFavoriteBooks.adapter = favoriteBooksAdapter
+        binding.rvFavoriteBooks.addItemDecoration(
             DividerItemDecoration(
-                binding.rvRead.context,
+                binding.rvFavoriteBooks.context,
                 DividerItemDecoration.VERTICAL
             )
         )

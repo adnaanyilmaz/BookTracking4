@@ -6,6 +6,7 @@ import com.example.booktracking4.data.remote.user.User
 import com.example.booktracking4.data.remote.user.Read
 import com.example.booktracking4.data.remote.user.UserCategories
 import com.example.booktracking4.data.remote.user.WantToRead
+import com.example.booktracking4.domain.model.room.BookNote
 
 interface UserRepository {
 
@@ -21,4 +22,5 @@ interface UserRepository {
     suspend fun getUserCategories(uid: String): Resource<List<UserCategories>>
     suspend fun updateIsFavorite(userId: String, bookId: String, newIsFavoriteStatus: Boolean): Result<Unit>
     suspend fun getFavoriteBooks(userId: String): Resource<List<Read>>
+    suspend fun getFriendsPublicNotes(userId: String): Resource<List<BookNote>>
 }
