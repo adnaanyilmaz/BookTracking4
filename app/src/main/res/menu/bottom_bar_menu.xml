@@ -8,7 +8,7 @@
         android:title="Home" />
     <item
         android:id="@+id/friendNotesFragment"
-        android:icon="@drawable/note"
+        android:icon="@drawable/ic_groups"
         android:title="Discover" />
 
     <item

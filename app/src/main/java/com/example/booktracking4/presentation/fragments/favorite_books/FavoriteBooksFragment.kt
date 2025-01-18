@@ -73,7 +73,6 @@ class FavoriteBooksFragment : Fragment() {
             onFavoriteClick = {
                     bookId,newFavorite ->
                 viewModel.upDateFavorite(bookId = bookId, newIsFavoriteStatus = newFavorite)
-                collectViewModel()
             }
         )
         binding.rvFavoriteBooks.adapter = favoriteBooksAdapter
