@@ -84,6 +84,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation ("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("com.google.firebase:firebase-admin:9.1.1")
+
 
     // Coil (Picassodan daha iyi çalışıyor bence. Bunu daha pratik kullanmakiçin bir extension yazdım)
     implementation(libs.coil)

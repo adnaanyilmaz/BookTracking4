@@ -51,6 +51,10 @@ class LoginFragment : Fragment() {
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                     }
 
+                    is LoginUiEffect.GoToAdminScreen -> {
+                        findNavController().navigate(R.id.action_loginFragment_to_adminFragment)
+                    }
+
                 }
             }
         }

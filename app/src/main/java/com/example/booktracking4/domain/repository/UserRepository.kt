@@ -7,6 +7,7 @@ import com.example.booktracking4.data.remote.user.Read
 import com.example.booktracking4.data.remote.user.UserCategories
 import com.example.booktracking4.data.remote.user.WantToRead
 import com.example.booktracking4.domain.model.room.BookNote
+import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
 
@@ -23,4 +24,6 @@ interface UserRepository {
     suspend fun updateIsFavorite(userId: String, bookId: String, newIsFavoriteStatus: Boolean): Result<Unit>
     suspend fun getFavoriteBooks(userId: String): Resource<List<Read>>
     suspend fun getFriendsPublicNotes(userId: String): Resource<List<Pair<String, BookNote>>>
+
+    suspend fun isAdmin(userId: String): Flow<Boolean>
 }

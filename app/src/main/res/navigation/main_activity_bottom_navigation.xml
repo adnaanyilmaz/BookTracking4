@@ -95,6 +95,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/splashScreenFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_adminFragment"
+            app:destination="@id/adminFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -108,6 +111,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_adminFragment"
+            app:destination="@id/adminFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -200,4 +206,20 @@
         android:id="@+id/friendNotesFragment"
         android:name="com.example.booktracking4.presentation.fragments.friends_notes.FriendNotesFragment"
         android:label="FriendNotesFragment" />
+    <fragment
+        android:id="@+id/adminFragment"
+        android:name="com.example.booktracking4.presentation.fragments.admin.AdminFragment"
+        android:label="fragment_admin"
+        tools:layout="@layout/fragment_admin" >
+        <action
+            android:id="@+id/action_adminFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_adminFragment_to_adminUsersFragment"
+            app:destination="@id/adminUsersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminUsersFragment"
+        android:name="com.example.booktracking4.presentation.adminUsers.AdminUsersFragment"
+        android:label="AdminUsersFragment" />
 </navigation>

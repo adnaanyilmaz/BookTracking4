@@ -9,6 +9,8 @@ import com.example.booktracking4.data.remote.user.WantToRead
 import com.example.booktracking4.domain.model.room.BookNote
 import com.example.booktracking4.domain.repository.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -339,5 +341,11 @@ class UserRepositoryImpl @Inject constructor(
             e.printStackTrace()
             return Resource.Error(e.message, emptyList())
         }
+    }
+
+    override suspend fun isAdmin(userId: String): Flow<Boolean> = flow{
+            val snapshot = firestore.collection("Users").document(userId).get().await()
+            val isAdmin = snapshot.getBoolean("admin") ?: false
+            emit(isAdmin)
     }
 }

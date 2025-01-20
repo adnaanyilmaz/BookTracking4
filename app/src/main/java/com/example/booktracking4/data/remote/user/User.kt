@@ -12,5 +12,6 @@ data class User(
     val friend: List<Friends> = emptyList(),
     val friendsRequest: List<FriendsRequest> = emptyList(),
     val notes: List<BookNote> = emptyList(),
-    val userCategory: List<UserCategories> = emptyList()
+    val userCategory: List<UserCategories> = emptyList(),
+    val admin: Boolean = false
 )

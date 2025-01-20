@@ -27,7 +27,7 @@ class SplashScreenFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentSplashScreenBinding.inflate(inflater, container, false)
 
@@ -46,19 +46,23 @@ class SplashScreenFragment : Fragment() {
                     is SplashUiEffect.ShowToast -> {
                         Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT).show()
                     }
+
                     is SplashUiEffect.GoToSignInScreen -> {
                         findNavController().navigate(R.id.action_splashScreenFragment_to_loginFragment)
                     }
+
                     is SplashUiEffect.GoToMainScreen -> {
                         findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
+                    }
+
+                    is SplashUiEffect.GoToAdminScreen -> {
+                        findNavController().navigate(R.id.action_splashScreenFragment_to_adminFragment)
                     }
 
                 }
             }
         }
     }
-
-
 
 
     override fun onDestroyView() {
