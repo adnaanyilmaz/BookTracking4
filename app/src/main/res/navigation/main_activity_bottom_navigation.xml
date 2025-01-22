@@ -217,9 +217,17 @@
         <action
             android:id="@+id/action_adminFragment_to_adminUsersFragment"
             app:destination="@id/adminUsersFragment" />
+        <action
+            android:id="@+id/action_adminFragment_to_adminNotesFragment"
+            app:destination="@id/adminNotesFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminUsersFragment"
-        android:name="com.example.booktracking4.presentation.adminUsers.AdminUsersFragment"
+        android:name="com.example.booktracking4.presentation.fragments.admin_users.AdminUsersFragment"
         android:label="AdminUsersFragment" />
+    <fragment
+        android:id="@+id/adminNotesFragment"
+        android:name="com.example.booktracking4.presentation.fragments.admin_notes.AdminNotesFragment"
+        android:label="fragment_admin_notes"
+        tools:layout="@layout/fragment_admin_notes" />
 </navigation>

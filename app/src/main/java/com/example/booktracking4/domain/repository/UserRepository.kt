@@ -26,4 +26,8 @@ interface UserRepository {
     suspend fun getFriendsPublicNotes(userId: String): Resource<List<Pair<String, BookNote>>>
 
     suspend fun isAdmin(userId: String): Flow<Boolean>
+    suspend fun getAllUsers(): Resource<List<User>>
+    suspend fun deleteUser(uid: String): Resource<Boolean>
+    suspend fun getAllPublicNotes(): Resource<List<Pair<String, BookNote>>>
+    suspend fun deleteUserPublicNote(note: BookNote): Resource<Boolean>
 }

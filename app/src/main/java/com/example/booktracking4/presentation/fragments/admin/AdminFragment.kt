@@ -40,6 +40,11 @@ class AdminFragment : Fragment() {
                 AdminFragmentDirections.actionAdminFragmentToAdminUsersFragment()
             )
         }
+        binding.notes.setOnClickListener{
+            findNavController().navigate(
+                AdminFragmentDirections.actionAdminFragmentToAdminNotesFragment()
+            )
+        }
     }
     private fun signOut(){
         binding.signOut.setOnClickListener{

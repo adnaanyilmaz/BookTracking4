@@ -24,13 +24,13 @@
         android:text="Notification"
         />
     <Button
-        android:id="@+id/books"
+        android:id="@+id/notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notification"
-        android:text="Books"
+        android:text="Notes"
         />
     <Button
         android:id="@+id/signOut"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/books"
+        app:layout_constraintTop_toBottomOf="@+id/notes"
         android:text="Sign Out"
         />
 

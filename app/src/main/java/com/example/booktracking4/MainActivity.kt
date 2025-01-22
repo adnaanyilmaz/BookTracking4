@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.favoriteBooksFragment,
                 R.id.adminFragment,
                 R.id.adminUsersFragment,
+                R.id.adminNotesFragment,
                 R.id.splashScreenFragment -> binding.bottomNav.visibility =
                     View.GONE
 

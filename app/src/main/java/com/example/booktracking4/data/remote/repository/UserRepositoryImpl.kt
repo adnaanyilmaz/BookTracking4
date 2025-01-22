@@ -343,9 +343,102 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun isAdmin(userId: String): Flow<Boolean> = flow{
-            val snapshot = firestore.collection("Users").document(userId).get().await()
-            val isAdmin = snapshot.getBoolean("admin") ?: false
-            emit(isAdmin)
+    override suspend fun isAdmin(userId: String): Flow<Boolean> = flow {
+        val snapshot = firestore.collection("Users").document(userId).get().await()
+        val isAdmin = snapshot.getBoolean("admin") ?: false
+        emit(isAdmin)
+    }
+
+    override suspend fun getAllUsers(): Resource<List<User>> {
+        return try {
+
+            // Firestore'daki "users" koleksiyonundaki verileri getir
+            val snapshot = firestore.collection("Users").get().await()
+
+            // Gelen belgeleri User nesnesine dönüştür
+            val users = snapshot.documents.mapNotNull { document ->
+                document.toObject(User::class.java)
+            }
+
+            // Başarılı durum döndür
+            Resource.Success(users)
+        } catch (e: Exception) {
+            // Hata durumunda mesaj ve boş veri döndür
+            Resource.Error("Kullanıcılar yüklenirken bir hata oluştu: ${e.localizedMessage}")
+        }
+    }
+
+    override suspend fun deleteUser(uid: String): Resource<Boolean> {
+        return try {
+            // Firestore'daki "users" koleksiyonunda belirtilen UID'yi sil
+            firestore.collection("Users")
+                .document(uid)
+                .delete()
+                .await()
+
+            // Başarılı durum döndür
+            Resource.Success(true)
+        } catch (e: Exception) {
+            // Hata durumunda mesaj ve false döndür
+            Resource.Error("Kullanıcı silinirken bir hata oluştu: ${e.localizedMessage}", false)
+        }
+    }
+
+    override suspend fun getAllPublicNotes(): Resource<List<Pair<String, BookNote>>> {
+        return try {
+            // Tüm kullanıcıları "Users" koleksiyonundan al
+            val usersSnapshot = firestore.collection("Users").get().await()
+            val publicNotesWithUsername = mutableListOf<Pair<String, BookNote>>()
+
+            // Her kullanıcıyı işle
+            for (document in usersSnapshot.documents) {
+                val userData = document.toObject(User::class.java)
+                val userName = userData?.userName ?: "Unknown"
+                val userNotes = userData?.notes ?: emptyList()
+
+                // Public (status = false) olan notları listeye ekle
+                publicNotesWithUsername.addAll(
+                    userNotes.filter { !it.status }
+                        .map { userName to it }
+                )
+            }
+
+            // Başarıyla sonuçlanırsa listeyi döndür
+            Resource.Success(publicNotesWithUsername)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Hata durumunda boş bir liste ve hata mesajı döndür
+            Resource.Error("Public notlar alınırken bir hata oluştu: ${e.localizedMessage}", emptyList())
+        }    }
+
+    override suspend fun deleteUserPublicNote(
+        note: BookNote
+    ): Resource<Boolean> {
+        return try {
+            // Tüm kullanıcıları kontrol et ve notu sil
+            val usersSnapshot = firestore.collection("Users").get().await()
+
+            for (userDocument in usersSnapshot.documents) {
+                val userData = userDocument.toObject(User::class.java)
+
+                if (userData != null && userData.notes.any { it.id == note.id}) {
+                    // Not bulundu, güncellenmiş listeyi oluştur
+                    val updatedNotes = userData.notes.filter { it.id != note.id }
+
+                    // Güncellenmiş listeyi ilgili kullanıcı dokümanına yaz
+                    firestore.collection("Users")
+                        .document(userDocument.id)
+                        .update("notes", updatedNotes)
+                        .await()
+
+                    return Resource.Success(true) // Başarılı
+                }
+            }
+
+            Resource.Error("Not bulunamadı", false) // Not hiçbir kullanıcıda yok
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Error("Not silinirken bir hata oluştu: ${e.localizedMessage}", false)
+        }
     }
 }
