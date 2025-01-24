@@ -25,6 +25,7 @@ googleServices = "4.4.2"
 firebase = "33.7.0"
 firebaseStorage = "21.0.1"
 firebase-firestore = "25.1.1"
+firebaseMessaging = "24.1.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -57,6 +58,7 @@ coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebase-firestore" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

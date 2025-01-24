@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.booktracking4.R
 import com.example.booktracking4.common.loadImageView
 import com.example.booktracking4.data.remote.user.Read
-import com.example.booktracking4.databinding.ItemBookReadBinding
+import com.example.booktracking4.databinding.ItemFavoriteBookBinding
 
 
 class FavoriteBooksAdapter(
     private val onFavoriteClick: (String, Boolean) -> Unit,
 ) : ListAdapter<Read, FavoriteBooksAdapter.ReadViewHolder>(WhatIReadDiffCallback()) {
 
-    class ReadViewHolder(private val binding: ItemBookReadBinding) :
+    class ReadViewHolder(private val binding: ItemFavoriteBookBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(
@@ -42,7 +42,7 @@ class FavoriteBooksAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReadViewHolder {
         val binding =
-            ItemBookReadBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemFavoriteBookBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ReadViewHolder(binding)
     }
 

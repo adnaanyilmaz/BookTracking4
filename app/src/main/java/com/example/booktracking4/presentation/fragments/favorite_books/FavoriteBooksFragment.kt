@@ -62,7 +62,7 @@ class FavoriteBooksFragment : Fragment() {
                     favoriteBooksAdapter.submitData(emptyList())
                     binding.tvDescription.text="You have ${state.read.size} favorite books"
                     binding.progressBar.visibility= View.GONE
-                    Toast.makeText(requireContext(),"You don't have a favorite book", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(requireContext(),"You don't have a favorite book", Toast.LENGTH_SHORT).show()
                 }
             }
         }

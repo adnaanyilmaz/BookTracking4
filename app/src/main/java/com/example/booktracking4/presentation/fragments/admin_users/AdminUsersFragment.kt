@@ -75,7 +75,7 @@ class AdminUsersFragment : Fragment() {
                     is AdminUserUiState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         adapter.submitData(state.requests)
-                        Toast.makeText(requireContext(),"friends list fetched successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),"Users list fetched successfully", Toast.LENGTH_SHORT).show()
                     }
                     else -> {}
                 }

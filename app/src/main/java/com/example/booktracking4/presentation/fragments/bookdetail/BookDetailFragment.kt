@@ -120,11 +120,11 @@ class BookDetailFragment : Fragment() {
 
                             addToList(selection = selectedOption, bookDetail = book)
                             findNavController().popBackStack()
-//                            Toast.makeText(
-//                                requireContext(),
-//                                "$selectedOption added",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "$selectedOption added",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                         }
                     }

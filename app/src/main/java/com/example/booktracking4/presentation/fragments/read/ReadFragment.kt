@@ -52,20 +52,21 @@ class ReadFragment : Fragment() {
                 ReadFragmentDirections.actionReadFragmentToSearchFragment()
             )
         }
-        binding.ivFavoriteFilters.setOnClickListener{
-            viewModel.filterFavoriteBooks()
-            lifecycleScope.launch{
-                viewModel.uiState.collect{state ->
-                    if (state.read.isNotEmpty()) {
-                    readAdapter.submitData(state.read)
-                    binding.tvDescription.text="You have ${state.read.size} favorite books"
-                    } else{
-                        readAdapter.submitData(emptyList())
-                        binding.tvDescription.text="You have ${state.read.size} favorite books"
-                    }
-                }
-            }
-        }
+        //favori filtreleme
+//        binding.ivFavoriteFilters.setOnClickListener{
+//            viewModel.filterFavoriteBooks()
+//            lifecycleScope.launch{
+//                viewModel.uiState.collect{state ->
+//                    if (state.read.isNotEmpty()) {
+//                    readAdapter.submitData(state.read)
+//                    binding.tvDescription.text="You have ${state.read.size} favorite books"
+//                    } else{
+//                        readAdapter.submitData(emptyList())
+//                        binding.tvDescription.text="You have ${state.read.size} favorite books"
+//                    }
+//                }
+//            }
+//        }
 
 
     }
